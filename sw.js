@@ -6,11 +6,11 @@ const STATIC_ASSETS = [
   '/script.js',
   '/kexxy-logo-black.png',
   '/kexxy-logo-white.png',
-  '/hero-bg.jpg',
-  '/bio-photo.jpg',
-  '/live-photo.jpg',
-  '/rider-bg.jpg',
-  '/rider-diagram.png'
+  '/hero-bg.webp',
+  '/bio-photo.webp',
+  '/live-photo.webp',
+  '/rider-bg.webp',
+  '/rider-diagram.webp'
 ];
 
 // Install event - cache static assets

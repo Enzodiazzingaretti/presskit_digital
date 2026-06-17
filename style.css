@@ -122,7 +122,7 @@ a:focus-visible {
 .hero__bg {
   position: absolute;
   inset: -10%;
-  background-image: url('hero-bg.jpg');
+  background-image: url('hero-bg.webp');
   background-size: cover;
   background-position: center 20%;
   background-repeat: no-repeat;
