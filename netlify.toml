@@ -12,6 +12,7 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://*.googletagmanager.com https://*.google-analytics.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data: blob:; connect-src 'self' https://*.google-analytics.com https://*.emailjs.com; frame-src https://www.youtube.com https://soundcloud.com; media-src 'self';"
 
 [[headers]]
   for = "*.css"
@@ -30,6 +31,11 @@
 
 [[headers]]
   for = "*.png"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000"
+
+[[headers]]
+  for = "*.webp"
   [headers.values]
     Cache-Control = "public, max-age=31536000"
 
