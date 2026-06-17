@@ -297,7 +297,7 @@
       <div class="bio__image-col reveal-left">
         <div class="bio__image-frame">
           <div class="bio__image-inner" id="bioImg">
-            <img src="bio-photo.jpg" alt="KEXXY — Artist photo" class="bio__img" loading="lazy" decoding="async" />
+            <img src="bio-photo.webp" alt="KEXXY — Artist photo" class="bio__img" loading="lazy" decoding="async" />
           </div>
           <!-- Corner brackets brutalist -->
           <span class="bio__corner bio__corner--tl"></span>
@@ -393,7 +393,7 @@
         <!-- Diagram — full width top row -->
         <div class="rider__diagram-col reveal-up">
           <div class="rider__diagram-inner">
-            <img src="rider-diagram.png" alt="DJ Setup Diagram" class="rider__diagram-img" loading="lazy" decoding="async" />
+            <img src="rider-diagram.webp" alt="DJ Setup Diagram" class="rider__diagram-img" loading="lazy" decoding="async" />
             <div class="rider__diagram-caption">
               <span class="rider__diagram-line"></span>
               <span class="rider__diagram-text" data-i18n="rider.diagramCaption">Technical Setup — 2024</span>
@@ -647,7 +647,7 @@
         <!-- Center: image frame -->
         <div class="live__image-col reveal-up" style="--delay:.15s">
           <div class="live__image-frame">
-            <img src="live-photo.jpg" alt="KEXXY performing live" class="live__img" loading="lazy" decoding="async" />
+            <img src="live-photo.webp" alt="KEXXY performing live" class="live__img" loading="lazy" decoding="async" />
             <div class="live__img-overlay"></div>
             <!-- Corner brackets -->
             <span class="live__corner live__corner--tl"></span>
@@ -824,13 +824,8 @@
 
     <div class="contact__grid">
 
-      <!-- Left: image panel -->
+      <!-- Left: panel -->
       <div class="contact__image-panel reveal-left">
-        <div class="contact__image-wrap" id="contactImgWrap">
-          <img src="contact-photo.jpg" alt="KEXXY press photo" class="contact__img" id="contactImg" loading="lazy" decoding="async" />
-          <div class="contact__img-overlay"></div>
-        </div>
-
         <!-- Large logo overlay -->
         <div class="contact__logo-big">
           <img src="kexxy-logo-black.png" alt="KEXXY" class="contact__logo-img" loading="lazy" decoding="async" />
@@ -1170,6 +1165,22 @@
           } catch (err) {
             console.log('Copy failed');
           }
+        }
+      });
+    })();
+
+    /* ============================================================
+       HEADER SCROLL EFFECT
+       ============================================================ */
+    (function initHeaderScroll() {
+      const header = document.querySelector('.hero__header');
+      if (!header) return;
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('hero__header--scrolled');
+        } else {
+          header.classList.remove('hero__header--scrolled');
         }
       });
     })();
