@@ -1,7 +1,7 @@
 {
   "version": 2,
   "public": true,
-  "outputDirectory": ".",
+  "outputDirectory": "public",
   "github": {
     "enabled": false
   }
