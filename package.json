@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx serve -l 8080 -s .",
     "start": "npx serve -l 8080 -s .",
-    "build": "echo 'Static site - no build needed'",
+    "build": "mkdir -p public && cp -r *.html *.css *.js *.webp *.png *.xml public/ 2>/dev/null || echo 'done'",
     "preview": "npx serve -l 8080 -s ."
   },
   "keywords": [
