@@ -3,14 +3,91 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KEXXY — Underground Techno</title>
+  <meta name="description" content="KEXXY — Techno artist from Mendoza, Argentina. Raw energy, relentless machines, zero compromise. Bookings, press kit, and live dates." />
+  <meta name="keywords" content="KEXXY, techno, industrial techno, dark electronics, DJ, Mendoza, Argentina, hard techno, schranz" />
+  <meta name="author" content="KEXXY" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="color-scheme" content="dark" />
+
+  <!-- Canonical URL -->
+  <link rel="canonical" href="https://kexxy.com" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="kexxy-logo-black.png" />
+  <link rel="apple-touch-icon" href="kexxy-logo-black.png" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://kexxy.com" />
+  <meta property="og:title" content="KEXXY — Techno" />
+  <meta property="og:description" content="Raw energy, relentless machines, zero compromise. Techno from Mendoza, Argentina." />
+  <meta property="og:image" content="https://kexxy.com/hero-bg.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="KEXXY" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://kexxy.com" />
+  <meta property="twitter:title" content="KEXXY — Techno" />
+  <meta property="twitter:description" content="Raw energy, relentless machines, zero compromise." />
+  <meta property="twitter:image" content="https://kexxy.com/hero-bg.jpg" />
+
+  <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://w.soundcloud.com" />
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+
+  <title>KEXXY — Techno</title>
+
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
+
+  <!-- Schema.org markup for MusicGroup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MusicGroup",
+    "name": "KEXXY",
+    "description": "Techno artist from Mendoza, Argentina. Raw energy, relentless machines, zero compromise.",
+    "url": "https://kexxy.com",
+    "image": "https://kexxy.com/hero-bg.jpg",
+    "genre": ["Techno", "Industrial Techno", "Hard Techno", "Schranz"],
+    "knowsAbout": ["DJ", "Electronic Music", "Techno"],
+    "areaServed": {
+      "@type": "Place",
+      "name": "Mendoza, Argentina"
+    },
+    "sameAs": [
+      "https://soundcloud.com/enzo-diaz-zingaretti"
+    ]
+  }
+  </script>
 </head>
 <body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-follower" id="cursorFollower"></div>
+
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="preloader__content">
+      <div class="preloader__logo-wrap">
+        <img src="kexxy-logo-white.png" alt="KEXXY" class="preloader__logo-img" />
+      </div>
+      <div class="preloader__bar">
+        <div class="preloader__progress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skip link for accessibility -->
+  <a href="#bio" class="skip-link">Skip to main content</a>
 
   <!-- HERO SECTION -->
   <section class="hero" id="hero">
@@ -30,7 +107,7 @@
     <!-- Top bar -->
     <header class="hero__header">
       <div class="hero__logo" id="menuToggle" role="button" aria-label="Open menu" tabindex="0">
-        <img src="kexxy-logo-black.png" alt="KEXXY" class="hero__logo-img" />
+        <img src="kexxy-logo-black.png" alt="KEXXY" class="hero__logo-img" loading="lazy" decoding="async" />
       </div>
       <nav class="hero__nav">
         <a href="#bio" data-i18n="nav.bio">Bio</a>
@@ -81,11 +158,11 @@
       </h1>
 
       <p class="hero__subtitle">
-        <span data-i18n="hero.subtitle">Techno · Industrial · Dark Electronics</span>
+        <span class="typewriter" data-text="TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE."></span><span class="typewriter__cursor">|</span>
       </p>
 
       <p class="hero__desc">
-        <span data-i18n="hero.desc">From the depths of the underground. Raw energy, relentless machines, zero compromise.</span>
+        <span data-i18n="hero.desc">Raw energy, relentless machines, zero compromise.</span>
       </p>
 
       <div class="hero__cta">
@@ -151,6 +228,13 @@
       <div class="dates__header">
         <span class="dates__label-line"></span>
         <span class="dates__label-text" data-i18n="dates.label">Upcoming Shows</span>
+        
+        <!-- Dates Filter Switcher -->
+        <div class="dates__filter" role="group" aria-label="Filter dates">
+          <button class="dates__filter-btn" data-filter="upcoming">Upcoming</button>
+          <button class="dates__filter-btn active" data-filter="all">All</button>
+          <button class="dates__filter-btn" data-filter="past">Past</button>
+        </div>
       </div>
       <div class="dates__list" id="datesList">
         <div class="dates__row" data-date="25 abril 2026">
@@ -200,7 +284,7 @@
       <div class="bio__image-col reveal-left">
         <div class="bio__image-frame">
           <div class="bio__image-inner" id="bioImg">
-            <img src="bio-photo.jpg" alt="KEXXY — Artist photo" class="bio__img" />
+            <img src="bio-photo.jpg" alt="KEXXY — Artist photo" class="bio__img" loading="lazy" decoding="async" />
           </div>
           <!-- Corner brackets brutalist -->
           <span class="bio__corner bio__corner--tl"></span>
@@ -232,13 +316,13 @@
         <!-- Bio body -->
         <div class="bio__body">
           <p class="bio__para bio__para--lead">
-            <span data-i18n="bio.p1">KEXXY emerged from Mendoza's underground rave circuit — a raw, unfiltered force built on the philosophy that the floor is the only judge, and the bass is the only truth.</span>
+            <span data-i18n="bio.p1">KEXXY emerged from Mendoza's rave circuit — a raw, unfiltered force built on the philosophy that the floor is the only judge, and the bass is the only truth.</span>
           </p>
           <p class="bio__para">
             <span data-i18n="bio.p2">Blending hardcore techno, industrial noise, and dark electronics, KEXXY's sets are renowned for their relentless intensity and visceral precision. No compromise. No filters. Pure machine logic translated into physical force.</span>
           </p>
           <p class="bio__para">
-            <span data-i18n="bio.p3">From underground warehouse raves in Cuyo to international festival stages, KEXXY has cemented a reputation as one of the most uncompromising acts in South America's underground electronics scene. A relentless touring schedule across Argentina and beyond has built a devoted following through nothing but raw energy and a zero-compromise approach to sound.</span>
+            <span data-i18n="bio.p3">From warehouse raves in Cuyo to international festival stages, KEXXY has cemented a reputation as one of the most uncompromising acts in South America's electronics scene. A relentless touring schedule across Argentina and beyond has built a devoted following through nothing but raw energy and a zero-compromise approach to sound.</span>
           </p>
         </div>
 
@@ -296,10 +380,10 @@
         <!-- Diagram — full width top row -->
         <div class="rider__diagram-col reveal-up">
           <div class="rider__diagram-inner">
-            <img src="rider-diagram.png" alt="DJ Setup Diagram" class="rider__diagram-img" />
+            <img src="rider-diagram.png" alt="DJ Setup Diagram" class="rider__diagram-img" loading="lazy" decoding="async" />
             <div class="rider__diagram-caption">
               <span class="rider__diagram-line"></span>
-              <span class="rider__diagram-text">Technical Setup — 2024</span>
+              <span class="rider__diagram-text" data-i18n="rider.diagramCaption">Technical Setup — 2024</span>
             </div>
           </div>
         </div>
@@ -313,23 +397,23 @@
             <span class="rcard__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
             </span>
-            <span class="rcard__label">Equipment</span>
+            <span class="rcard__label" data-i18n="rider.card1Title">Equipment</span>
             <span class="rcard__num">01</span>
           </div>
           <ul class="rcard__list">
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">CDJ Setup</span>
+              <span class="rcard__item-label" data-i18n="rider.cdjSetup">CDJ Setup</span>
               <span class="rcard__item-value">4× Pioneer CDJ-2000NXS2 / 3000</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Mixer</span>
+              <span class="rcard__item-label" data-i18n="rider.mixer">Mixer</span>
               <span class="rcard__item-value">Pioneer V10 · Allen &amp; Heath Xone 96/92</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Monitoring</span>
+              <span class="rcard__item-label" data-i18n="rider.monitoring">Monitoring</span>
               <span class="rcard__item-value">Sound System Sub + 2 MIDI/Hi Speakers</span>
             </li>
           </ul>
@@ -341,47 +425,47 @@
             <span class="rcard__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </span>
-            <span class="rcard__label">Performance</span>
+            <span class="rcard__label" data-i18n="rider.card2Title">Performance</span>
             <span class="rcard__num">02</span>
           </div>
           <div class="rcard__perf-grid">
             <div class="rcard__perf-item">
               <span class="rcard__perf-val">2–5h</span>
-              <span class="rcard__perf-key">Set Duration</span>
+              <span class="rcard__perf-key" data-i18n="rider.setDuration">Set Duration</span>
             </div>
             <div class="rcard__perf-item">
               <span class="rcard__perf-val">145–160</span>
-              <span class="rcard__perf-key">BPM Range</span>
+              <span class="rcard__perf-key" data-i18n="rider.bpmRange">BPM Range</span>
             </div>
             <div class="rcard__perf-item">
               <span class="rcard__perf-val">DJ Set</span>
-              <span class="rcard__perf-key">Format</span>
+              <span class="rcard__perf-key" data-i18n="rider.format">Format</span>
             </div>
             <div class="rcard__perf-item">
               <span class="rcard__perf-val">USB</span>
-              <span class="rcard__perf-key">Media</span>
+              <span class="rcard__perf-key" data-i18n="rider.media">Media</span>
             </div>
           </div>
           <ul class="rcard__list rcard__list--mt">
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Formats Accepted</span>
+              <span class="rcard__item-label" data-i18n="rider.formatsAccepted">Formats Accepted</span>
               <span class="rcard__item-value">WAV · AIFF · MP3 320kbps</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Stage Sharing</span>
-              <span class="rcard__item-value">No B2B unless pre-arranged</span>
+              <span class="rcard__item-label" data-i18n="rider.stageSharing">Stage Sharing</span>
+              <span class="rcard__item-value" data-i18n="rider.stageSharingValue">No B2B unless pre-arranged</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Soundcheck</span>
-              <span class="rcard__item-value">Required · Min 45 min prior</span>
+              <span class="rcard__item-label" data-i18n="rider.soundcheck">Soundcheck</span>
+              <span class="rcard__item-value" data-i18n="rider.soundcheckValue">Required · Min 45 min prior</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Lighting</span>
-              <span class="rcard__item-value">Dark stage preferred</span>
+              <span class="rcard__item-label" data-i18n="rider.lighting">Lighting</span>
+              <span class="rcard__item-value" data-i18n="rider.lightingValue">Dark stage preferred</span>
             </li>
           </ul>
         </div>
@@ -392,7 +476,7 @@
             <span class="rcard__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
             </span>
-            <span class="rcard__label">Music Profile</span>
+            <span class="rcard__label" data-i18n="rider.card3Title">Music Profile</span>
             <span class="rcard__num">03</span>
           </div>
           <div class="rcard__genres">
@@ -422,24 +506,24 @@
             <span class="rcard__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             </span>
-            <span class="rcard__label">Hospitality</span>
+            <span class="rcard__label" data-i18n="rider.card4Title">Hospitality</span>
             <span class="rcard__num">04</span>
           </div>
           <ul class="rcard__list rcard__list--full">
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Hotel</span>
-              <span class="rcard__item-value">Single room · Night of show</span>
+              <span class="rcard__item-label" data-i18n="rider.hotel">Hotel</span>
+              <span class="rcard__item-value" data-i18n="rider.hotelValue">Single room · Night of show</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Travel</span>
-              <span class="rcard__item-value">To be arranged with management</span>
+              <span class="rcard__item-label" data-i18n="rider.travel">Travel</span>
+              <span class="rcard__item-value" data-i18n="rider.travelValue">To be arranged with management</span>
             </li>
             <li class="rcard__item">
               <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Catering</span>
-              <span class="rcard__item-value">Water · Snacks backstage</span>
+              <span class="rcard__item-label" data-i18n="rider.catering">Catering</span>
+              <span class="rcard__item-value" data-i18n="rider.cateringValue">Water · Snacks backstage</span>
             </li>
           </ul>
         </div>
@@ -450,26 +534,16 @@
             <span class="rcard__icon">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </span>
-            <span class="rcard__label">Press Downloads</span>
+            <span class="rcard__label" data-i18n="rider.card5Title">Press Downloads</span>
             <span class="rcard__num">05</span>
           </div>
           <div class="rcard__dl-grid">
-            <a href="https://drive.google.com/file/d/1krLnR1ffF5DVRXeNudcOmFtctoMXhOJu/view?usp=sharing" target="_blank" rel="noopener" class="rcard__dl-btn">
-              <span class="rcard__dl-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-              </span>
-              <span class="rcard__dl-info">
-                <span class="rcard__dl-name">Full Press Kit</span>
-                <span class="rcard__dl-size">PDF</span>
-              </span>
-              <span class="rcard__dl-arrow">↓</span>
-            </a>
             <a href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" class="rcard__dl-btn">
               <span class="rcard__dl-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
               </span>
               <span class="rcard__dl-info">
-                <span class="rcard__dl-name">Press Photos</span>
+                <span class="rcard__dl-name" data-i18n="rider.pressPhotos">Press Photos</span>
                 <span class="rcard__dl-size">Google Drive</span>
               </span>
               <span class="rcard__dl-arrow">↓</span>
@@ -479,8 +553,8 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
               </span>
               <span class="rcard__dl-info">
-                <span class="rcard__dl-name">Technical Rider</span>
-                <span class="rcard__dl-size">Ver en página</span>
+                <span class="rcard__dl-name" data-i18n="rider.techRiderBtn">Technical Rider</span>
+                <span class="rcard__dl-size" data-i18n="rider.viewOnPage">Ver en página</span>
               </span>
               <span class="rcard__dl-arrow">↑</span>
             </a>
@@ -489,7 +563,7 @@
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
               </span>
               <span class="rcard__dl-info">
-                <span class="rcard__dl-name">DJ Mix / Demo</span>
+                <span class="rcard__dl-name" data-i18n="rider.djMix">DJ Mix / Demo</span>
                 <span class="rcard__dl-size">SoundCloud</span>
               </span>
               <span class="rcard__dl-arrow">↗</span>
@@ -560,7 +634,7 @@
         <!-- Center: image frame -->
         <div class="live__image-col reveal-up" style="--delay:.15s">
           <div class="live__image-frame">
-            <img src="live-photo.jpg" alt="KEXXY Live" class="live__img" />
+            <img src="live-photo.jpg" alt="KEXXY performing live" class="live__img" loading="lazy" decoding="async" />
             <div class="live__img-overlay"></div>
             <!-- Corner brackets -->
             <span class="live__corner live__corner--tl"></span>
@@ -644,6 +718,94 @@
     </div>
   </section>
 
+  <!-- VIDEO SHOWCASE SECTION -->
+  <section class="video-showcase" id="videos">
+    <div class="video-showcase__inner">
+      <div class="video-showcase__header reveal-up">
+        <span class="video-showcase__label-line"></span>
+        <span class="video-showcase__label-text" data-i18n="video.label">Media Showcase</span>
+        <h2 class="video-showcase__title" data-i18n="video.title">Live Action</h2>
+      </div>
+      
+      <div class="video-showcase__grid">
+        <!-- Main Featured Video (YouTube Live Set Link with Custom Thumbnail & Play Button Overlay) -->
+        <div class="video-showcase__featured reveal-up">
+          <a href="https://youtu.be/zkCGSwF465g?si=u611i1jGzYYPHV-t" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY @ HAPPY SOUNDS live set on YouTube">
+            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
+              <img src="https://img.youtube.com/vi/zkCGSwF465g/maxresdefault.jpg" alt="KEXXY @ HAPPY SOUNDS Sessions #14" class="video-showcase__thumb" loading="lazy" decoding="async" />
+              <!-- Custom Play Button Overlay -->
+              <div class="video-showcase__play-overlay">
+                <div class="video-showcase__play-btn">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="video-showcase__info">
+            <p class="video-showcase__featured-label" data-i18n="video.v1Label">Featured Live Set</p>
+            <h3 class="video-showcase__featured-title" data-i18n="video.v1Title">KEXXY @ HAPPY SOUNDS</h3>
+            <p class="video-showcase__featured-desc" data-i18n="video.v1Desc">Live performance video captured during HAPPY SOUNDS. A display of fast-paced hardgroove energy, dense layering, and drive.</p>
+            <a href="https://youtu.be/zkCGSwF465g?si=u611i1jGzYYPHV-t" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
+              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Second Featured Video (Asymmetric alternating layout - Text Left, Video Right) -->
+        <div class="video-showcase__featured video-showcase__featured--reverse reveal-up" style="margin-top: 6rem;">
+          <div class="video-showcase__info">
+            <p class="video-showcase__featured-label" data-i18n="video.v2Label">DJ Set</p>
+            <h3 class="video-showcase__featured-title" data-i18n="video.v2Title">KEXXY — Hard Techno Set</h3>
+            <p class="video-showcase__featured-desc" data-i18n="video.v2Desc">A hard techno set with fast mixing and heavy structures. 100% CDJ mixing recorded in a private studio.</p>
+            <a href="https://youtu.be/3r4pIKcuirs?si=febptIw0eiB79r46" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
+              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
+            </a>
+          </div>
+          <a href="https://youtu.be/3r4pIKcuirs?si=febptIw0eiB79r46" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY live set on YouTube">
+            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
+              <img src="https://img.youtube.com/vi/3r4pIKcuirs/maxresdefault.jpg" alt="KEXXY — Hard Techno Set" class="video-showcase__thumb" loading="lazy" decoding="async" />
+              <!-- Custom Play Button Overlay -->
+              <div class="video-showcase__play-overlay">
+                <div class="video-showcase__play-btn">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Third Featured Video (Hardgroove Set - Embedded YouTube iframe) -->
+        <div class="video-showcase__featured reveal-up" style="margin-top: 6rem;">
+          <a href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY hardgroove set on YouTube">
+            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
+              <img src="https://img.youtube.com/vi/eBhTdJpH7DQ/maxresdefault.jpg" alt="KEXXY — Hardgroove Set" class="video-showcase__thumb" loading="lazy" decoding="async" />
+              <!-- Custom Play Button Overlay -->
+              <div class="video-showcase__play-overlay">
+                <div class="video-showcase__play-btn">
+                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
+                    <polygon points="5 3 19 12 5 21 5 3"/>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </a>
+          <div class="video-showcase__info">
+            <p class="video-showcase__featured-label" data-i18n="video.v3Label">DJ Set</p>
+            <h3 class="video-showcase__featured-title" data-i18n="video.v3Title">KEXXY — Hardgroove Set</h3>
+            <p class="video-showcase__featured-desc" data-i18n="video.v3Desc">A hardgroove set with fast mixing and raw energy. 100% CDJ mixing recorded in a private studio.</p>
+            <a href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
+              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- CONTACT & BOOKING SECTION -->
   <section class="contact" id="contact">
 
@@ -652,13 +814,13 @@
       <!-- Left: image panel -->
       <div class="contact__image-panel reveal-left">
         <div class="contact__image-wrap" id="contactImgWrap">
-          <img src="contact-photo.jpg" alt="KEXXY" class="contact__img" id="contactImg" />
+          <img src="contact-photo.jpg" alt="KEXXY press photo" class="contact__img" id="contactImg" loading="lazy" decoding="async" />
           <div class="contact__img-overlay"></div>
         </div>
 
         <!-- Large logo overlay -->
         <div class="contact__logo-big">
-          <img src="kexxy-logo-black.png" alt="KEXXY" class="contact__logo-img" />
+          <img src="kexxy-logo-black.png" alt="KEXXY" class="contact__logo-img" loading="lazy" decoding="async" />
         </div>
 
         <!-- Floating info card -->
@@ -696,7 +858,7 @@
             <span class="contact__label-sep"></span>
             <span class="contact__label-text" data-i18n="contact.label">Contact &amp; Booking</span>
           </div>
-          <h2 class="contact__title">Let's<br /><span class="contact__title-outline">Connect.</span></h2>
+          <h2 class="contact__title" data-i18n="contact.title">Let's<br /><span class="contact__title-outline">Connect.</span></h2>
           <p class="contact__subtitle" data-i18n="contact.subtitle">
             For bookings, press inquiries, and collaborations — reach out directly or use the form below.
           </p>
@@ -704,6 +866,12 @@
 
         <!-- Contact form -->
         <form class="contact__form" id="contactForm" novalidate>
+
+          <!-- Honeypot Field for Spam Protection (Oculto visualmente) -->
+          <div style="display: none;" aria-hidden="true">
+            <label for="cf-honeypot">Leave this field empty</label>
+            <input type="text" id="cf-honeypot" name="honeypot" tabindex="-1" autocomplete="off" />
+          </div>
 
           <div class="contact__form-row">
             <div class="contact__field">
@@ -728,8 +896,8 @@
           </div>
 
           <div class="contact__field">
-            <label class="contact__field-label" for="cf-venue">Venue / Event (optional)</label>
-            <input class="contact__input" type="text" id="cf-venue" name="venue" placeholder="Venue name, city, date" />
+            <label class="contact__field-label" for="cf-venue" data-i18n="contact.fieldVenue">Venue / Event (optional)</label>
+            <input class="contact__input" type="text" id="cf-venue" name="venue" data-i18n-placeholder="contact.placeholderVenue" placeholder="Venue name, city, date" />
           </div>
 
           <div class="contact__field">
@@ -756,16 +924,35 @@
         <div class="contact__footer-logo">KEXXY</div>
         <p class="contact__footer-copy" data-i18n="footer.copy">© 2024 KEXXY. All rights reserved. Unauthorized use prohibited.</p>
         <div class="contact__footer-links">
-          <a href="#">Privacy</a>
+          <a href="#" data-i18n="footer.privacy">Privacy</a>
           <span>·</span>
-          <a href="#">Press Kit</a>
+          <a href="#" data-i18n="footer.presskit">Press Kit</a>
           <span>·</span>
-          <a href="#">EPK</a>
+          <a href="#" data-i18n="footer.epk">EPK</a>
         </div>
       </div>
     </footer>
 
   </section>
+
+  <!-- LIGHTBOX GALLERY MODAL -->
+  <div class="lightbox" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Image viewer">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Close viewer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
+        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+    <div class="lightbox__content">
+      <img src="" alt="" class="lightbox__img" id="lightboxImg" />
+      <div class="lightbox__caption" id="lightboxCaption"></div>
+      <a href="" download class="lightbox__download" id="lightboxDownload" target="_blank" rel="noopener">
+        <span data-i18n="lightbox.download">Download High-Res</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -773,6 +960,62 @@
 
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
+
+      // 1. Honeypot check (Spam Protection)
+      const honeypot = document.getElementById('cf-honeypot');
+      if (honeypot && honeypot.value.trim() !== '') {
+        console.warn('Bot detected via honeypot');
+        // Pretend it was successful to trick the bot
+        const btn = this.querySelector('button[type="submit"]');
+        const inner = btn.querySelector('.btn__inner');
+        const originalText = inner.textContent;
+        inner.textContent = 'Enviando...';
+        btn.disabled = true;
+        setTimeout(() => {
+          inner.textContent = originalText;
+          btn.disabled = false;
+          document.getElementById('contactForm').reset();
+          if (typeof Toast !== 'undefined') {
+            Toast.show('Mensaje enviado correctamente. Te responderemos en 48 horas.', 'success', 6000);
+          }
+        }, 1000);
+        return;
+      }
+
+      // 2. Interactive Input Validation
+      const name = document.getElementById('cf-name');
+      const email = document.getElementById('cf-email');
+      const message = document.getElementById('cf-message');
+      let isValid = true;
+
+      // Reset validation states
+      this.querySelectorAll('.contact__field').forEach(field => {
+        field.classList.remove('contact__field--error');
+      });
+
+      if (!name || name.value.trim() === '') {
+        name.parentElement.classList.add('contact__field--error');
+        isValid = false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email || !emailRegex.test(email.value.trim())) {
+        email.parentElement.classList.add('contact__field--error');
+        isValid = false;
+      }
+
+      if (!message || message.value.trim() === '') {
+        message.parentElement.classList.add('contact__field--error');
+        isValid = false;
+      }
+
+      if (!isValid) {
+        if (typeof Toast !== 'undefined') {
+          Toast.show('Por favor, completa los campos requeridos correctamente.', 'error', 4000);
+        }
+        return;
+      }
+
       const btn = this.querySelector('button[type="submit"]');
       const inner = btn.querySelector('.btn__inner');
       const originalText = inner.textContent;
@@ -781,26 +1024,180 @@
 
       emailjs.sendForm('service_lkbn9lj', 'template_yqjknhh', this)
         .then(function() {
-          inner.textContent = '✓ Mensaje enviado';
-          btn.style.background = 'rgba(100,200,100,0.15)';
+          inner.textContent = originalText;
+          btn.disabled = false;
           document.getElementById('contactForm').reset();
-          setTimeout(function() {
-            inner.textContent = originalText;
-            btn.disabled = false;
-            btn.style.background = '';
-          }, 4000);
+          if (typeof Toast !== 'undefined') {
+            Toast.show('Mensaje enviado correctamente. Te responderemos en 48 horas.', 'success', 6000);
+          }
         }, function(error) {
-          inner.textContent = '✗ Error al enviar';
-          btn.style.background = 'rgba(200,50,50,0.15)';
-          setTimeout(function() {
-            inner.textContent = originalText;
-            btn.disabled = false;
-            btn.style.background = '';
-          }, 4000);
+          inner.textContent = originalText;
+          btn.disabled = false;
+          if (typeof Toast !== 'undefined') {
+            Toast.show('Error al enviar el mensaje. Intenta nuevamente o contactanos por email.', 'error', 6000);
+          }
         });
     });
     }); // DOMContentLoaded
+
+    /* ============================================================
+       PRELOADER
+       ============================================================ */
+    (function initPreloader() {
+      const preloader = document.getElementById('preloader');
+      const progress = preloader?.querySelector('.preloader__progress');
+      
+      if (!preloader) return;
+      
+      let loaded = 0;
+      const images = document.querySelectorAll('img');
+      const total = images.length || 1;
+      
+      function updateProgress() {
+        loaded++;
+        const percent = Math.min((loaded / total) * 100, 100);
+        if (progress) progress.style.width = percent + '%';
+        
+        if (loaded >= total || percent >= 100) {
+          setTimeout(() => {
+            preloader.classList.add('preloader--fade');
+            setTimeout(() => {
+              preloader.style.display = 'none';
+            }, 500);
+          }, 800);
+        }
+      }
+      
+      images.forEach(img => {
+        if (img.complete) {
+          updateProgress();
+        } else {
+          img.addEventListener('load', updateProgress);
+          img.addEventListener('error', updateProgress);
+        }
+      });
+      
+      // Fallback timeout
+      setTimeout(() => {
+        if (progress) progress.style.width = '100%';
+        setTimeout(() => {
+          preloader.classList.add('preloader--fade');
+          setTimeout(() => {
+            preloader.style.display = 'none';
+          }, 500);
+        }, 500);
+      }, 3000);
+    })();
+
+    /* ============================================================
+       TYPEWRITER EFFECT
+       ============================================================ */
+    (function initTypewriter() {
+      const typewriter = document.querySelector('.typewriter');
+      if (!typewriter) return;
+      
+      // Get text from data-text attribute only
+      const text = typewriter.getAttribute('data-text');
+      if (!text) return;
+      
+      // Clear immediately
+      typewriter.textContent = '';
+      
+      let i = 0;
+      const speed = 80;
+      
+      function type() {
+        if (i < text.length) {
+          typewriter.textContent += text.charAt(i);
+          i++;
+          setTimeout(type, speed);
+        }
+      }
+      
+      // Start typing after preloader fades
+      setTimeout(type, 1500);
+    })();
+
+    /* ============================================================
+       SHARE BUTTON
+       ============================================================ */
+    (function initShareBtn() {
+      const shareBtn = document.getElementById('shareBtn');
+      if (!shareBtn) return;
+      
+      // Show share button on scroll
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          shareBtn.classList.add('is-visible');
+        } else {
+          shareBtn.classList.remove('is-visible');
+        }
+      });
+      
+      shareBtn.addEventListener('click', async () => {
+        const shareData = {
+          title: 'KEXXY — Techno Artist',
+          text: 'Check out KEXXY - Techno artist from Mendoza, Argentina',
+          url: window.location.href
+        };
+        
+        if (navigator.share) {
+          try {
+            await navigator.share(shareData);
+          } catch (err) {
+            console.log('Share cancelled');
+          }
+        } else {
+          // Fallback: copy to clipboard
+          try {
+            await navigator.clipboard.writeText(window.location.href);
+            if (typeof Toast !== 'undefined') {
+              Toast.show('Link copied to clipboard!', 'success', 3000);
+            }
+          } catch (err) {
+            console.log('Copy failed');
+          }
+        }
+      });
+    })();
+
+    // Register Service Worker for offline support
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            console.log('SW registered:', registration.scope);
+          })
+          .catch((error) => {
+            console.log('SW registration failed:', error);
+          });
+      });
+    }
   </script>
-  <script src="script.js"></script>
+  <!-- Toast notifications container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Share button -->
+  <button class="share-btn" id="shareBtn" aria-label="Share this page" title="Share">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
+      <circle cx="18" cy="5" r="3"/>
+      <circle cx="6" cy="12" r="3"/>
+      <circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+    </svg>
+  </button>
+
+  <!-- Back to top button -->
+  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
+      <path d="M18 15l-6-6-6 6"/>
+    </svg>
+  </button>
+
+  <!-- Reading progress indicator -->
+  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
+
+  <script src="script.js" defer></script>
 </body>
 </html>

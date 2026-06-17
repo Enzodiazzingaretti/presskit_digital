@@ -1,5 +1,71 @@
 /* ============================================================
-   DATES — auto mark past shows
+   CUSTOM CURSOR
+   ============================================================ */
+(function initCustomCursor() {
+  // Only on desktop
+  if (window.matchMedia('(pointer: coarse)').matches) return;
+  
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursorFollower');
+  
+  if (!cursor || !follower) return;
+  
+  let mouseX = 0, mouseY = 0;
+  let cursorX = 0, cursorY = 0;
+  let followerX = 0, followerY = 0;
+  
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  });
+  
+  // Smooth animation
+  function animate() {
+    // Cursor follows immediately
+    cursorX += (mouseX - cursorX) * 0.2;
+    cursorY += (mouseY - cursorY) * 0.2;
+    cursor.style.left = cursorX + 'px';
+    cursor.style.top = cursorY + 'px';
+    
+    // Follower has delay for smooth effect
+    followerX += (mouseX - followerX) * 0.1;
+    followerY += (mouseY - followerY) * 0.1;
+    follower.style.left = followerX + 'px';
+    follower.style.top = followerY + 'px';
+    
+    requestAnimationFrame(animate);
+  }
+  animate();
+  
+  // Hover effects on interactive elements
+  const interactiveElements = document.querySelectorAll('a, button, .btn, .rcard__dl-btn, .lang-btn, .mobile-nav__link');
+  
+  interactiveElements.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.classList.add('hover');
+      follower.classList.add('hover');
+    });
+    
+    el.addEventListener('mouseleave', () => {
+      cursor.classList.remove('hover');
+      follower.classList.remove('hover');
+    });
+  });
+  
+  // Click effects
+  document.addEventListener('mousedown', () => {
+    cursor.classList.add('click');
+    follower.classList.add('click');
+  });
+  
+  document.addEventListener('mouseup', () => {
+    cursor.classList.remove('click');
+    follower.classList.remove('click');
+  });
+})();
+
+/* ============================================================
+   DATES — auto mark past shows & interactive filters
    ============================================================ */
 (function initDates() {
   const MONTH_MAP = {
@@ -23,6 +89,7 @@
   const today = new Date();
   today.setHours(0,0,0,0);
 
+  // Auto detect and set state
   document.querySelectorAll('.dates__row').forEach(row => {
     const raw = row.dataset.date;
     const parsed = parseDate(raw);
@@ -36,6 +103,39 @@
       }
     }
   });
+
+  // Interactive UI Filtering
+  const filterBtns = document.querySelectorAll('.dates__filter-btn');
+  const rows = document.querySelectorAll('.dates__row');
+
+  function applyFilter(filter) {
+    rows.forEach(row => {
+      const isPast = row.classList.contains('dates__row--past');
+      if (filter === 'all') {
+        row.style.display = '';
+      } else if (filter === 'upcoming') {
+        row.style.display = isPast ? 'none' : '';
+      } else if (filter === 'past') {
+        row.style.display = isPast ? '' : 'none';
+      }
+    });
+
+    // Track analytics event
+    if (typeof window !== 'undefined' && window.Analytics) {
+      window.Analytics.track('dates_filter', { filter: filter });
+    }
+  }
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilter(btn.dataset.filter);
+    });
+  });
+
+  // Default filter: show all dates
+  applyFilter('all');
 })();
 
 /* ============================================================
@@ -404,22 +504,66 @@ if (scrollIndicator) {
       'nav.live':       'Live',
       'nav.contact':    'Contact',
       'dates.label':    'Upcoming Shows',
+      'video.label':    'Media Showcase',
+      'video.title':    'Live Action',
+      'video.v1Label':  'Featured Live Set',
+      'video.v1Title':  'KEXXY @ HAPPY SOUNDS',
+      'video.v1Desc':   'Live performance video captured during HAPPY SOUNDS. A display of fast-paced hardgroove energy, dense layering, and drive.',
+      'video.v2Label':  'DJ Set',
+      'video.v2Title':  'KEXXY — Hard Techno Set',
+      'video.v2Desc':   'A hard techno set with fast mixing and heavy structures. 100% CDJ mixing recorded in a private studio.',
+      'video.v3Label':  'DJ Set',
+      'video.v3Title':  'KEXXY — Hardgroove Set',
+      'video.v3Desc':   'A hardgroove set with fast mixing and raw energy. 100% CDJ mixing recorded in a private studio.',
+      'video.watchBtn': 'Watch on YouTube ↗',
       'hero.tag':       'Mendoza · Argentina',
-      'hero.subtitle':  'Techno · Schranz · Industrial',
-      'hero.desc':      'Underground DJ from Argentina. Raw sound, fast mixing, dense layers.',
+      'hero.subtitle':  'TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.',
+      'hero.desc':      'DJ from Argentina. Raw sound, fast mixing, dense layers.',
       'hero.cta1':      'Listen Now',
       'hero.cta2':      'Book KEXXY',
       'hero.stat1':     'Years of Experience',
       'hero.stat2':     'Cities',
       'bio.label':      'Biography',
       'bio.title':      'Biography.',
-      'bio.p1':         "KEXXY is a DJ and producer from Mendoza, Argentina. Born out of the pandemic in 2020, the project began as a personal exploration of electronic music alongside friends — a creative outlet that quickly evolved into a serious commitment to the underground.",
+      'bio.p1':         "KEXXY is a DJ and producer from Mendoza, Argentina. Born out of the pandemic in 2020, the project began as a personal exploration of electronic music alongside friends — a creative outlet that quickly evolved into a serious commitment to music.",
       'bio.p2':         "His sound is defined by fast blending, heavy layering, and crushing textures — a relentless forward momentum that draws from Techno, Industrial, Schranz, Hardgroove and Raw. On the decks, KEXXY builds dense, physical sets that prioritize energy and precision over comfort.",
-      'bio.p3':         "Over 6 years, KEXXY has shared the booth with key figures of the Argentine underground scene including Dist. Raptis, Shodnan Ref, Uma Scheffer, and West Code — performing across Mendoza and Buenos Aires at some of the region's most respected clubs and events.",
+      'bio.p3':         "Over 6 years, KEXXY has shared the booth with key figures of the Argentine scene including Dist. Raptis, Shodnan Ref, Uma Scheffer, and West Code — performing across Mendoza and Buenos Aires at some of the region's most respected clubs and events.",
       'bio.quote':      "Heavy layers, fast blends, zero filters.",
       'bio.cite':       '— KEXXY',
       'rider.title':    'Artist Specifications',
       'rider.subtitle': 'Everything a promoter or booker needs to know.',
+      'rider.label':    'Technical Rider & Profile',
+      'rider.diagramCaption': 'Technical Setup — 2024',
+      'rider.card1Title': 'Equipment',
+      'rider.cdjSetup': 'CDJ Setup',
+      'rider.mixer': 'Mixer',
+      'rider.monitoring': 'Monitoring',
+      'rider.card2Title': 'Performance',
+      'rider.setDuration': 'Set Duration',
+      'rider.bpmRange': 'BPM Range',
+      'rider.format': 'Format',
+      'rider.media': 'Media',
+      'rider.formatsAccepted': 'Formats Accepted',
+      'rider.stageSharing': 'Stage Sharing',
+      'rider.soundcheck': 'Soundcheck',
+      'rider.lighting': 'Lighting',
+      'rider.stageSharingValue': 'No B2B unless pre-arranged',
+      'rider.soundcheckValue': 'Required · Min 45 min prior',
+      'rider.lightingValue': 'Dark stage preferred',
+      'rider.card3Title': 'Music Profile',
+      'rider.card4Title': 'Hospitality',
+      'rider.hotel': 'Hotel',
+      'rider.travel': 'Travel',
+      'rider.catering': 'Catering',
+      'rider.hotelValue': 'Single room · Night of show',
+      'rider.travelValue': 'To be arranged with management',
+      'rider.cateringValue': 'Water · Snacks backstage',
+      'rider.card5Title': 'Press Downloads',
+      'rider.pressKit': 'Full Press Kit',
+      'rider.pressPhotos': 'Press Photos',
+      'rider.techRiderBtn': 'Technical Rider',
+      'rider.djMix': 'DJ Mix / Demo',
+      'rider.viewOnPage': 'View on page',
       'live.label':     'Live Performance',
       'live.status':    'Available for booking',
       'live.stat1':     'Live Shows',
@@ -430,6 +574,7 @@ if (scrollIndicator) {
       'live.ctaSub':    'Contact management for availability and fees.',
       'live.ctaBtn':    'Book a Show',
       'contact.label':       'Contact & Booking',
+      'contact.title':       "Let's<br /><span class=\"contact__title-outline\">Connect.</span>",
       'contact.subtitle':    'For bookings, press inquiries, and collaborations — reach out directly or use the form below.',
       'contact.fieldName':   'Name',
       'contact.fieldEmail':  'Email',
@@ -447,6 +592,10 @@ if (scrollIndicator) {
       'contact.formNote':    'We typically respond within 48 hours.',
       'contact.send':        'Send Message',
       'footer.copy':         '© 2024 KEXXY. All rights reserved. Unauthorized use prohibited.',
+      'footer.privacy':      'Privacy',
+      'footer.presskit':     'Press Kit',
+      'footer.epk':          'EPK',
+      'lightbox.download':   'Download High-Res',
     },
     es: {
       'nav.bio':        'Bio',
@@ -455,22 +604,66 @@ if (scrollIndicator) {
       'nav.live':       'En Vivo',
       'nav.contact':    'Contacto',
       'dates.label':    'Próximas Fechas',
+      'video.label':    'Galería de Sets',
+      'video.title':    'En Acción',
+      'video.v1Label':  'Set en Vivo Destacado',
+      'video.v1Title':  'KEXXY @ HAPPY SOUNDS',
+      'video.v1Desc':   'Video de la sesión capturada en vivo durante HAPPY SOUNDS. Una exhibición de energía hardgroove, mezclas rápidas y groove.',
+      'video.v2Label':  'DJ Set',
+      'video.v2Title':  'KEXXY — Hard Techno Set',
+      'video.v2Desc':   'Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.',
+      'video.v3Label':  'DJ Set',
+      'video.v3Title':  'KEXXY — Hardgroove Set',
+      'video.v3Desc':   'Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.',
+      'video.watchBtn': 'Ver en YouTube ↗',
       'hero.tag':       'Mendoza · Argentina',
-      'hero.subtitle':  'Techno · Schranz · Industrial',
-      'hero.desc':      'DJ underground de Argentina. Sonido crudo, mezclas rápidas, capas densas.',
+      'hero.subtitle':  'TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.',
+      'hero.desc':      'DJ de Argentina. Sonido crudo, mezclas rápidas, capas densas.',
       'hero.cta1':      'Escuchar',
       'hero.cta2':      'Contratar KEXXY',
       'hero.stat1':     'Años de experiencia',
       'hero.stat2':     'Ciudades',
       'bio.label':      'Biografía',
       'bio.title':      'Biografía.',
-      'bio.p1':         'KEXXY es un DJ y productor de Mendoza, Argentina. Nacido durante la pandemia en 2020, el proyecto comenzó como una exploración personal de la música electrónica junto a amigos — un espacio creativo que rápidamente se convirtió en un compromiso serio con el underground.',
+      'bio.p1':         'KEXXY es un DJ y productor de Mendoza, Argentina. Nacido durante la pandemia en 2020, el proyecto comenzó como una exploración personal de la música electrónica junto a amigos — un espacio creativo que rápidamente se convirtió en un compromiso serio con la música.',
       'bio.p2':         'Su sonido se define por mezclas rápidas, layering denso y texturas pesadas — un impulso implacable que toma del Techno, Industrial, Schranz, Hardgroove y Raw. En las bandejas, KEXXY construye sets físicos e intensos que priorizan la energía y la precisión por encima de todo.',
-      'bio.p3':         'En más de 6 años de trayectoria, KEXXY ha compartido cabina con referentes del underground argentino como Dist. Raptis, Shodnan Ref, Uma Scheffer y West Code — presentando sus sets en Mendoza y Buenos Aires en algunos de los clubes y eventos más destacados de la región.',
+      'bio.p3':         'En más de 6 años de trayectoria, KEXXY ha compartido cabina con referentes de la escena argentina como Dist. Raptis, Shodnan Ref, Uma Scheffer y West Code — presentando sus sets en Mendoza y Buenos Aires en algunos de los clubes y eventos más destacados de la región.',
       'bio.quote':      'Mezclas rápidas, layers pesados, cero filtros.',
       'bio.cite':       '— KEXXY',
       'rider.title':    'Especificaciones del Artista',
       'rider.subtitle': 'Todo lo que un promotor o booker necesita saber.',
+      'rider.label':    'Rider Técnico y Perfil',
+      'rider.diagramCaption': 'Setup Técnico — 2024',
+      'rider.card1Title': 'Equipamiento',
+      'rider.cdjSetup': 'Setup CDJ',
+      'rider.mixer': 'Mixer',
+      'rider.monitoring': 'Monitoreo',
+      'rider.card2Title': 'Performance',
+      'rider.setDuration': 'Duración del Set',
+      'rider.bpmRange': 'Rango BPM',
+      'rider.format': 'Formato',
+      'rider.media': 'Medio',
+      'rider.formatsAccepted': 'Formatos Aceptados',
+      'rider.stageSharing': 'Compartir Escenario',
+      'rider.soundcheck': 'Prueba de Sonido',
+      'rider.lighting': 'Iluminación',
+      'rider.stageSharingValue': 'Sin B2B salvo acuerdo previo',
+      'rider.soundcheckValue': 'Obligatorio · Mín 45 min antes',
+      'rider.lightingValue': 'Escenario oscuro preferido',
+      'rider.card3Title': 'Perfil Musical',
+      'rider.card4Title': 'Hospitalidad',
+      'rider.hotel': 'Hotel',
+      'rider.travel': 'Viaje',
+      'rider.catering': 'Catering',
+      'rider.hotelValue': 'Habitación individual · Noche del show',
+      'rider.travelValue': 'A coordinar con management',
+      'rider.cateringValue': 'Agua · Snacks backstage',
+      'rider.card5Title': 'Descargas de Prensa',
+      'rider.pressKit': 'Press Kit Completo',
+      'rider.pressPhotos': 'Fotos de Prensa',
+      'rider.techRiderBtn': 'Rider Técnico',
+      'rider.djMix': 'DJ Mix / Demo',
+      'rider.viewOnPage': 'Ver en página',
       'live.label':     'En Vivo',
       'live.status':    'Disponible para contratación',
       'live.stat1':     'Shows en Vivo',
@@ -481,6 +674,7 @@ if (scrollIndicator) {
       'live.ctaSub':    'Contactá al management para disponibilidad y tarifas.',
       'live.ctaBtn':    'Contratar Show',
       'contact.label':       'Contacto y Contratación',
+      'contact.title':       "Conectemos.<br /><span class=\"contact__title-outline\">Contacto.</span>",
       'contact.subtitle':    'Para contrataciones, consultas de prensa y colaboraciones — escribinos directo o usá el formulario.',
       'contact.fieldName':   'Nombre',
       'contact.fieldEmail':  'Email',
@@ -498,6 +692,10 @@ if (scrollIndicator) {
       'contact.formNote':    'Respondemos en un máximo de 48 horas.',
       'contact.send':        'Enviar Mensaje',
       'footer.copy':         '© 2024 KEXXY. Todos los derechos reservados.',
+      'footer.privacy':      'Privacidad',
+      'footer.presskit':     'Press Kit',
+      'footer.epk':          'EPK',
+      'lightbox.download':   'Descargar Alta Res.',
     },
     pt: {
       'nav.bio':        'Bio',
@@ -506,22 +704,66 @@ if (scrollIndicator) {
       'nav.live':       'Ao Vivo',
       'nav.contact':    'Contato',
       'dates.label':    'Próximas Datas',
+      'video.label':    'Galeria de Sets',
+      'video.title':    'Em Ação',
+      'video.v1Label':  'Set ao Vivo em Destaque',
+      'video.v1Title':  'KEXXY @ HAPPY SOUNDS',
+      'video.v1Desc':   'Vídeo da sessão capturada ao vivo durante HAPPY SOUNDS. Uma exibição de energia hardgroove, mixagens rápidas e groove.',
+      'video.v2Label':  'DJ Set',
+      'video.v2Title':  'KEXXY — Hard Techno Set',
+      'video.v2Desc':   'Um set de hard techno com mixagens rápidas e estruturas pesadas. 100% mixagem com CDJ gravado em um estúdio privado.',
+      'video.v3Label':  'DJ Set',
+      'video.v3Title':  'KEXXY — Hardgroove Set',
+      'video.v3Desc':   'Um set de hardgroove com mixagens rápidas e energia crua. 100% mixagem com CDJ gravado em um estúdio privado.',
+      'video.watchBtn': 'Assistir no YouTube ↗',
       'hero.tag':       'Mendoza · Argentina',
-      'hero.subtitle':  'Techno · Schranz · Industrial',
-      'hero.desc':      'DJ underground da Argentina. Som cru, mixagens rápidas, camadas densas.',
+      'hero.subtitle':  'TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.',
+      'hero.desc':      'DJ da Argentina. Som cru, mixagens rápidas, camadas densas.',
       'hero.cta1':      'Ouvir Agora',
       'hero.cta2':      'Contratar KEXXY',
       'hero.stat1':     'Anos de experiência',
       'hero.stat2':     'Cidades',
       'bio.label':      'Biografia',
       'bio.title':      'Biografia.',
-      'bio.p1':         'KEXXY é um DJ e produtor de Mendoza, Argentina. Nascido durante a pandemia em 2020, o projeto começou como uma exploração pessoal da música eletrônica com amigos — um espaço criativo que rapidamente se tornou um compromisso sério com o underground.',
+      'bio.p1':         'KEXXY é um DJ e produtor de Mendoza, Argentina. Nascido durante a pandemia em 2020, o projeto começou como uma exploração pessoal da música eletrônica com amigos — um espaço criativo que rapidamente se tornou um compromisso sério com a música.',
       'bio.p2':         'Seu som é definido por mixagens rápidas, layering denso e texturas pesadas — um impulso implacable que bebe do Techno, Industrial, Schranz, Hardgroove e Raw. Nas pick-ups, KEXXY constrói sets físicos e intensos que priorizam energia e precisão acima de tudo.',
-      'bio.p3':         'Em mais de 6 anos de trajetória, KEXXY já dividiu a cabine com referências do underground argentino como Dist. Raptis, Shodnan Ref, Uma Scheffer e West Code — se apresentando em Mendoza e Buenos Aires nos clubes e eventos mais respeitados da região.',
+      'bio.p3':         'Em mais de 6 anos de trajetória, KEXXY já dividiu a cabine com referências da cena argentina como Dist. Raptis, Shodnan Ref, Uma Scheffer e West Code — se apresentando em Mendoza e Buenos Aires nos clubes e eventos mais respeitados da região.',
       'bio.quote':      'Mixagens rápidas, layers pesados, zero filtros.',
       'bio.cite':       '— KEXXY',
       'rider.title':    'Especificações do Artista',
       'rider.subtitle': 'Tudo que um promotor ou booker precisa saber.',
+      'rider.label':    'Rider Técnico e Perfil',
+      'rider.diagramCaption': 'Setup Técnico — 2024',
+      'rider.card1Title': 'Equipamento',
+      'rider.cdjSetup': 'Setup CDJ',
+      'rider.mixer': 'Mixer',
+      'rider.monitoring': 'Monitoramento',
+      'rider.card2Title': 'Performance',
+      'rider.setDuration': 'Duração do Set',
+      'rider.bpmRange': 'Faixa BPM',
+      'rider.format': 'Formato',
+      'rider.media': 'Mídia',
+      'rider.formatsAccepted': 'Formatos Aceitos',
+      'rider.stageSharing': 'Compartir Palco',
+      'rider.soundcheck': 'Passagem de Som',
+      'rider.lighting': 'Iluminação',
+      'rider.stageSharingValue': 'Sem B2B exceto acordo prévio',
+      'rider.soundcheckValue': 'Obrigatório · Mín 45 min antes',
+      'rider.lightingValue': 'Palco escuro preferido',
+      'rider.card3Title': 'Perfil Musical',
+      'rider.card4Title': 'Hospitalidade',
+      'rider.hotel': 'Hotel',
+      'rider.travel': 'Viagem',
+      'rider.catering': 'Catering',
+      'rider.hotelValue': 'Quarto individual · Noite do show',
+      'rider.travelValue': 'A combinar com management',
+      'rider.cateringValue': 'Água · Snacks backstage',
+      'rider.card5Title': 'Downloads de Imprensa',
+      'rider.pressKit': 'Press Kit Completo',
+      'rider.pressPhotos': 'Fotos de Imprensa',
+      'rider.techRiderBtn': 'Rider Técnico',
+      'rider.djMix': 'DJ Mix / Demo',
+      'rider.viewOnPage': 'Ver na página',
       'live.label':     'Ao Vivo',
       'live.status':    'Disponível para contratação',
       'live.stat1':     'Shows ao Vivo',
@@ -532,6 +774,7 @@ if (scrollIndicator) {
       'live.ctaSub':    'Entre em contato com o management para disponibilidade e cachês.',
       'live.ctaBtn':    'Contratar Show',
       'contact.label':       'Contato e Contratação',
+      'contact.title':       "Conectemos.<br /><span class=\"contact__title-outline\">Contato.</span>",
       'contact.subtitle':    'Para contratações, assessoria de imprensa e colaborações — fale diretamente ou use o formulário.',
       'contact.fieldName':   'Nome',
       'contact.fieldEmail':  'E-mail',
@@ -548,7 +791,11 @@ if (scrollIndicator) {
       'contact.placeholderMsg':  'Conte-nos sobre o evento, capacidade esperada, contexto do lineup...',
       'contact.formNote':    'Respondemos em até 48 horas.',
       'contact.send':        'Enviar Mensagem',
-      'footer.copy':         '© 2024 KEXXY. Todos os direitos reservados.',
+      'footer.copy':         '© 2024 KEXXY. Todos los direitos reservados.',
+      'footer.privacy':      'Privacidade',
+      'footer.presskit':     'Press Kit',
+      'footer.epk':          'EPK',
+      'lightbox.download':   'Baixar Alta Res.',
     }
   };
 
@@ -557,7 +804,14 @@ if (scrollIndicator) {
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
-      if (t[key] !== undefined) el.textContent = t[key];
+      if (t[key] !== undefined) {
+        // Use innerHTML only when translation contains HTML markup (e.g. contact.title)
+        if (/<[a-z][\s\S]*>/i.test(t[key])) {
+          el.innerHTML = t[key];
+        } else {
+          el.textContent = t[key];
+        }
+      }
     });
 
     document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
@@ -579,6 +833,9 @@ if (scrollIndicator) {
 
   const saved = localStorage.getItem('kexxy-lang') || 'es';
   applyLang(saved);
+
+  // Expose for external modules (language auto-detection)
+  window.applyLang = applyLang;
 
 })();
 
@@ -611,3 +868,331 @@ if (scrollIndicator) {
 
   update();
 })();
+
+/* ============================================================
+   TOAST NOTIFICATIONS SYSTEM
+   ============================================================ */
+const Toast = {
+  container: null,
+
+  init() {
+    this.container = document.getElementById('toastContainer');
+  },
+
+  show(message, type = 'info', duration = 5000) {
+    if (!this.container) this.init();
+    if (!this.container) return;
+
+    const icons = {
+      success: '<svg viewBox="0 0 24 24" fill="none" stroke="#4caf50" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>',
+      error: '<svg viewBox="0 0 24 24" fill="none" stroke="#f44336" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>',
+      info: '<svg viewBox="0 0 24 24" fill="none" stroke="#c8c8c8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'
+    };
+
+    const toast = document.createElement('div');
+    toast.className = `toast toast--${type}`;
+    toast.innerHTML = `
+      <span class="toast__icon">${icons[type]}</span>
+      <span class="toast__message">${message}</span>
+      <button class="toast__close" aria-label="Close notification">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    `;
+
+    toast.querySelector('.toast__close').addEventListener('click', () => {
+      this.hide(toast);
+    });
+
+    this.container.appendChild(toast);
+    setTimeout(() => this.hide(toast), duration);
+  },
+
+  hide(toast) {
+    toast.style.animation = 'toastFadeOut 0.3s ease forwards';
+    setTimeout(() => toast.remove(), 300);
+  }
+};
+
+document.addEventListener('DOMContentLoaded', () => Toast.init());
+
+/* ============================================================
+   BACK TO TOP BUTTON
+   ============================================================ */
+(function initBackToTop() {
+  const btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  const scrollThreshold = 500;
+
+  function toggleVisibility() {
+    if (window.scrollY > scrollThreshold) {
+      btn.classList.add('is-visible');
+    } else {
+      btn.classList.remove('is-visible');
+    }
+  }
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(toggleVisibility);
+  });
+
+  toggleVisibility();
+})();
+
+/* ============================================================
+   READING PROGRESS INDICATOR
+   ============================================================ */
+(function initReadingProgress() {
+  const progressBar = document.getElementById('readingProgress');
+  if (!progressBar) return;
+
+  function updateProgress() {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = (scrollTop / docHeight) * 100;
+    progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+  }
+
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(updateProgress);
+  });
+
+  updateProgress();
+})();
+
+/* ============================================================
+   LANGUAGE AUTO-DETECTION
+   ============================================================ */
+(function initLangDetection() {
+  if (localStorage.getItem('kexxy-lang')) return;
+
+  const browserLang = navigator.language || navigator.userLanguage;
+  const langCode = browserLang.split('-')[0].toLowerCase();
+
+  const langMap = {
+    'es': 'es',
+    'en': 'en',
+    'pt': 'pt',
+    'br': 'pt'
+  };
+
+  const targetLang = langMap[langCode] || 'en';
+
+  if (targetLang !== 'es' && typeof window.applyLang === 'function') {
+    window.applyLang(targetLang);
+  }
+})();
+
+/* ============================================================
+   ANALYTICS - Simple Event Tracking
+   ============================================================ */
+const Analytics = {
+  events: [],
+  maxEvents: 100,
+
+  track(eventName, eventData = {}) {
+    const event = {
+      name: eventName,
+      data: eventData,
+      timestamp: new Date().toISOString(),
+      url: window.location.href,
+      referrer: document.referrer
+    };
+
+    this.events.push(event);
+
+    // Keep only last N events
+    if (this.events.length > this.maxEvents) {
+      this.events.shift();
+    }
+
+    // Log to console in development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+      console.log('[Analytics]', event);
+    }
+
+    // Send to Google Analytics if available
+    if (typeof gtag !== 'undefined') {
+      gtag('event', eventName, eventData);
+    }
+
+    // Send to Plausible if available
+    if (typeof plausible !== 'undefined') {
+      plausible(eventName, { props: eventData });
+    }
+  },
+
+  trackClick(element, eventName) {
+    element.addEventListener('click', () => {
+      this.track(eventName, {
+        element: element.tagName,
+        href: element.href || null,
+        text: element.textContent?.trim().substring(0, 50) || null
+      });
+    });
+  },
+
+  getEvents() {
+    return [...this.events];
+  }
+};
+
+// Track important interactions
+document.addEventListener('DOMContentLoaded', () => {
+  // Track CTA buttons
+  document.querySelectorAll('.btn--primary').forEach(btn => {
+    Analytics.trackClick(btn, 'cta_click');
+  });
+
+  // Track navigation
+  document.querySelectorAll('.hero__nav a, .mobile-nav__link').forEach(link => {
+    Analytics.trackClick(link, 'nav_click');
+  });
+
+  // Track downloads
+  document.querySelectorAll('.rcard__dl-btn').forEach(btn => {
+    Analytics.trackClick(btn, 'download_click');
+  });
+
+  // Track social links
+  document.querySelectorAll('.contact__social').forEach(link => {
+    Analytics.trackClick(link, 'social_click');
+  });
+
+  // Track form submission
+  const contactForm = document.getElementById('contactForm');
+  if (contactForm) {
+    contactForm.addEventListener('submit', () => {
+      Analytics.track('form_submit', { form: 'contact' });
+    });
+
+    // Real-time Validation input listeners
+    const inputs = contactForm.querySelectorAll('.contact__input');
+    inputs.forEach(input => {
+      input.addEventListener('input', () => {
+        input.parentElement.classList.remove('contact__field--error');
+      });
+      input.addEventListener('blur', () => {
+        if (input.required || input.id === 'cf-email') {
+          if (input.value.trim() === '') {
+            input.parentElement.classList.add('contact__field--error');
+          } else if (input.type === 'email') {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(input.value.trim())) {
+              input.parentElement.classList.add('contact__field--error');
+            }
+          }
+        }
+      });
+    });
+  }
+
+  // Track language changes
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      Analytics.track('language_change', { lang: btn.dataset.lang });
+    });
+  });
+
+  // Track scroll depth
+  let maxScroll = 0;
+  const scrollMilestones = [25, 50, 75, 90];
+  const reachedMilestones = new Set();
+
+  window.addEventListener('scroll', () => {
+    const scrollPercent = Math.round(
+      (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100
+    );
+    maxScroll = Math.max(maxScroll, scrollPercent);
+
+    scrollMilestones.forEach(milestone => {
+      if (scrollPercent >= milestone && !reachedMilestones.has(milestone)) {
+        reachedMilestones.add(milestone);
+        Analytics.track('scroll_depth', { depth: milestone });
+      }
+    });
+  });
+
+  // Track time on page
+  const pageLoadTime = Date.now();
+  window.addEventListener('beforeunload', () => {
+    const timeOnPage = Math.round((Date.now() - pageLoadTime) / 1000);
+    Analytics.track('page_exit', { time_on_page_seconds: timeOnPage });
+  });
+
+  // Make Analytics available globally
+  window.Analytics = Analytics;
+});
+
+/* ============================================================
+   LIGHTBOX GALLERY INTERACTION
+   ============================================================ */
+(function initLightbox() {
+  const modal = document.getElementById('lightboxModal');
+  const img = document.getElementById('lightboxImg');
+  const caption = document.getElementById('lightboxCaption');
+  const downloadBtn = document.getElementById('lightboxDownload');
+  const closeBtn = document.getElementById('lightboxClose');
+
+  if (!modal || !img) return;
+
+  // Select all zoomable images in the site
+  const targets = document.querySelectorAll('.bio__img, .live__img, .contact__img');
+
+  targets.forEach(target => {
+    target.addEventListener('click', () => {
+      const src = target.src;
+      const alt = target.alt || 'KEXXY press photo';
+      
+      // Update modal content
+      img.src = src;
+      img.alt = alt;
+      caption.textContent = alt;
+      downloadBtn.href = src;
+
+      // Open Modal
+      modal.classList.add('is-open');
+      modal.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+
+      // Analytics
+      if (typeof window !== 'undefined' && window.Analytics) {
+        window.Analytics.track('lightbox_open', { image: src });
+      }
+    });
+  });
+
+  function closeLightbox() {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    
+    // Clear heavy sources after animation closes
+    setTimeout(() => {
+      img.src = '';
+    }, 300);
+  }
+
+  // Close Event Listeners
+  closeBtn.addEventListener('click', closeLightbox);
+  modal.addEventListener('click', (e) => {
+    // Close if clicking outside the main image / download button
+    if (e.target === modal) {
+      closeLightbox();
+    }
+  });
+
+  // Keyboard support (Escape key)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+      closeLightbox();
+    }
+  });
+})();
+
