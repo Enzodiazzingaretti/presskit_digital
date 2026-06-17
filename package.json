@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx serve -l 8080 -s .",
     "start": "npx serve -l 8080 -s .",
-    "build": "if (!(Test-Path public)) { New-Item -ItemType Directory -Name public }; Copy-Item *.html, *.css, *.js, *.webp, *.png, *.xml public/ -ErrorAction SilentlyContinue; echo 'done'",
+    "build": "echo 'Static site'",
     "preview": "npx serve -l 8080 -s ."
   },
   "keywords": [
