@@ -1,16 +1,6 @@
 {
   "dates": [
     {
-      "date": "2026-04-25",
-      "city": "San Rafael",
-      "venue": "Vibra Producciones"
-    },
-    {
-      "date": "2026-04-30",
-      "city": "Mendoza",
-      "venue": "Sicódromo"
-    },
-    {
       "date": "2026-05-08",
       "city": "Mendoza",
       "venue": "Secta Club"
@@ -19,11 +9,6 @@
       "date": "2026-05-16",
       "city": "San Rafael",
       "venue": "Boing Clap"
-    },
-    {
-      "date": "2026-06-20",
-      "city": "San Rafael",
-      "venue": "TBA"
     }
   ]
 }
