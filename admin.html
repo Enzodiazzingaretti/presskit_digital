@@ -368,18 +368,34 @@
         </div>
       </div>
       <div class="gate__card">
-        <label class="label" for="token">Token de acceso</label>
-        <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" />
-        <div style="display:flex;align-items:center;gap:1rem;margin-top:1.1rem">
-          <button class="btn btn--primary" id="loginBtn">Entrar</button>
-          <span class="status" id="loginStatus"></span>
+        <div id="gateChecking" class="hint" style="margin:0">Conectando…</div>
+
+        <!-- Password mode (serverless API configured) -->
+        <div id="gatePassword" class="hidden">
+          <label class="label" for="password">Contraseña</label>
+          <input type="password" id="password" placeholder="••••••••••" autocomplete="current-password" />
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:1.1rem">
+            <button class="btn btn--primary" id="loginBtn">Entrar</button>
+            <span class="status" id="loginStatus"></span>
+          </div>
+          <p class="hint">La sesión dura 12 horas en este navegador.</p>
         </div>
-        <p class="hint">
-          Generá el token una vez en
-          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>:
-          repositorio <strong>presskit_digital</strong>, permiso <strong>Contents: Read and write</strong>.
-          Queda guardado solo en este navegador.
-        </p>
+
+        <!-- Token mode (no API available, e.g. local preview) -->
+        <div id="gateToken" class="hidden">
+          <label class="label" for="token">Token de acceso</label>
+          <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" />
+          <div style="display:flex;align-items:center;gap:1rem;margin-top:1.1rem">
+            <button class="btn btn--primary" id="loginTokenBtn">Entrar</button>
+            <span class="status" id="loginTokenStatus"></span>
+          </div>
+          <p class="hint">
+            Este entorno no tiene el acceso por contraseña configurado, así que usa el token de
+            <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>
+            (repositorio <strong>presskit_digital</strong>, permiso <strong>Contents: Read and write</strong>).
+            Queda guardado solo en este navegador.
+          </p>
+        </div>
       </div>
     </div>
   </div>
@@ -597,6 +613,10 @@
 
     const $ = id => document.getElementById(id);
 
+    // 'api'   -> serverless function holds the GitHub token (password login)
+    // 'token' -> browser holds a GitHub PAT (fallback, e.g. local preview)
+    let mode = 'token';
+
     const headers = () => ({
       'Authorization': 'Bearer ' + token,
       'Accept': 'application/vnd.github+json',
@@ -640,6 +660,36 @@
         return o[k];
       }, obj);
       target[last] = value;
+    }
+
+    async function readFile(path) {
+      if (mode === 'api') {
+        const res = await fetch('/api/content?file=' + encodeURIComponent(path), { credentials: 'same-origin' });
+        if (res.status === 401) throw new Error('La sesión expiró. Volvé a entrar');
+        if (res.status === 404) return null;
+        if (!res.ok) throw new Error('No se pudo leer ' + path);
+        const json = await res.json();
+        return json.data;
+      }
+      return ghGet(path);
+    }
+
+    async function writeFile(path, data, message) {
+      if (mode === 'api') {
+        const res = await fetch('/api/content', {
+          method: 'PUT',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ file: path, data: data, message: message })
+        });
+        if (res.status === 401) throw new Error('La sesión expiró. Volvé a entrar');
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error ? 'No se pudo guardar: ' + err.error : 'No se pudo guardar ' + path);
+        }
+        return;
+      }
+      return ghPut(path, data, message);
     }
 
     async function ghGet(path) {
@@ -940,12 +990,12 @@
     /* ---------------- Cargar y publicar ---------------- */
 
     async function loadAll() {
-      const dates = await ghGet(DATES_FILE);
+      const dates = await readFile(DATES_FILE);
       $('rows').innerHTML = '';
       ((dates && dates.dates) || []).forEach(addDateRow);
       refreshDateCount();
 
-      content = await ghGet(CONTENT_FILE);
+      content = await readFile(CONTENT_FILE);
       if (!content) throw new Error('No encontré content.json en el repositorio');
       content.i18n = content.i18n || {};
       LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
@@ -959,37 +1009,69 @@
 
     async function publish() {
       if (dirty[DATES_FILE]) {
-        await ghPut(DATES_FILE, collectDates(), 'update: fechas de shows desde la consola');
+        await writeFile(DATES_FILE, collectDates(), 'update: fechas de shows desde la consola');
       }
       if (dirty[CONTENT_FILE]) {
         content.genres = $('genresField').value.split(',').map(s => s.trim()).filter(Boolean);
         content.promoters = collectPromoters();
-        await ghPut(CONTENT_FILE, content, 'update: contenido del sitio desde la consola');
+        await writeFile(CONTENT_FILE, content, 'update: contenido del sitio desde la consola');
       }
     }
 
     /* ---------------- Eventos ---------------- */
 
-    async function enter() {
-      const t = $('token').value.trim() || token;
-      if (!t) { setStatus($('loginStatus'), 'Pegá tu token', 'err'); return; }
-      token = t;
+    function openShell() {
+      $('gate').classList.add('hidden');
+      $('shell').classList.add('on');
+    }
+
+    async function enterWithPassword() {
+      const pw = $('password').value;
+      if (!pw) { setStatus($('loginStatus'), 'Escribí la contraseña', 'err'); return; }
       setStatus($('loginStatus'), 'Verificando…', 'busy');
       try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password: pw })
+        });
+        if (res.status === 401) return setStatus($('loginStatus'), 'Contraseña incorrecta', 'err');
+        if (!res.ok) return setStatus($('loginStatus'), 'No se pudo entrar', 'err');
+
+        $('password').value = '';
+        setStatus($('loginStatus'), '', '');
         await loadAll();
-        localStorage.setItem(TOKEN_KEY, token);
-        $('gate').classList.add('hidden');
-        $('shell').classList.add('on');
+        openShell();
       } catch (e) {
-        token = localStorage.getItem(TOKEN_KEY) || '';
         setStatus($('loginStatus'), e.message, 'err');
       }
     }
 
-    $('loginBtn').addEventListener('click', enter);
-    $('token').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+    async function enterWithToken() {
+      const t = $('token').value.trim() || token;
+      if (!t) { setStatus($('loginTokenStatus'), 'Pegá tu token', 'err'); return; }
+      token = t;
+      setStatus($('loginTokenStatus'), 'Verificando…', 'busy');
+      try {
+        await loadAll();
+        localStorage.setItem(TOKEN_KEY, token);
+        openShell();
+      } catch (e) {
+        token = localStorage.getItem(TOKEN_KEY) || '';
+        setStatus($('loginTokenStatus'), e.message, 'err');
+      }
+    }
 
-    $('logoutBtn').addEventListener('click', () => {
+    $('loginBtn').addEventListener('click', enterWithPassword);
+    $('password').addEventListener('keydown', e => { if (e.key === 'Enter') enterWithPassword(); });
+    $('loginTokenBtn').addEventListener('click', enterWithToken);
+    $('token').addEventListener('keydown', e => { if (e.key === 'Enter') enterWithToken(); });
+
+    $('logoutBtn').addEventListener('click', async () => {
+      if (mode === 'api') {
+        try { await fetch('/api/logout', { method: 'POST', credentials: 'same-origin' }); } catch (e) {}
+      }
       localStorage.removeItem(TOKEN_KEY);
       location.reload();
     });
@@ -1107,7 +1189,35 @@
       if (dirty[DATES_FILE] || dirty[CONTENT_FILE]) { e.preventDefault(); e.returnValue = ''; }
     });
 
-    if (token) { $('token').value = token; enter(); }
+    /* Decide how to authenticate: the serverless API when it is configured
+       for this deployment, otherwise the browser-held GitHub token. */
+    (async function boot() {
+      let session = null;
+      try {
+        const res = await fetch('/api/session', { credentials: 'same-origin' });
+        if (res.ok) session = await res.json();
+      } catch (e) { /* no API in this environment */ }
+
+      $('gateChecking').classList.add('hidden');
+
+      if (session && session.configured) {
+        mode = 'api';
+        if (session.authenticated) {
+          try {
+            await loadAll();
+            openShell();
+            return;
+          } catch (e) { /* session unusable, fall through to the form */ }
+        }
+        $('gatePassword').classList.remove('hidden');
+        $('password').focus();
+        return;
+      }
+
+      mode = 'token';
+      $('gateToken').classList.remove('hidden');
+      if (token) { $('token').value = token; enterWithToken(); }
+    })();
   </script>
 </body>
 </html>

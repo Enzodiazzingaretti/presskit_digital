@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kexxy-v10-20260720';
+const CACHE_NAME = 'kexxy-v11-20260720';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/style.css?v=20260720i',
-  '/script.js?v=20260720i',
+  '/style.css?v=20260720j',
+  '/script.js?v=20260720j',
   '/kexxy-logo-black.png',
   '/kexxy-logo-white.png',
   '/hero-bg.webp',
@@ -49,6 +49,10 @@ self.addEventListener('fetch', (event) => {
   // Skip external requests
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Never cache or intercept the admin API — it is session-scoped and
+  // a stale /api/session response would break login entirely.
+  if (url.pathname.indexOf('/api/') === 0) return;
 
   // Navigations (HTML) and dates.json go network-first so visitors
   // always get the latest version; cache is only the offline fallback.
