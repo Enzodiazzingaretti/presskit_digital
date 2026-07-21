@@ -983,9 +983,14 @@ if (scrollIndicator) {
     const s = a.socials || {};
     const socialMap = { Instagram: s.instagram, SoundCloud: s.soundcloud, YouTube: s.youtube };
     Object.keys(socialMap).forEach(label => {
-      if (!socialMap[label]) return;
+      const url = socialMap[label];
       document.querySelectorAll('.contact__social[aria-label="' + label + '"]').forEach(el => {
-        el.setAttribute('href', socialMap[label]);
+        if (url) {
+          el.setAttribute('href', url);
+          el.style.display = '';
+        } else {
+          el.style.display = 'none';
+        }
       });
     });
 
@@ -1002,11 +1007,14 @@ if (scrollIndicator) {
     }
     // NOTE: .footer-credit is deliberately excluded — that link is the
     // template author's signature and stays put for every artist.
-    if (a.portfolio) {
-      document.querySelectorAll('.about__portfolio-btn').forEach(el => {
-        el.setAttribute('href', a.portfolio);
-      });
-    }
+    const hasPortfolio = !!(a.portfolio && a.portfolio.trim());
+    document.querySelectorAll('.about__portfolio-btn').forEach(el => {
+      if (hasPortfolio) el.setAttribute('href', a.portfolio);
+      el.style.display = hasPortfolio ? '' : 'none';
+    });
+    document.querySelectorAll('.about__cta-hint').forEach(el => {
+      el.style.display = hasPortfolio ? '' : 'none';
+    });
 
     // Stats — hero pair and live column (live values keep their unit span)
     const st = data.stats || {};
@@ -1092,6 +1100,34 @@ if (scrollIndicator) {
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
 
+  /* --- Optional page sections (content.json > sections) --- */
+  const SECTIONS = {
+    listen: { el: '#listen' },
+    dates:  { el: '#dates',  nav: '#dates' },
+    bio:    { el: '#bio',    nav: '#bio' },
+    rider:  { el: '#rider',  nav: '#rider' },
+    live:   { el: '#live',   nav: '#live' },
+    videos: { el: '#videos' },
+    about:  { el: '#about',  nav: '#about' }
+  };
+
+  function applySections(data) {
+    const cfg = (data && data.sections) || {};
+    Object.keys(SECTIONS).forEach(key => {
+      const on = cfg[key] !== false; // sections default to visible
+      const conf = SECTIONS[key];
+
+      document.querySelectorAll(conf.el).forEach(el => {
+        el.style.display = on ? '' : 'none';
+      });
+      if (conf.nav) {
+        document.querySelectorAll('a[href="' + conf.nav + '"]').forEach(link => {
+          link.style.display = on ? '' : 'none';
+        });
+      }
+    });
+  }
+
   /* --- Which languages the artist offers (content.json > languages) --- */
   const ALL_LANGS = ['es', 'en', 'pt'];
 
@@ -1122,6 +1158,7 @@ if (scrollIndicator) {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
     .then(data => {
       remote = data;
+      applySections(data);
       applyArtist(data);
       applyLang(resolveLanguages(data));
     })

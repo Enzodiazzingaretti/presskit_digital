@@ -4,355 +4,539 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>KEXXY — Admin</title>
+  <title>KEXXY — Consola</title>
   <link rel="icon" type="image/png" href="kexxy-logo-white.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400&family=Pirata+One&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400;500&family=Pirata+One&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #000;
-      --charcoal: #0d0d0d;
-      --chrome: #c8c8c8;
-      --chrome-dim: #6a6a6a;
+      --black:   #000;
+      --panel:   #0a0a0a;
+      --raised:  #131313;
+      --line:    rgba(200,200,200,0.12);
+      --line-hi: rgba(200,200,200,0.28);
+      --chrome:  #c8c8c8;
       --chrome-hi: #e8e8e8;
-      --white: #fff;
-      --blood: #b31217;
-      --font-display: 'Barlow Condensed', sans-serif;
-      --font-body: 'Barlow', sans-serif;
+      --dim:     #6a6a6a;
+      --white:   #fff;
+      --blood:   #b31217;
+      --led:     #7ad87a;
+
+      --display: 'Barlow Condensed', sans-serif;
+      --body:    'Barlow', sans-serif;
+
+      --rail-w: 232px;
+      --master-h: 76px;
     }
 
     body {
       background: var(--black);
       color: var(--white);
-      font-family: var(--font-body);
+      font-family: var(--body);
       min-height: 100vh;
-      background-image: radial-gradient(ellipse at 50% -20%, rgba(40,40,40,0.35), transparent 60%);
+      -webkit-font-smoothing: antialiased;
     }
 
     ::selection { background: var(--blood); color: var(--white); }
 
-    .wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
+    ::-webkit-scrollbar { width: 10px; }
+    ::-webkit-scrollbar-track { background: var(--black); }
+    ::-webkit-scrollbar-thumb { background: #262626; border: 2px solid var(--black); }
+    ::-webkit-scrollbar-thumb:hover { background: #3d3d3d; }
 
-    .head { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
-    .head img { height: 44px; opacity: 0.9; }
-    .head h1 {
-      font-family: var(--font-display);
-      font-weight: 900; font-size: 1.6rem;
-      letter-spacing: 0.3em; text-transform: uppercase;
+    a { color: var(--chrome); }
+
+    /* ============ LOGIN ============ */
+    .gate {
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1.5rem;
+      background: radial-gradient(ellipse at 50% 0%, rgba(45,45,45,0.4), transparent 62%);
     }
-    .head .num { font-family: 'Pirata One', var(--font-display); color: var(--blood); font-size: 1.3rem; margin-left: auto; }
+    .gate__box { width: 100%; max-width: 430px; }
+    .gate__mark { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 2rem; }
+    .gate__mark img { height: 46px; }
+    .gate__mark h1 {
+      font-family: var(--display); font-weight: 900; font-size: 1.5rem;
+      letter-spacing: 0.32em; text-transform: uppercase;
+    }
+    .gate__card { background: var(--panel); border: 1px solid var(--line); padding: 1.9rem; }
 
-    .card {
-      background: rgba(10,10,10,0.85);
-      border: 1px solid rgba(200,200,200,0.12);
-      padding: 1.8rem;
-      margin-bottom: 1.5rem;
+    /* ============ SHELL ============ */
+    .shell { display: none; min-height: 100vh; }
+    .shell.on { display: grid; grid-template-columns: var(--rail-w) 1fr; }
+
+    /* ---- Rail ---- */
+    .rail {
+      background: var(--panel);
+      border-right: 1px solid var(--line);
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; height: 100vh;
+    }
+    .rail__brand {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 1.6rem 1.4rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .rail__brand img { height: 34px; }
+    .rail__title {
+      display: block; font-family: var(--display); font-weight: 900;
+      font-size: 0.95rem; letter-spacing: 0.28em; text-transform: uppercase;
+      line-height: 1.1;
+    }
+    .rail__sub {
+      display: block; font-family: var(--display); font-weight: 300;
+      font-size: 0.58rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--dim); margin-top: 0.15rem;
     }
 
+    .rail__nav { padding: 0.9rem 0; flex: 1; overflow-y: auto; }
+    .rail__item {
+      width: 100%; text-align: left; background: none; border: none;
+      border-left: 2px solid transparent;
+      font-family: var(--display); font-weight: 700;
+      font-size: 0.78rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--dim); padding: 0.85rem 1.4rem; cursor: pointer;
+      display: flex; align-items: center; gap: 0.7rem;
+      transition: color 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    }
+    .rail__item:hover { color: var(--chrome-hi); background: rgba(255,255,255,0.02); }
+    .rail__item.active {
+      color: var(--white); background: rgba(255,255,255,0.035);
+      border-left-color: var(--blood);
+    }
+    .rail__item small {
+      margin-left: auto; font-family: var(--body); font-weight: 300;
+      font-size: 0.65rem; letter-spacing: 0; color: var(--dim); text-transform: none;
+    }
+
+    .rail__foot { border-top: 1px solid var(--line); padding: 1rem 1.4rem; display: flex; flex-direction: column; gap: 0.7rem; }
+    .rail__link {
+      font-family: var(--display); font-size: 0.68rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--dim); text-decoration: none;
+      background: none; border: none; padding: 0; cursor: pointer; text-align: left;
+      transition: color 0.2s ease;
+    }
+    .rail__link:hover { color: var(--chrome-hi); }
+
+    /* ---- Main ---- */
+    .main { display: flex; flex-direction: column; min-width: 0; }
+    .work { flex: 1; padding: 2.4rem 2.4rem calc(var(--master-h) + 2rem); max-width: 900px; }
+
+    .view { display: none; }
+    .view.on { display: block; }
+
+    .view__head { margin-bottom: 1.8rem; }
+    .view__title {
+      font-family: var(--display); font-weight: 900;
+      font-size: 1.9rem; letter-spacing: 0.06em; text-transform: uppercase;
+      line-height: 1;
+    }
+    .view__note { font-size: 0.82rem; color: var(--dim); margin-top: 0.55rem; line-height: 1.55; max-width: 62ch; }
+
+    .block { border: 1px solid var(--line); background: var(--panel); margin-bottom: 1.4rem; }
+    .block__head {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 1rem 1.3rem; border-bottom: 1px solid var(--line);
+    }
+    .block__title {
+      font-family: var(--display); font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--chrome);
+    }
+    .block__body { padding: 1.3rem; }
+
+    /* ---- Form primitives ---- */
     .label {
-      font-family: var(--font-display);
-      font-weight: 300; font-size: 0.65rem;
-      letter-spacing: 0.35em; text-transform: uppercase;
-      color: var(--chrome-dim);
-      display: block; margin-bottom: 0.5rem;
+      font-family: var(--display); font-weight: 300; font-size: 0.63rem;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--dim);
+      display: block; margin-bottom: 0.45rem;
     }
-
     input, select, textarea {
-      width: 100%;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(200,200,200,0.15);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-weight: 300; font-size: 0.9rem;
-      padding: 0.7rem 0.9rem;
-      outline: none; border-radius: 0;
-      transition: border-color 0.25s ease;
+      width: 100%; background: rgba(255,255,255,0.035);
+      border: 1px solid var(--line); color: var(--white);
+      font-family: var(--body); font-weight: 300; font-size: 0.88rem;
+      padding: 0.68rem 0.85rem; outline: none; border-radius: 0;
+      transition: border-color 0.2s ease, background 0.2s ease;
       color-scheme: dark;
     }
-    textarea { resize: vertical; min-height: 84px; line-height: 1.6; }
-    input:focus, textarea:focus, select:focus { border-color: rgba(200,200,200,0.45); }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      font-family: var(--font-display);
-      font-weight: 700; font-size: 0.75rem;
-      letter-spacing: 0.28em; text-transform: uppercase;
-      padding: 0.85rem 1.8rem;
-      cursor: pointer; border: 1px solid transparent;
-      transition: all 0.25s ease;
-      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--line-hi); background: rgba(255,255,255,0.05);
     }
-    .btn--primary { background: var(--white); color: var(--black); }
-    .btn--primary:hover { background: var(--chrome-hi); }
-    .btn--primary:disabled { opacity: 0.4; cursor: default; }
-    .btn--ghost { background: transparent; color: var(--chrome); border-color: rgba(200,200,200,0.25); }
-    .btn--ghost:hover { border-color: rgba(200,200,200,0.6); color: var(--white); }
-    .btn--danger {
-      background: transparent; color: rgba(200,200,200,0.5);
-      border-color: rgba(200,200,200,0.15);
-      padding: 0.5rem 0.8rem; font-size: 0.65rem;
-    }
-    .btn--danger:hover { border-color: var(--blood); color: var(--blood); }
-    .btn--sm { padding: 0.55rem 1rem; font-size: 0.65rem; letter-spacing: 0.2em; }
-
-    .hint { font-size: 0.75rem; color: var(--chrome-dim); line-height: 1.6; margin-top: 0.9rem; }
-    .hint a { color: var(--chrome); }
-    .hint code { font-family: monospace; color: var(--chrome); }
-
-    /* Tabs */
-    .tabs { display: flex; gap: 1px; background: rgba(200,200,200,0.12); border: 1px solid rgba(200,200,200,0.12); margin-bottom: 1.5rem; }
-    .tab {
-      flex: 1; background: rgba(10,10,10,0.9);
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--chrome-dim); padding: 0.9rem 0.5rem;
-      border: none; cursor: pointer; transition: all 0.2s ease;
-    }
-    .tab:hover { color: var(--chrome-hi); }
-    .tab.active { background: rgba(30,30,30,0.95); color: var(--white); box-shadow: inset 0 2px 0 var(--blood); }
-
-    /* Dates rows */
-    .row, .rows-head { display: grid; grid-template-columns: 150px 1fr 1fr auto; gap: 0.6rem; }
-    .row { align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(200,200,200,0.07); }
-    .rows-head { padding-bottom: 0.5rem; }
-    .rows-head span {
-      font-family: var(--font-display); font-size: 0.6rem;
-      letter-spacing: 0.3em; text-transform: uppercase; color: var(--chrome-dim);
-    }
-
-    /* Text groups */
-    details {
-      border: 1px solid rgba(200,200,200,0.1);
-      margin-bottom: 0.6rem;
-      background: rgba(255,255,255,0.015);
-    }
-    summary {
-      font-family: var(--font-display); font-weight: 700;
-      font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: var(--chrome); padding: 0.9rem 1.1rem; cursor: pointer;
-      list-style: none; display: flex; align-items: center; gap: 0.6rem;
-    }
-    summary::-webkit-details-marker { display: none; }
-    summary::before { content: '›'; color: var(--blood); font-size: 1.1rem; transition: transform 0.2s ease; }
-    details[open] summary::before { transform: rotate(90deg); }
-    summary .count { margin-left: auto; font-size: 0.6rem; color: var(--chrome-dim); letter-spacing: 0.15em; }
-    .group-body { padding: 0 1.1rem 1.1rem; display: flex; flex-direction: column; gap: 1rem; }
-
-    .field-key {
-      font-family: monospace; font-size: 0.6rem;
-      color: rgba(200,200,200,0.3); letter-spacing: 0.05em;
-      display: block; margin-top: 0.25rem;
-    }
+    input:focus-visible, select:focus-visible, textarea:focus-visible,
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--blood); outline-offset: 2px; }
+    textarea { resize: vertical; min-height: 88px; line-height: 1.6; }
 
     .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
 
-    .toolbar { display: flex; gap: 0.75rem; align-items: center; margin-top: 1.4rem; flex-wrap: wrap; }
-
-    .status {
-      font-family: var(--font-display); font-size: 0.7rem;
-      letter-spacing: 0.2em; text-transform: uppercase; margin-left: auto;
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--display); font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.26em; text-transform: uppercase;
+      padding: 0.8rem 1.6rem; cursor: pointer; border: 1px solid transparent;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      clip-path: polygon(9px 0, 100% 0, 100% calc(100% - 9px), calc(100% - 9px) 100%, 0 100%, 0 9px);
     }
-    .status--ok { color: rgba(120,200,120,0.9); }
-    .status--err { color: var(--blood); }
-    .status--busy { color: var(--chrome-dim); }
-
-    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
-    .topbar a {
-      font-family: var(--font-display); font-size: 0.7rem;
-      letter-spacing: 0.25em; text-transform: uppercase;
-      color: var(--chrome-dim); text-decoration: none;
+    .btn--primary { background: var(--white); color: var(--black); }
+    .btn--primary:hover { background: var(--chrome-hi); }
+    .btn--primary:disabled { opacity: 0.35; cursor: default; }
+    .btn--ghost { background: transparent; color: var(--chrome); border-color: var(--line-hi); }
+    .btn--ghost:hover { border-color: var(--chrome); color: var(--white); }
+    .btn--sm { padding: 0.55rem 1rem; font-size: 0.62rem; letter-spacing: 0.18em; }
+    .btn--x {
+      background: none; border: 1px solid var(--line); color: var(--dim);
+      padding: 0.45rem 0.7rem; font-size: 0.62rem; cursor: pointer;
+      font-family: var(--display); letter-spacing: 0.1em;
+      transition: border-color 0.2s ease, color 0.2s ease;
     }
-    .topbar a:hover { color: var(--chrome-hi); }
+    .btn--x:hover { border-color: var(--blood); color: var(--blood); }
 
-    .langtoggles {
-      display: flex; gap: 1.4rem; align-items: flex-end; flex-wrap: wrap;
-      padding: 1rem 1.1rem; border: 1px solid rgba(200,200,200,0.1);
-      background: rgba(255,255,255,0.015);
-    }
-    .toggle { display: flex; align-items: center; gap: 0.55rem; cursor: pointer; }
-    .toggle input { width: auto; accent-color: var(--blood); width: 16px; height: 16px; cursor: pointer; }
-    .toggle span {
-      font-family: var(--font-display); font-size: 0.75rem;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--chrome);
-    }
-    .default-pick { margin-left: auto; display: flex; flex-direction: column; min-width: 170px; }
-    .default-pick select { padding: 0.5rem 0.7rem; font-size: 0.8rem; }
+    .hint { font-size: 0.75rem; color: var(--dim); line-height: 1.6; margin-top: 0.85rem; }
+    .hint code { font-family: ui-monospace, monospace; color: var(--chrome); font-size: 0.92em; }
 
-    .locked-note {
+    /* ---- SIGNATURE: console channels ---- */
+    .channels { border-top: 1px solid var(--line); }
+    .channel {
+      display: grid; grid-template-columns: 10px 1fr auto;
+      gap: 1rem; align-items: center;
+      padding: 0.95rem 1.3rem; border-bottom: 1px solid var(--line);
+      cursor: pointer; user-select: none;
+      transition: background 0.2s ease;
+      background: none; width: 100%; text-align: left; border-left: none; border-right: none; border-top: none;
+    }
+    .channel:hover { background: rgba(255,255,255,0.025); }
+    .channel__led {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #1c1c1c; box-shadow: inset 0 0 0 1px rgba(200,200,200,0.18);
+      transition: background 0.25s ease, box-shadow 0.25s ease;
+    }
+    .channel.on .channel__led {
+      background: var(--led);
+      box-shadow: 0 0 9px rgba(122,216,122,0.55), inset 0 0 0 1px rgba(122,216,122,0.9);
+    }
+    .channel__name {
+      display: block;
+      font-family: var(--display); font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+      transition: color 0.25s ease;
+    }
+    .channel.on .channel__name { color: var(--chrome-hi); }
+    .channel__desc { display: block; font-size: 0.72rem; color: var(--dim); margin-top: 0.2rem; }
+    .channel__sw {
+      width: 44px; height: 20px; border: 1px solid var(--line-hi);
+      background: rgba(255,255,255,0.03); position: relative; flex-shrink: 0;
+      transition: border-color 0.25s ease, background 0.25s ease;
+    }
+    .channel__sw::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 14px; height: 14px; background: var(--dim);
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), background 0.25s ease;
+    }
+    .channel.on .channel__sw { border-color: rgba(122,216,122,0.45); background: rgba(122,216,122,0.07); }
+    .channel.on .channel__sw::after { transform: translateX(22px); background: var(--led); }
+    .channel.locked { cursor: default; opacity: 0.55; }
+    .channel.locked:hover { background: none; }
+    .channel__fixed {
+      font-family: var(--display); font-size: 0.6rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--dim); border: 1px solid var(--line);
+      padding: 0.28rem 0.55rem;
+    }
+
+    /* ---- Dates / promoter rows ---- */
+    .row { display: grid; gap: 0.6rem; align-items: center; padding: 0.55rem 0; border-bottom: 1px solid rgba(200,200,200,0.07); }
+    .row--date { grid-template-columns: 150px 1fr 1fr auto; }
+    .row--promoter { grid-template-columns: 1fr 1fr auto; }
+    .rows-head { display: grid; grid-template-columns: 150px 1fr 1fr auto; gap: 0.6rem; padding-bottom: 0.5rem; }
+    .rows-head span {
+      font-family: var(--display); font-size: 0.58rem; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--dim);
+    }
+    .empty { color: var(--dim); font-size: 0.82rem; padding: 1.2rem 0; }
+
+    /* ---- Text groups ---- */
+    details { border: 1px solid var(--line); margin-bottom: 0.55rem; background: rgba(255,255,255,0.012); }
+    summary {
+      font-family: var(--display); font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.26em; text-transform: uppercase; color: var(--chrome);
+      padding: 0.85rem 1.05rem; cursor: pointer; list-style: none;
       display: flex; align-items: center; gap: 0.6rem;
-      border: 1px solid rgba(200,200,200,0.1);
-      border-left: 2px solid var(--blood);
-      background: rgba(255,255,255,0.015);
-      padding: 0.9rem 1.1rem; margin-top: 1rem;
-      font-size: 0.75rem; color: var(--chrome-dim); line-height: 1.5;
     }
-    .locked-note strong { color: var(--chrome); font-weight: 400; }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '›'; color: var(--blood); font-size: 1.05rem; transition: transform 0.2s ease; }
+    details[open] summary::before { transform: rotate(90deg); }
+    summary .count { margin-left: auto; font-size: 0.58rem; color: var(--dim); letter-spacing: 0.14em; }
+    .group-body { padding: 0 1.05rem 1.05rem; display: flex; flex-direction: column; gap: 0.95rem; }
+    .field-key {
+      font-family: ui-monospace, monospace; font-size: 0.58rem;
+      color: rgba(200,200,200,0.28); display: block; margin-top: 0.22rem;
+    }
 
-    .langbar { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; }
+    /* ---- Language pills ---- */
+    .langbar { display: flex; gap: 0.35rem; margin-bottom: 1.1rem; }
     .langbar button {
-      font-family: var(--font-display); font-weight: 700; font-size: 0.65rem;
-      letter-spacing: 0.15em; background: none; cursor: pointer;
-      border: 1px solid rgba(200,200,200,0.18); color: rgba(200,200,200,0.45);
+      font-family: var(--display); font-weight: 700; font-size: 0.64rem;
+      letter-spacing: 0.14em; background: none; cursor: pointer;
+      border: 1px solid var(--line); color: var(--dim);
       padding: 0.4rem 0.7rem; transition: all 0.2s ease;
     }
-    .langbar button.active { color: var(--white); border-color: rgba(200,200,200,0.7); background: rgba(255,255,255,0.06); }
+    .langbar button:hover { color: var(--chrome-hi); }
+    .langbar button.active { color: var(--white); border-color: var(--line-hi); background: rgba(255,255,255,0.055); }
 
-    /* Sticky save bar */
-    .savebar {
-      position: sticky; bottom: 0;
-      background: rgba(6,6,6,0.96);
-      backdrop-filter: blur(14px);
-      border-top: 1px solid rgba(200,200,200,0.12);
-      padding: 1rem 1.5rem;
-      margin: 1.5rem -1.5rem -6rem;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    .toggle { display: flex; align-items: center; gap: 0.5rem; cursor: pointer; }
+    .toggle input { width: 16px; height: 16px; accent-color: var(--blood); cursor: pointer; }
+    .toggle span {
+      font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--chrome);
     }
-    .dirty-flag {
-      font-family: var(--font-display); font-size: 0.62rem;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--blood);
+    .lang-row { display: flex; gap: 1.3rem; align-items: flex-end; flex-wrap: wrap; }
+    .lang-row .pick { margin-left: auto; min-width: 165px; }
+
+    .note {
+      display: flex; gap: 0.7rem; align-items: flex-start;
+      border: 1px solid var(--line); border-left: 2px solid var(--blood);
+      background: rgba(255,255,255,0.012); padding: 0.95rem 1.1rem;
+      font-size: 0.76rem; color: var(--dim); line-height: 1.55;
     }
+    .note strong { color: var(--chrome); font-weight: 500; }
+    .note__sigil { font-family: 'Pirata One', serif; color: var(--blood); font-size: 1.15rem; line-height: 1; }
+
+    /* ---- Master bar ---- */
+    .master {
+      position: fixed; bottom: 0; left: var(--rail-w); right: 0;
+      height: var(--master-h);
+      background: rgba(6,6,6,0.97); backdrop-filter: blur(14px);
+      border-top: 1px solid var(--line);
+      display: flex; align-items: center; gap: 1.1rem;
+      padding: 0 2.4rem; z-index: 20;
+    }
+    .master__state {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-family: var(--display); font-size: 0.64rem;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim);
+    }
+    .master__dot { width: 7px; height: 7px; border-radius: 50%; background: #242424; }
+    .master__state.pending { color: var(--blood); }
+    .master__state.pending .master__dot { background: var(--blood); box-shadow: 0 0 8px rgba(179,18,23,0.6); }
+    .status {
+      font-family: var(--display); font-size: 0.68rem;
+      letter-spacing: 0.16em; text-transform: uppercase; margin-left: auto; text-align: right;
+    }
+    .status--ok  { color: var(--led); }
+    .status--err { color: var(--blood); }
+    .status--busy{ color: var(--dim); }
 
     .hidden { display: none !important; }
 
-    @media (max-width: 640px) {
-      .row, .rows-head, .grid2 { grid-template-columns: 1fr; gap: 0.4rem; }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+
+    /* ---- Responsive: rail becomes a top strip ---- */
+    @media (max-width: 820px) {
+      .shell.on { grid-template-columns: 1fr; }
+      .rail { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+      .rail__brand { padding: 1.1rem 1.2rem; }
+      .rail__nav { display: flex; overflow-x: auto; padding: 0; }
+      .rail__item {
+        border-left: none; border-bottom: 2px solid transparent;
+        white-space: nowrap; padding: 0.9rem 1.1rem;
+      }
+      .rail__item.active { border-left-color: transparent; border-bottom-color: var(--blood); }
+      .rail__item small { display: none; }
+      .rail__foot { flex-direction: row; justify-content: space-between; }
+      .work { padding: 1.6rem 1.2rem calc(var(--master-h) + 1.5rem); }
+      .master { left: 0; padding: 0 1.2rem; gap: 0.8rem; }
+      .master__state { font-size: 0.58rem; letter-spacing: 0.14em; }
+      .grid2, .row--date, .row--promoter, .rows-head { grid-template-columns: 1fr; }
       .rows-head { display: none; }
-      .row { padding: 1rem 0; }
-      .tab { font-size: 0.6rem; letter-spacing: 0.12em; padding: 0.8rem 0.3rem; }
+      .row { padding: 0.9rem 0; }
+      .view__title { font-size: 1.5rem; }
+      .lang-row .pick { margin-left: 0; width: 100%; }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
 
-    <div class="head">
-      <img src="kexxy-logo-white.png" alt="KEXXY" />
-      <h1>Admin</h1>
-      <span class="num">☩</span>
-    </div>
-
-    <!-- LOGIN -->
-    <div class="card" id="loginCard">
-      <label class="label" for="token">Token de acceso (GitHub)</label>
-      <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" />
-      <div class="toolbar">
-        <button class="btn btn--primary" id="loginBtn">Entrar</button>
-        <span class="status" id="loginStatus"></span>
-      </div>
-      <p class="hint">
-        Se genera una sola vez en
-        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>:
-        Repository access → <strong>Only select repositories → presskit_digital</strong> ·
-        Permissions → <strong>Contents: Read and write</strong>.
-        El token queda guardado solo en este navegador.
-      </p>
-    </div>
-
-    <!-- EDITOR -->
-    <div class="hidden" id="editor">
-      <div class="topbar">
-        <a href="/">← Ver sitio</a>
-        <button class="btn btn--ghost btn--sm" id="logoutBtn">Salir</button>
-      </div>
-
-      <div class="tabs">
-        <button class="tab active" data-tab="dates">Fechas</button>
-        <button class="tab" data-tab="texts">Textos</button>
-        <button class="tab" data-tab="artist">Artista</button>
-      </div>
-
-      <!-- TAB: DATES -->
-      <div class="card" id="tab-dates">
-        <label class="label">Fechas de shows</label>
-        <div class="rows-head">
-          <span>Fecha</span><span>Ciudad</span><span>Venue / Productora</span><span></span>
+  <!-- ============ LOGIN ============ -->
+  <div class="gate" id="gate">
+    <div class="gate__box">
+      <div class="gate__mark">
+        <img src="kexxy-logo-white.png" alt="" />
+        <div>
+          <h1>Consola</h1>
+          <span class="rail__sub">Press kit · acceso privado</span>
         </div>
-        <div id="rows"></div>
-        <div class="toolbar">
-          <button class="btn btn--ghost btn--sm" id="addBtn">+ Agregar fecha</button>
-        </div>
-        <p class="hint">Las fechas pasadas se tachan solas en el sitio. Si no queda ninguna futura, aparece el aviso de bookings abiertos.</p>
       </div>
+      <div class="gate__card">
+        <label class="label" for="token">Token de acceso</label>
+        <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" />
+        <div style="display:flex;align-items:center;gap:1rem;margin-top:1.1rem">
+          <button class="btn btn--primary" id="loginBtn">Entrar</button>
+          <span class="status" id="loginStatus"></span>
+        </div>
+        <p class="hint">
+          Generá el token una vez en
+          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>:
+          repositorio <strong>presskit_digital</strong>, permiso <strong>Contents: Read and write</strong>.
+          Queda guardado solo en este navegador.
+        </p>
+      </div>
+    </div>
+  </div>
 
-      <!-- TAB: TEXTS -->
-      <div class="card hidden" id="tab-texts">
-        <label class="label">Idiomas del sitio</label>
-        <div class="langtoggles" id="langToggles">
-          <label class="toggle"><input type="checkbox" data-lang="es" /> <span>Español</span></label>
-          <label class="toggle"><input type="checkbox" data-lang="en" /> <span>English</span></label>
-          <label class="toggle"><input type="checkbox" data-lang="pt" /> <span>Português</span></label>
-          <div class="default-pick">
-            <span class="label" style="margin:0 0 0.3rem">Idioma por defecto</span>
-            <select id="defaultLang">
-              <option value="es">Español</option>
-              <option value="en">English</option>
-              <option value="pt">Português</option>
-            </select>
+  <!-- ============ SHELL ============ -->
+  <div class="shell" id="shell">
+
+    <aside class="rail">
+      <div class="rail__brand">
+        <img src="kexxy-logo-white.png" alt="" />
+        <div>
+          <span class="rail__title">Consola</span>
+          <span class="rail__sub">Press kit</span>
+        </div>
+      </div>
+      <nav class="rail__nav">
+        <button class="rail__item active" data-view="dates">Fechas <small id="countDates"></small></button>
+        <button class="rail__item" data-view="texts">Textos</button>
+        <button class="rail__item" data-view="artist">Artista</button>
+        <button class="rail__item" data-view="advanced">Avanzado</button>
+      </nav>
+      <div class="rail__foot">
+        <a class="rail__link" href="/" target="_blank" rel="noopener">Ver sitio ↗</a>
+        <button class="rail__link" id="logoutBtn">Cerrar sesión</button>
+      </div>
+    </aside>
+
+    <div class="main">
+      <div class="work">
+
+        <!-- ---- FECHAS ---- -->
+        <section class="view on" id="view-dates">
+          <div class="view__head">
+            <h2 class="view__title">Fechas</h2>
+            <p class="view__note">Las fechas que ya pasaron se tachan solas en el sitio. Si no queda ninguna próxima, aparece un aviso de bookings abiertos.</p>
           </div>
-        </div>
-        <p class="hint">
-          Los idiomas desactivados desaparecen del selector del sitio. Si dejás uno solo,
-          el selector no se muestra y la página queda monolingüe.
-        </p>
+          <div class="block">
+            <div class="block__body">
+              <div class="rows-head">
+                <span>Fecha</span><span>Ciudad</span><span>Venue o productora</span><span></span>
+              </div>
+              <div id="rows"></div>
+              <div style="margin-top:1.1rem">
+                <button class="btn btn--ghost btn--sm" id="addDateBtn">+ Agregar fecha</button>
+              </div>
+            </div>
+          </div>
+        </section>
 
-        <label class="label" style="margin-top:2rem">Textos del sitio</label>
-        <div class="langbar" id="langbar">
-          <button data-lang="es" class="active">ES</button>
-          <button data-lang="en">EN</button>
-          <button data-lang="pt">PT</button>
-        </div>
-        <div id="groups"></div>
-        <p class="hint">
-          Cada idioma se edita por separado — cambiá de pestaña ES/EN/PT para traducir el mismo campo.
-          Los cambios se guardan todos juntos al publicar.
-        </p>
+        <!-- ---- TEXTOS ---- -->
+        <section class="view" id="view-texts">
+          <div class="view__head">
+            <h2 class="view__title">Textos</h2>
+            <p class="view__note">Todo el texto visible del sitio, agrupado por sección. Cambiá de idioma para traducir el mismo campo.</p>
+          </div>
+          <div class="langbar" id="langbar">
+            <button data-lang="es" class="active">ES</button>
+            <button data-lang="en">EN</button>
+            <button data-lang="pt">PT</button>
+          </div>
+          <div id="groups"></div>
+        </section>
+
+        <!-- ---- ARTISTA ---- -->
+        <section class="view" id="view-artist">
+          <div class="view__head">
+            <h2 class="view__title">Artista</h2>
+            <p class="view__note">Identidad y datos que se repiten por toda la página. Si dejás una red o el portfolio en blanco, ese botón desaparece del sitio.</p>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Identidad</span></div>
+            <div class="block__body"><div id="artistFields"></div></div>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Géneros</span></div>
+            <div class="block__body">
+              <input type="text" id="genresField" placeholder="Techno, Industrial, Schranz" />
+              <p class="hint">Separados por coma. Aparecen en la bio y en la tarjeta de perfil musical.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Productoras y clubs</span></div>
+            <div class="block__body">
+              <div id="promoters"></div>
+              <div style="margin-top:1.1rem">
+                <button class="btn btn--ghost btn--sm" id="addPromoterBtn">+ Agregar productora</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---- AVANZADO ---- -->
+        <section class="view" id="view-advanced">
+          <div class="view__head">
+            <h2 class="view__title">Avanzado</h2>
+            <p class="view__note">Qué se muestra en el sitio y en qué idiomas. Útil para adaptar la plantilla a otro artista.</p>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Secciones de la página</span></div>
+            <div class="channels" id="channels"></div>
+            <div class="block__body">
+              <p class="hint">Apagar una sección la saca del sitio y de la navegación. El inicio y el contacto siempre quedan.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Idiomas</span></div>
+            <div class="block__body">
+              <div class="lang-row" id="langToggles">
+                <label class="toggle"><input type="checkbox" data-lang="es" /> <span>Español</span></label>
+                <label class="toggle"><input type="checkbox" data-lang="en" /> <span>English</span></label>
+                <label class="toggle"><input type="checkbox" data-lang="pt" /> <span>Português</span></label>
+                <div class="pick">
+                  <span class="label">Idioma por defecto</span>
+                  <select id="defaultLang"></select>
+                </div>
+              </div>
+              <p class="hint">Los idiomas apagados desaparecen del selector. Si dejás uno solo, el selector no se muestra.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Plantilla</span></div>
+            <div class="block__body">
+              <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
+                <button class="btn btn--ghost btn--sm" id="exportBtn">↓ Exportar contenido</button>
+                <button class="btn btn--ghost btn--sm" id="importBtn">↑ Importar contenido</button>
+                <input type="file" id="importFile" accept="application/json" class="hidden" />
+              </div>
+              <p class="hint">
+                Exportá <code>content.json</code> para reutilizar este press kit con otro artista: importás el archivo,
+                cambiás nombre, textos y redes, y publicás.
+              </p>
+              <div class="note" style="margin-top:1.1rem">
+                <span class="note__sigil">☩</span>
+                <span>
+                  <strong>Créditos fijos.</strong> La firma <em>“Website by Enzo Díaz Zingaretti”</em> del footer
+                  no se edita desde acá y se mantiene en todas las copias de la plantilla.
+                  El copyright del artista sí se edita en Textos → Footer.
+                </span>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
 
-      <!-- TAB: ARTIST -->
-      <div class="card hidden" id="tab-artist">
-        <label class="label">Datos del artista</label>
-        <div id="artistFields"></div>
-
-        <label class="label" style="margin-top:1.8rem">Géneros</label>
-        <input type="text" id="genresField" placeholder="Techno, Industrial, Schranz" />
-        <p class="hint">Separados por coma. Aparecen en la bio y en la tarjeta de Music Profile.</p>
-
-        <label class="label" style="margin-top:1.8rem">Productoras / Clubs</label>
-        <div id="promoters"></div>
-        <div class="toolbar">
-          <button class="btn btn--ghost btn--sm" id="addPromoterBtn">+ Agregar productora</button>
-        </div>
-
-        <label class="label" style="margin-top:2rem">Plantilla</label>
-        <div class="toolbar" style="margin-top:0.4rem">
-          <button class="btn btn--ghost btn--sm" id="exportBtn">↓ Exportar contenido</button>
-          <button class="btn btn--ghost btn--sm" id="importBtn">↑ Importar contenido</button>
-          <input type="file" id="importFile" accept="application/json" class="hidden" />
-        </div>
-        <p class="hint">
-          Exportá <code>content.json</code> para reutilizar este press kit con otro artista:
-          importás el archivo, cambiás nombre, textos y redes, y publicás.
-        </p>
-
-        <div class="locked-note">
-          <span style="font-family:'Pirata One',serif;color:var(--blood);font-size:1.2rem">☩</span>
-          <span>
-            <strong>Créditos fijos.</strong> La firma <em>“Website by Enzo Díaz Zingaretti”</em>
-            del footer no es editable desde el panel y se mantiene en todas las copias de la plantilla.
-            El copyright del artista (<code>footer.copy</code>) sí se edita en la pestaña Textos.
-          </span>
-        </div>
-      </div>
-
-      <!-- SAVE BAR -->
-      <div class="savebar">
-        <button class="btn btn--primary" id="saveBtn">Guardar y publicar</button>
-        <span class="dirty-flag hidden" id="dirtyFlag">● Cambios sin publicar</span>
+      <div class="master">
+        <span class="master__state" id="dirtyFlag"><span class="master__dot"></span><span id="dirtyText">Todo publicado</span></span>
+        <button class="btn btn--primary" id="saveBtn">Publicar cambios</button>
         <span class="status" id="saveStatus"></span>
       </div>
     </div>
-
   </div>
 
   <script>
@@ -362,39 +546,47 @@
     const TOKEN_KEY = 'kexxy-admin-token';
     const DATES_FILE = 'dates.json';
     const CONTENT_FILE = 'content.json';
-
     const LANGS = ['es', 'en', 'pt'];
 
-    // Section grouping for the Textos tab, in page order
+    const SECTION_LIST = [
+      { key: 'listen', name: 'Sets',        desc: 'Reproductores de SoundCloud' },
+      { key: 'dates',  name: 'Fechas',      desc: 'Próximos shows' },
+      { key: 'bio',    name: 'Biografía',   desc: 'Foto y texto del artista' },
+      { key: 'rider',  name: 'Rider',       desc: 'Equipamiento y descargas de prensa' },
+      { key: 'live',   name: 'En vivo',     desc: 'Estadísticas, foto y productoras' },
+      { key: 'videos', name: 'Videos',      desc: 'Sets en YouTube' },
+      { key: 'about',  name: 'Sobre mí',    desc: 'Texto personal y portfolio' }
+    ];
+
     const GROUPS = [
-      { prefix: 'hero.',     label: 'Hero' },
-      { prefix: 'listen.',   label: 'Sets / SoundCloud' },
+      { prefix: 'hero.',     label: 'Inicio' },
+      { prefix: 'listen.',   label: 'Sets' },
       { prefix: 'dates.',    label: 'Fechas · etiquetas' },
       { prefix: 'bio.',      label: 'Biografía' },
       { prefix: 'rider.',    label: 'Rider técnico' },
-      { prefix: 'live.',     label: 'En Vivo' },
+      { prefix: 'live.',     label: 'En vivo' },
       { prefix: 'video.',    label: 'Videos' },
-      { prefix: 'about.',    label: 'Sobre Mí' },
-      { prefix: 'contact.',  label: 'Contacto · formulario' },
+      { prefix: 'about.',    label: 'Sobre mí' },
+      { prefix: 'contact.',  label: 'Contacto y formulario' },
       { prefix: 'footer.',   label: 'Footer' },
       { prefix: 'nav.',      label: 'Navegación' },
       { prefix: 'lightbox.', label: 'Galería' }
     ];
 
     const ARTIST_FIELDS = [
-      { path: 'artist.name',              label: 'Nombre artístico' },
-      { path: 'artist.email',             label: 'Email de booking' },
-      { path: 'artist.location',          label: 'Ciudad / País' },
-      { path: 'artist.socials.instagram', label: 'Instagram (URL)' },
-      { path: 'artist.socials.soundcloud',label: 'SoundCloud (URL)' },
-      { path: 'artist.socials.youtube',   label: 'YouTube (URL)' },
-      { path: 'artist.pressKit',          label: 'Press Kit (URL Drive)' },
-      { path: 'artist.portfolio',         label: 'Portfolio (URL)' },
-      { path: 'stats.heroYears',          label: 'Stat · años de experiencia' },
-      { path: 'stats.heroCities',         label: 'Stat · ciudades (hero)' },
-      { path: 'stats.liveShows',          label: 'Stat · shows en vivo' },
-      { path: 'stats.liveCities',         label: 'Stat · ciudades (live)' },
-      { path: 'stats.liveLongestSet',     label: 'Stat · set más largo' }
+      { path: 'artist.name',               label: 'Nombre artístico' },
+      { path: 'artist.email',              label: 'Email de booking' },
+      { path: 'artist.location',           label: 'Ciudad y país' },
+      { path: 'artist.socials.instagram',  label: 'Instagram' },
+      { path: 'artist.socials.soundcloud', label: 'SoundCloud' },
+      { path: 'artist.socials.youtube',    label: 'YouTube' },
+      { path: 'artist.pressKit',           label: 'Press kit (Drive)' },
+      { path: 'artist.portfolio',          label: 'Portfolio' },
+      { path: 'stats.heroYears',           label: 'Años de experiencia' },
+      { path: 'stats.heroCities',          label: 'Ciudades (inicio)' },
+      { path: 'stats.liveShows',           label: 'Shows en vivo' },
+      { path: 'stats.liveCities',          label: 'Ciudades (en vivo)' },
+      { path: 'stats.liveLongestSet',      label: 'Set más largo' }
     ];
 
     let token = localStorage.getItem(TOKEN_KEY) || '';
@@ -405,19 +597,13 @@
 
     const $ = id => document.getElementById(id);
 
-    function headers() {
-      return {
-        'Authorization': 'Bearer ' + token,
-        'Accept': 'application/vnd.github+json',
-        'X-GitHub-Api-Version': '2022-11-28'
-      };
-    }
+    const headers = () => ({
+      'Authorization': 'Bearer ' + token,
+      'Accept': 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'
+    });
+    const apiUrl = path => 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + path;
 
-    function apiUrl(path) {
-      return 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + path;
-    }
-
-    // UTF-8-safe base64
     function b64encode(str) {
       const bytes = new TextEncoder().encode(str);
       let bin = '';
@@ -435,18 +621,17 @@
 
     function markDirty(file) {
       dirty[file] = true;
-      $('dirtyFlag').classList.remove('hidden');
+      $('dirtyFlag').classList.add('pending');
+      $('dirtyText').textContent = 'Cambios sin publicar';
       setStatus($('saveStatus'), '', '');
     }
-
     function clearDirty() {
       dirty = {};
-      $('dirtyFlag').classList.add('hidden');
+      $('dirtyFlag').classList.remove('pending');
+      $('dirtyText').textContent = 'Todo publicado';
     }
 
-    function getPath(obj, path) {
-      return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
-    }
+    const getPath = (obj, path) => path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
     function setPath(obj, path, value) {
       const keys = path.split('.');
       const last = keys.pop();
@@ -462,8 +647,8 @@
       if (res.status === 404) return null;
       if (!res.ok) {
         throw new Error(res.status === 401 || res.status === 403
-          ? 'Token inválido o sin permisos'
-          : 'Error ' + res.status);
+          ? 'El token no es válido o no tiene permiso de escritura'
+          : 'GitHub respondió ' + res.status);
       }
       const json = await res.json();
       shas[path] = json.sha;
@@ -472,47 +657,46 @@
 
     async function ghPut(path, data, message) {
       const body = {
-        message: message,
+        message,
         content: b64encode(JSON.stringify(data, null, 2) + '\n'),
         branch: BRANCH
       };
       if (shas[path]) body.sha = shas[path];
-
       const res = await fetch(apiUrl(path), { method: 'PUT', headers: headers(), body: JSON.stringify(body) });
-      if (res.status === 409) {
-        throw new Error(path + ' cambió en el repo — recargá la página y volvé a guardar');
-      }
-      if (!res.ok) throw new Error('Error ' + res.status + ' al guardar ' + path);
+      if (res.status === 409) throw new Error(path + ' cambió por fuera. Recargá la página y volvé a guardar');
+      if (!res.ok) throw new Error('No se pudo guardar ' + path + ' (' + res.status + ')');
       const json = await res.json();
       shas[path] = json.content.sha;
     }
 
-    /* ---------------- DATES TAB ---------------- */
+    /* ---------------- Fechas ---------------- */
 
-    function todayISO() {
-      const d = new Date();
-      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-    }
-
-    function addRow(data) {
+    function addDateRow(data) {
       data = data || { date: '', city: '', venue: '' };
       const row = document.createElement('div');
-      row.className = 'row';
+      row.className = 'row row--date';
       row.innerHTML =
         '<input type="date" class="f-date" />' +
         '<input type="text" class="f-city" placeholder="Ciudad" />' +
-        '<input type="text" class="f-venue" placeholder="Venue / Productora" />' +
-        '<button class="btn btn--danger" title="Eliminar">✕</button>';
+        '<input type="text" class="f-venue" placeholder="Venue o productora" />' +
+        '<button class="btn--x" title="Quitar fecha">✕</button>';
       row.querySelector('.f-date').value = data.date || '';
       row.querySelector('.f-city').value = data.city || '';
       row.querySelector('.f-venue').value = data.venue || '';
       row.querySelectorAll('input').forEach(i => i.addEventListener('input', () => markDirty(DATES_FILE)));
-      row.querySelector('.btn--danger').addEventListener('click', () => {
+      row.querySelector('.btn--x').addEventListener('click', () => {
         row.remove();
         markDirty(DATES_FILE);
+        refreshDateCount();
       });
       $('rows').appendChild(row);
+      refreshDateCount();
       return row;
+    }
+
+    function refreshDateCount() {
+      const n = document.querySelectorAll('#rows .row').length;
+      $('countDates').textContent = n ? n : '';
     }
 
     function collectDates() {
@@ -521,14 +705,58 @@
         const date = row.querySelector('.f-date').value;
         const city = row.querySelector('.f-city').value.trim();
         const venue = row.querySelector('.f-venue').value.trim();
-        if (!date) throw new Error('Hay una fecha vacía en la lista');
+        if (!date) throw new Error('Hay una fila sin fecha. Completala o quitala');
         dates.push({ date, city, venue: venue || 'TBA' });
       });
       dates.sort((a, b) => a.date.localeCompare(b.date));
       return { dates };
     }
 
-    /* ---------------- LANGUAGES ---------------- */
+    /* ---------------- Secciones ---------------- */
+
+    function renderChannels() {
+      content.sections = content.sections || {};
+      const box = $('channels');
+      box.innerHTML = '';
+
+      SECTION_LIST.forEach(s => {
+        const on = content.sections[s.key] !== false;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'channel' + (on ? ' on' : '');
+        btn.innerHTML =
+          '<span class="channel__led"></span>' +
+          '<span><span class="channel__name"></span><span class="channel__desc"></span></span>' +
+          '<span class="channel__sw"></span>';
+        btn.querySelector('.channel__name').textContent = s.name;
+        btn.querySelector('.channel__desc').textContent = s.desc;
+        btn.setAttribute('aria-pressed', String(on));
+        btn.addEventListener('click', () => {
+          const next = !btn.classList.contains('on');
+          btn.classList.toggle('on', next);
+          btn.setAttribute('aria-pressed', String(next));
+          content.sections[s.key] = next;
+          markDirty(CONTENT_FILE);
+        });
+        box.appendChild(btn);
+      });
+
+      // Always-on sections, shown so the list reads as the whole page
+      [{ name: 'Inicio', desc: 'Nombre, subtítulo y botones' },
+       { name: 'Contacto', desc: 'Formulario de booking y footer' }].forEach(s => {
+        const el = document.createElement('div');
+        el.className = 'channel on locked';
+        el.innerHTML =
+          '<span class="channel__led"></span>' +
+          '<span><span class="channel__name"></span><span class="channel__desc"></span></span>' +
+          '<span class="channel__fixed">Fijo</span>';
+        el.querySelector('.channel__name').textContent = s.name;
+        el.querySelector('.channel__desc').textContent = s.desc;
+        box.appendChild(el);
+      });
+    }
+
+    /* ---------------- Idiomas ---------------- */
 
     function enabledLangs() {
       const cfg = content.languages || {};
@@ -546,6 +774,7 @@
 
       const def = enabled.indexOf(content.languages.default) !== -1 ? content.languages.default : enabled[0];
       content.languages.default = def;
+
       const sel = $('defaultLang');
       sel.innerHTML = '';
       enabled.forEach(l => {
@@ -556,7 +785,6 @@
       });
       sel.value = def;
 
-      // Editor tabs only offer languages the site actually shows
       document.querySelectorAll('#langbar button').forEach(b => {
         b.style.display = enabled.indexOf(b.dataset.lang) !== -1 ? '' : 'none';
       });
@@ -568,7 +796,7 @@
       }
     }
 
-    /* ---------------- TEXTS TAB ---------------- */
+    /* ---------------- Textos ---------------- */
 
     function renderGroups() {
       const box = $('groups');
@@ -580,8 +808,7 @@
       GROUPS.forEach(g => {
         const groupKeys = keys.filter(k => k.indexOf(g.prefix) === 0);
         groupKeys.forEach(k => used.add(k));
-        if (!groupKeys.length) return;
-        box.appendChild(buildGroup(g.label, groupKeys, dict));
+        if (groupKeys.length) box.appendChild(buildGroup(g.label, groupKeys, dict));
       });
 
       const rest = keys.filter(k => !used.has(k));
@@ -591,7 +818,11 @@
     function buildGroup(label, keys, dict) {
       const details = document.createElement('details');
       const summary = document.createElement('summary');
-      summary.innerHTML = label + '<span class="count">' + keys.length + '</span>';
+      summary.appendChild(document.createTextNode(label));
+      const count = document.createElement('span');
+      count.className = 'count';
+      count.textContent = keys.length;
+      summary.appendChild(count);
       details.appendChild(summary);
 
       const body = document.createElement('div');
@@ -630,15 +861,14 @@
     }
 
     function humanize(key) {
-      const tail = key.split('.').slice(1).join('.');
-      return tail
+      return key.split('.').slice(1).join('.')
         .replace(/([A-Z])/g, ' $1')
         .replace(/[._]/g, ' ')
         .replace(/^\w/, c => c.toUpperCase())
         .trim();
     }
 
-    /* ---------------- ARTIST TAB ---------------- */
+    /* ---------------- Artista ---------------- */
 
     function renderArtist() {
       const box = $('artistFields');
@@ -665,35 +895,30 @@
       });
 
       box.appendChild(grid);
-
       $('genresField').value = (content.genres || []).join(', ');
       renderPromoters();
     }
 
     function renderPromoters() {
-      const box = $('promoters');
-      box.innerHTML = '';
-      (content.promoters || []).forEach((p, i) => addPromoterRow(p, i));
+      $('promoters').innerHTML = '';
+      (content.promoters || []).forEach(p => addPromoterRow(p));
     }
 
-    function addPromoterRow(p, index) {
+    function addPromoterRow(p) {
       p = p || { name: '', meta: '' };
       const row = document.createElement('div');
-      row.className = 'row';
-      row.style.gridTemplateColumns = '1fr 1fr auto';
+      row.className = 'row row--promoter';
       row.innerHTML =
-        '<input type="text" class="p-name" placeholder="Productora / Club" />' +
+        '<input type="text" class="p-name" placeholder="Productora o club" />' +
         '<input type="text" class="p-meta" placeholder="Ciudad" />' +
-        '<button class="btn btn--danger" title="Eliminar">✕</button>';
+        '<button class="btn--x" title="Quitar">✕</button>';
       row.querySelector('.p-name').value = p.name || '';
       row.querySelector('.p-meta').value = p.meta || '';
-      row.querySelectorAll('input').forEach(inp => {
-        inp.addEventListener('input', () => {
-          content.promoters = collectPromoters();
-          markDirty(CONTENT_FILE);
-        });
-      });
-      row.querySelector('.btn--danger').addEventListener('click', () => {
+      row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', () => {
+        content.promoters = collectPromoters();
+        markDirty(CONTENT_FILE);
+      }));
+      row.querySelector('.btn--x').addEventListener('click', () => {
         row.remove();
         content.promoters = collectPromoters();
         markDirty(CONTENT_FILE);
@@ -712,36 +937,38 @@
       return list;
     }
 
-    /* ---------------- LOAD / SAVE ---------------- */
+    /* ---------------- Cargar y publicar ---------------- */
 
     async function loadAll() {
       const dates = await ghGet(DATES_FILE);
       $('rows').innerHTML = '';
-      ((dates && dates.dates) || []).forEach(addRow);
+      ((dates && dates.dates) || []).forEach(addDateRow);
+      refreshDateCount();
 
       content = await ghGet(CONTENT_FILE);
-      if (!content) throw new Error('Falta content.json en el repo');
+      if (!content) throw new Error('No encontré content.json en el repositorio');
       content.i18n = content.i18n || {};
       LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
 
       renderLangConfig();
       renderGroups();
       renderArtist();
+      renderChannels();
       clearDirty();
     }
 
-    async function saveAll() {
+    async function publish() {
       if (dirty[DATES_FILE]) {
-        await ghPut(DATES_FILE, collectDates(), 'update: fechas de shows desde admin');
+        await ghPut(DATES_FILE, collectDates(), 'update: fechas de shows desde la consola');
       }
       if (dirty[CONTENT_FILE]) {
         content.genres = $('genresField').value.split(',').map(s => s.trim()).filter(Boolean);
         content.promoters = collectPromoters();
-        await ghPut(CONTENT_FILE, content, 'update: contenido del sitio desde admin');
+        await ghPut(CONTENT_FILE, content, 'update: contenido del sitio desde la consola');
       }
     }
 
-    /* ---------------- WIRING ---------------- */
+    /* ---------------- Eventos ---------------- */
 
     async function enter() {
       const t = $('token').value.trim() || token;
@@ -751,8 +978,8 @@
       try {
         await loadAll();
         localStorage.setItem(TOKEN_KEY, token);
-        $('loginCard').classList.add('hidden');
-        $('editor').classList.remove('hidden');
+        $('gate').classList.add('hidden');
+        $('shell').classList.add('on');
       } catch (e) {
         token = localStorage.getItem(TOKEN_KEY) || '';
         setStatus($('loginStatus'), e.message, 'err');
@@ -767,13 +994,23 @@
       location.reload();
     });
 
-    document.querySelectorAll('.tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
-        ['dates', 'texts', 'artist'].forEach(name => {
-          $('tab-' + name).classList.toggle('hidden', name !== tab.dataset.tab);
+    document.querySelectorAll('.rail__item').forEach(item => {
+      item.addEventListener('click', () => {
+        document.querySelectorAll('.rail__item').forEach(i => i.classList.toggle('active', i === item));
+        document.querySelectorAll('.view').forEach(v => {
+          v.classList.toggle('on', v.id === 'view-' + item.dataset.view);
         });
+        document.querySelector('.work').scrollTo({ top: 0 });
+        window.scrollTo({ top: 0 });
       });
+    });
+
+    $('langbar').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      activeLang = btn.dataset.lang;
+      document.querySelectorAll('#langbar button').forEach(b => b.classList.toggle('active', b === btn));
+      renderGroups();
     });
 
     $('langToggles').addEventListener('change', e => {
@@ -785,7 +1022,6 @@
           setStatus($('saveStatus'), 'Tiene que quedar al menos un idioma', 'err');
           return;
         }
-        // Keep them in canonical ES/EN/PT order
         content.languages.enabled = LANGS.filter(l => checked.indexOf(l) !== -1);
         renderLangConfig();
         renderGroups();
@@ -798,16 +1034,8 @@
       }
     });
 
-    $('langbar').addEventListener('click', e => {
-      const btn = e.target.closest('button');
-      if (!btn) return;
-      activeLang = btn.dataset.lang;
-      document.querySelectorAll('#langbar button').forEach(b => b.classList.toggle('active', b === btn));
-      renderGroups();
-    });
-
-    $('addBtn').addEventListener('click', () => {
-      addRow().querySelector('.f-date').focus();
+    $('addDateBtn').addEventListener('click', () => {
+      addDateRow().querySelector('.f-date').focus();
       markDirty(DATES_FILE);
     });
 
@@ -838,7 +1066,7 @@
         try {
           const parsed = JSON.parse(reader.result);
           if (!parsed || typeof parsed !== 'object' || !parsed.i18n) {
-            throw new Error('El archivo no tiene el formato de content.json');
+            throw new Error('Ese archivo no tiene el formato de content.json');
           }
           content = parsed;
           content.i18n = content.i18n || {};
@@ -846,8 +1074,9 @@
           renderLangConfig();
           renderGroups();
           renderArtist();
+          renderChannels();
           markDirty(CONTENT_FILE);
-          setStatus($('saveStatus'), 'Importado — revisá y publicá', 'ok');
+          setStatus($('saveStatus'), 'Importado. Revisá y publicá', 'ok');
         } catch (err) {
           setStatus($('saveStatus'), err.message, 'err');
         }
@@ -864,9 +1093,9 @@
       $('saveBtn').disabled = true;
       setStatus($('saveStatus'), 'Publicando…', 'busy');
       try {
-        await saveAll();
+        await publish();
         clearDirty();
-        setStatus($('saveStatus'), '✓ Publicado — en vivo en ±1 min', 'ok');
+        setStatus($('saveStatus'), 'Publicado. En vivo en ±1 min', 'ok');
       } catch (e) {
         setStatus($('saveStatus'), e.message, 'err');
       } finally {
@@ -875,17 +1104,10 @@
     });
 
     window.addEventListener('beforeunload', e => {
-      if (dirty[DATES_FILE] || dirty[CONTENT_FILE]) {
-        e.preventDefault();
-        e.returnValue = '';
-      }
+      if (dirty[DATES_FILE] || dirty[CONTENT_FILE]) { e.preventDefault(); e.returnValue = ''; }
     });
 
-    // Auto-login if token is remembered
-    if (token) {
-      $('token').value = token;
-      enter();
-    }
+    if (token) { $('token').value = token; enter(); }
   </script>
 </body>
 </html>

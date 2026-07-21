@@ -19,6 +19,15 @@
     ],
     "default": "es"
   },
+  "sections": {
+    "listen": true,
+    "dates": true,
+    "bio": true,
+    "rider": true,
+    "live": true,
+    "videos": true,
+    "about": true
+  },
   "stats": {
     "heroYears": "6+",
     "heroCities": "5+",
