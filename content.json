@@ -22,11 +22,11 @@
   "sections": {
     "listen": true,
     "dates": true,
-    "bio": false,
-    "rider": false,
-    "live": false,
-    "videos": false,
-    "about": false
+    "bio": true,
+    "rider": true,
+    "live": true,
+    "videos": true,
+    "about": true
   },
   "images": {
     "hero": "hero-bg.webp",
