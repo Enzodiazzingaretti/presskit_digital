@@ -605,6 +605,18 @@
           </div>
 
           <div class="block">
+            <div class="block__head"><span class="block__title">Integraciones</span></div>
+            <div class="block__body">
+              <div id="integrationFields"></div>
+              <p class="hint">
+                El formulario de booking usa <a href="https://dashboard.emailjs.com" target="_blank" rel="noopener">EmailJS</a>:
+                los tres datos salen de tu cuenta. Si quedan vacíos, el formulario abre el correo del artista en vez de enviarse.
+                Analytics es opcional — dejalo en blanco y no se carga nada.
+              </p>
+            </div>
+          </div>
+
+          <div class="block">
             <div class="block__head"><span class="block__title">Plantilla</span></div>
             <div class="block__body">
               <div style="display:flex;gap:0.7rem;flex-wrap:wrap">
@@ -851,6 +863,42 @@
       });
       dates.sort((a, b) => a.date.localeCompare(b.date));
       return { dates };
+    }
+
+    /* ---------------- Integraciones ---------------- */
+
+    const INTEGRATION_FIELDS = [
+      { path: 'integrations.emailjs.publicKey',  label: 'EmailJS · Public Key' },
+      { path: 'integrations.emailjs.serviceId',  label: 'EmailJS · Service ID' },
+      { path: 'integrations.emailjs.templateId', label: 'EmailJS · Template ID' },
+      { path: 'integrations.googleAnalytics',    label: 'Google Analytics (opcional)' }
+    ];
+
+    function renderIntegrations() {
+      const box = $('integrationFields');
+      box.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.className = 'grid2';
+
+      INTEGRATION_FIELDS.forEach(f => {
+        const wrap = document.createElement('div');
+        const lab = document.createElement('label');
+        lab.className = 'label';
+        lab.textContent = f.label;
+        const input = document.createElement('input');
+        input.type = 'text';
+        const v = getPath(content, f.path);
+        input.value = v == null ? '' : v;
+        input.addEventListener('input', () => {
+          setPath(content, f.path, input.value.trim());
+          markDirty(CONTENT_FILE);
+        });
+        wrap.appendChild(lab);
+        wrap.appendChild(input);
+        grid.appendChild(wrap);
+      });
+
+      box.appendChild(grid);
     }
 
     /* ---------------- Media ---------------- */
@@ -1353,6 +1401,7 @@
       renderSlots();
       renderSets();
       renderVideoRows();
+      renderIntegrations();
       clearDirty();
     }
 
@@ -1534,6 +1583,7 @@
           renderSlots();
           renderSets();
           renderVideoRows();
+          renderIntegrations();
           markDirty(CONTENT_FILE);
           setStatus($('saveStatus'), 'Importado. Revisá y publicá', 'ok');
         } catch (err) {

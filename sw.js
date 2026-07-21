@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kexxy-v13-20260720';
+const CACHE_NAME = 'kexxy-v14-20260720';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/style.css?v=20260720n',
-  '/script.js?v=20260720n',
+  '/style.css?v=20260720p',
+  '/script.js?v=20260720p',
   '/kexxy-logo-black.png',
   '/kexxy-logo-white.png',
   '/hero-bg.webp',

@@ -11,6 +11,14 @@
     },
     "pressKit": "https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing"
   },
+  "integrations": {
+    "emailjs": {
+      "publicKey": "D4XtfAiWGEiMSNf0V",
+      "serviceId": "service_lkbn9lj",
+      "templateId": "template_yqjknhh"
+    },
+    "googleAnalytics": "G-BME53CT3R0"
+  },
   "languages": {
     "enabled": [
       "es",

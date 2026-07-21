@@ -1104,6 +1104,25 @@ if (scrollIndicator) {
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
 
+  /* --- Third-party integrations (content.json > integrations) --- */
+
+  function applyIntegrations(data) {
+    const cfg = (data && data.integrations) || {};
+    const ga = (cfg.googleAnalytics || '').trim();
+    if (!ga || window.__gaLoaded) return;
+    window.__gaLoaded = true;
+
+    const tag = document.createElement('script');
+    tag.async = true;
+    tag.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(ga);
+    document.head.appendChild(tag);
+
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', ga);
+  }
+
   /* --- Media: SoundCloud sets and YouTube videos (content.json) --- */
 
   function youtubeId(url) {
@@ -1340,6 +1359,9 @@ if (scrollIndicator) {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
     .then(data => {
       remote = data;
+      // The inline booking form reads its credentials from here
+      window.__kexxyContent = data;
+      applyIntegrations(data);
       const lang = resolveLanguages(data);
       applyImages(data);
       applyMedia(data, lang);

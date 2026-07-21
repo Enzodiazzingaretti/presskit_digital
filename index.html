@@ -54,17 +54,11 @@
   <title>KEXXY — DJ & Producer | Press Kit | Techno from Argentina</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400&family=Pirata+One&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260720n" />
+  <link rel="stylesheet" href="style.css?v=20260720p" />
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-BME53CT3R0"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-BME53CT3R0');
-  </script>
+  <!-- Google Analytics loads from content.json > integrations.googleAnalytics -->
+
 
   <!-- Vercel Analytics -->
   <script>
@@ -1018,12 +1012,22 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-    emailjs.init('D4XtfAiWGEiMSNf0V');
+
+    // EmailJS credentials live in content.json > integrations.emailjs, so a
+    // copy of this template never sends its bookings to the original inbox.
+    function emailjsConfig() {
+      const c = window.__kexxyContent;
+      return (c && c.integrations && c.integrations.emailjs) || {};
+    }
+    function bookingEmail() {
+      const c = window.__kexxyContent;
+      return (c && c.artist && c.artist.email) || '';
+    }
 
     var FORM_MSGS = {
-      es: { sending: 'Enviando…', sent: 'Mensaje enviado correctamente. Te responderemos en 48 horas.', invalid: 'Por favor, completá los campos requeridos correctamente.', error: 'Error al enviar el mensaje. Intentá de nuevo o escribinos por email.' },
-      en: { sending: 'Sending…', sent: 'Message sent successfully. We will get back to you within 48 hours.', invalid: 'Please fill in the required fields correctly.', error: 'Error sending the message. Try again or contact us by email.' },
-      pt: { sending: 'Enviando…', sent: 'Mensagem enviada com sucesso. Responderemos em até 48 horas.', invalid: 'Por favor, preencha os campos obrigatórios corretamente.', error: 'Erro ao enviar a mensagem. Tente novamente ou fale conosco por e-mail.' }
+      es: { sending: 'Enviando…', sent: 'Mensaje enviado correctamente. Te responderemos en 48 horas.', invalid: 'Por favor, completá los campos requeridos correctamente.', error: 'Error al enviar el mensaje. Intentá de nuevo o escribinos por email.', noForm: 'El formulario todavía no está configurado. Escribinos a' },
+      en: { sending: 'Sending…', sent: 'Message sent successfully. We will get back to you within 48 hours.', invalid: 'Please fill in the required fields correctly.', error: 'Error sending the message. Try again or contact us by email.', noForm: 'The form is not set up yet. Write to' },
+      pt: { sending: 'Enviando…', sent: 'Mensagem enviada com sucesso. Responderemos em até 48 horas.', invalid: 'Por favor, preencha os campos obrigatórios corretamente.', error: 'Erro ao enviar a mensagem. Tente novamente ou fale conosco por e-mail.', noForm: 'O formulário ainda não está configurado. Escreva para' }
     };
     function formMsgs() { return FORM_MSGS[document.documentElement.lang] || FORM_MSGS.es; }
 
@@ -1086,13 +1090,26 @@
         return;
       }
 
+      const cfg = emailjsConfig();
+      if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId) {
+        // Nothing configured yet: point the visitor at the inbox directly
+        // instead of silently dropping their message.
+        const to = bookingEmail();
+        if (typeof Toast !== 'undefined') {
+          Toast.show(to ? T.noForm + ' ' + to : T.noForm, 'error', 8000);
+        }
+        if (to) window.location.href = 'mailto:' + to;
+        return;
+      }
+
       const btn = this.querySelector('button[type="submit"]');
       const inner = btn.querySelector('.btn__inner');
       const originalText = inner.textContent;
       inner.textContent = T.sending;
       btn.disabled = true;
 
-      emailjs.sendForm('service_lkbn9lj', 'template_yqjknhh', this)
+      emailjs.init(cfg.publicKey);
+      emailjs.sendForm(cfg.serviceId, cfg.templateId, this)
         .then(function() {
           inner.textContent = originalText;
           btn.disabled = false;
@@ -1284,6 +1301,6 @@
   <!-- Reading progress indicator -->
   <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
 
-  <script src="script.js?v=20260720n" defer></script>
+  <script src="script.js?v=20260720p" defer></script>
 </body>
 </html>
