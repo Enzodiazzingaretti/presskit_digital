@@ -1000,8 +1000,10 @@ if (scrollIndicator) {
         el.setAttribute('href', a.pressKit);
       });
     }
+    // NOTE: .footer-credit is deliberately excluded — that link is the
+    // template author's signature and stays put for every artist.
     if (a.portfolio) {
-      document.querySelectorAll('.about__portfolio-btn, .contact__footer-copy a').forEach(el => {
+      document.querySelectorAll('.about__portfolio-btn').forEach(el => {
         el.setAttribute('href', a.portfolio);
       });
     }
@@ -1074,22 +1076,54 @@ if (scrollIndicator) {
     }
   }
 
+  const USER_LANG_KEY = 'kexxy-lang-user';
+
   document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      localStorage.setItem(USER_LANG_KEY, lang);
+      applyLang(lang);
+    });
   });
 
-  const saved = localStorage.getItem('kexxy-lang') || 'es';
+  const saved = localStorage.getItem(USER_LANG_KEY) || localStorage.getItem('kexxy-lang') || 'es';
   applyLang(saved);
 
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
+
+  /* --- Which languages the artist offers (content.json > languages) --- */
+  const ALL_LANGS = ['es', 'en', 'pt'];
+
+  function resolveLanguages(data) {
+    const cfg = (data && data.languages) || {};
+    let enabled = Array.isArray(cfg.enabled)
+      ? cfg.enabled.filter(l => ALL_LANGS.indexOf(l) !== -1)
+      : ALL_LANGS.slice();
+    if (!enabled.length) enabled = ['es'];
+
+    const fallback = enabled.indexOf(cfg.default) !== -1 ? cfg.default : enabled[0];
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.style.display = enabled.indexOf(btn.getAttribute('data-lang')) !== -1 ? '' : 'none';
+    });
+    // A single language needs no switcher at all
+    document.querySelectorAll('.lang-switcher, .mobile-nav__lang').forEach(el => {
+      el.style.display = enabled.length > 1 ? '' : 'none';
+    });
+
+    window.__kexxyLangs = enabled;
+
+    const chosen = localStorage.getItem(USER_LANG_KEY);
+    return enabled.indexOf(chosen) !== -1 ? chosen : fallback;
+  }
 
   fetch('content.json', { cache: 'no-store' })
     .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
     .then(data => {
       remote = data;
       applyArtist(data);
-      applyLang(document.documentElement.getAttribute('lang') || saved);
+      applyLang(resolveLanguages(data));
     })
     .catch(() => { /* built-in text stays */ });
 
@@ -1239,6 +1273,9 @@ document.addEventListener('DOMContentLoaded', () => Toast.init());
   };
 
   const targetLang = langMap[langCode] || 'en';
+
+  const allowed = window.__kexxyLangs;
+  if (allowed && allowed.indexOf(targetLang) === -1) return;
 
   if (targetLang !== 'es' && typeof window.applyLang === 'function') {
     window.applyLang(targetLang);
@@ -1470,5 +1507,38 @@ document.addEventListener('DOMContentLoaded', () => {
     if (buffer === SECRET) {
       window.location.href = 'admin.html';
     }
+  });
+})();
+
+/* ============================================================
+   TEMPLATE CREDIT — kept in the footer for every artist
+   ============================================================ */
+(function footerCredit() {
+  const CREDIT_URL = 'https://enzodiazzingaretti27-design.github.io/kexxy-portfolio/';
+  const CREDIT_NAME = 'Enzo Díaz Zingaretti';
+
+  function ensure() {
+    const holder = document.querySelector('.contact__footer-copy');
+    if (!holder || holder.querySelector('.footer-credit')) return;
+
+    const span = document.createElement('span');
+    span.className = 'footer-credit';
+    span.id = 'footerCredit';
+    span.appendChild(document.createTextNode('Website by '));
+
+    const link = document.createElement('a');
+    link.href = CREDIT_URL;
+    link.target = '_blank';
+    link.rel = 'noopener';
+    link.textContent = CREDIT_NAME;
+
+    span.appendChild(link);
+    holder.appendChild(span);
+  }
+
+  ensure();
+  // Language switches re-render footer text; re-check afterwards
+  document.addEventListener('click', e => {
+    if (e.target.closest('.lang-btn')) setTimeout(ensure, 0);
   });
 })();

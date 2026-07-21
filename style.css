@@ -4522,3 +4522,25 @@ section[id] {
   color: var(--blood);
   text-shadow: 0 0 8px rgba(179, 18, 23, 0.6);
 }
+
+/* --- Template author credit (fixed across artists) --- */
+.footer-credit {
+  display: inline;
+  color: rgba(200,200,200,0.28);
+}
+
+.footer-credit::before {
+  content: ' · ';
+  color: rgba(200,200,200,0.18);
+}
+
+.contact__footer-links a.footer-credit,
+.footer-credit a {
+  color: rgba(200,200,200,0.42);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-credit a:hover {
+  color: var(--chrome);
+}

@@ -11,6 +11,14 @@
     },
     "pressKit": "https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing"
   },
+  "languages": {
+    "enabled": [
+      "es",
+      "en",
+      "pt"
+    ],
+    "default": "es"
+  },
   "stats": {
     "heroYears": "6+",
     "heroCities": "5+",

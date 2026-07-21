@@ -165,6 +165,30 @@
     }
     .topbar a:hover { color: var(--chrome-hi); }
 
+    .langtoggles {
+      display: flex; gap: 1.4rem; align-items: flex-end; flex-wrap: wrap;
+      padding: 1rem 1.1rem; border: 1px solid rgba(200,200,200,0.1);
+      background: rgba(255,255,255,0.015);
+    }
+    .toggle { display: flex; align-items: center; gap: 0.55rem; cursor: pointer; }
+    .toggle input { width: auto; accent-color: var(--blood); width: 16px; height: 16px; cursor: pointer; }
+    .toggle span {
+      font-family: var(--font-display); font-size: 0.75rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--chrome);
+    }
+    .default-pick { margin-left: auto; display: flex; flex-direction: column; min-width: 170px; }
+    .default-pick select { padding: 0.5rem 0.7rem; font-size: 0.8rem; }
+
+    .locked-note {
+      display: flex; align-items: center; gap: 0.6rem;
+      border: 1px solid rgba(200,200,200,0.1);
+      border-left: 2px solid var(--blood);
+      background: rgba(255,255,255,0.015);
+      padding: 0.9rem 1.1rem; margin-top: 1rem;
+      font-size: 0.75rem; color: var(--chrome-dim); line-height: 1.5;
+    }
+    .locked-note strong { color: var(--chrome); font-weight: 400; }
+
     .langbar { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; }
     .langbar button {
       font-family: var(--font-display); font-weight: 700; font-size: 0.65rem;
@@ -253,7 +277,26 @@
 
       <!-- TAB: TEXTS -->
       <div class="card hidden" id="tab-texts">
-        <label class="label">Textos del sitio</label>
+        <label class="label">Idiomas del sitio</label>
+        <div class="langtoggles" id="langToggles">
+          <label class="toggle"><input type="checkbox" data-lang="es" /> <span>Español</span></label>
+          <label class="toggle"><input type="checkbox" data-lang="en" /> <span>English</span></label>
+          <label class="toggle"><input type="checkbox" data-lang="pt" /> <span>Português</span></label>
+          <div class="default-pick">
+            <span class="label" style="margin:0 0 0.3rem">Idioma por defecto</span>
+            <select id="defaultLang">
+              <option value="es">Español</option>
+              <option value="en">English</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+        </div>
+        <p class="hint">
+          Los idiomas desactivados desaparecen del selector del sitio. Si dejás uno solo,
+          el selector no se muestra y la página queda monolingüe.
+        </p>
+
+        <label class="label" style="margin-top:2rem">Textos del sitio</label>
         <div class="langbar" id="langbar">
           <button data-lang="es" class="active">ES</button>
           <button data-lang="en">EN</button>
@@ -291,6 +334,15 @@
           Exportá <code>content.json</code> para reutilizar este press kit con otro artista:
           importás el archivo, cambiás nombre, textos y redes, y publicás.
         </p>
+
+        <div class="locked-note">
+          <span style="font-family:'Pirata One',serif;color:var(--blood);font-size:1.2rem">☩</span>
+          <span>
+            <strong>Créditos fijos.</strong> La firma <em>“Website by Enzo Díaz Zingaretti”</em>
+            del footer no es editable desde el panel y se mantiene en todas las copias de la plantilla.
+            El copyright del artista (<code>footer.copy</code>) sí se edita en la pestaña Textos.
+          </span>
+        </div>
       </div>
 
       <!-- SAVE BAR -->
@@ -476,6 +528,46 @@
       return { dates };
     }
 
+    /* ---------------- LANGUAGES ---------------- */
+
+    function enabledLangs() {
+      const cfg = content.languages || {};
+      const list = Array.isArray(cfg.enabled) ? cfg.enabled.filter(l => LANGS.indexOf(l) !== -1) : LANGS.slice();
+      return list.length ? list : ['es'];
+    }
+
+    function renderLangConfig() {
+      content.languages = content.languages || { enabled: LANGS.slice(), default: 'es' };
+      const enabled = enabledLangs();
+
+      document.querySelectorAll('#langToggles input[type="checkbox"]').forEach(cb => {
+        cb.checked = enabled.indexOf(cb.dataset.lang) !== -1;
+      });
+
+      const def = enabled.indexOf(content.languages.default) !== -1 ? content.languages.default : enabled[0];
+      content.languages.default = def;
+      const sel = $('defaultLang');
+      sel.innerHTML = '';
+      enabled.forEach(l => {
+        const opt = document.createElement('option');
+        opt.value = l;
+        opt.textContent = { es: 'Español', en: 'English', pt: 'Português' }[l];
+        sel.appendChild(opt);
+      });
+      sel.value = def;
+
+      // Editor tabs only offer languages the site actually shows
+      document.querySelectorAll('#langbar button').forEach(b => {
+        b.style.display = enabled.indexOf(b.dataset.lang) !== -1 ? '' : 'none';
+      });
+      if (enabled.indexOf(activeLang) === -1) {
+        activeLang = enabled[0];
+        document.querySelectorAll('#langbar button').forEach(b => {
+          b.classList.toggle('active', b.dataset.lang === activeLang);
+        });
+      }
+    }
+
     /* ---------------- TEXTS TAB ---------------- */
 
     function renderGroups() {
@@ -632,6 +724,7 @@
       content.i18n = content.i18n || {};
       LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
 
+      renderLangConfig();
       renderGroups();
       renderArtist();
       clearDirty();
@@ -683,6 +776,28 @@
       });
     });
 
+    $('langToggles').addEventListener('change', e => {
+      const cb = e.target.closest('input[type="checkbox"]');
+      if (cb) {
+        const checked = [...document.querySelectorAll('#langToggles input:checked')].map(i => i.dataset.lang);
+        if (!checked.length) {
+          cb.checked = true;
+          setStatus($('saveStatus'), 'Tiene que quedar al menos un idioma', 'err');
+          return;
+        }
+        // Keep them in canonical ES/EN/PT order
+        content.languages.enabled = LANGS.filter(l => checked.indexOf(l) !== -1);
+        renderLangConfig();
+        renderGroups();
+        markDirty(CONTENT_FILE);
+        return;
+      }
+      if (e.target.id === 'defaultLang') {
+        content.languages.default = e.target.value;
+        markDirty(CONTENT_FILE);
+      }
+    });
+
     $('langbar').addEventListener('click', e => {
       const btn = e.target.closest('button');
       if (!btn) return;
@@ -728,6 +843,7 @@
           content = parsed;
           content.i18n = content.i18n || {};
           LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
+          renderLangConfig();
           renderGroups();
           renderArtist();
           markDirty(CONTENT_FILE);
