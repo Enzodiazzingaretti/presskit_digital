@@ -1311,3 +1311,23 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 })();
 
+
+/* ============================================================
+   ADMIN EASTER EGG — type "kexxy" anywhere to open the panel
+   ============================================================ */
+(function adminShortcut() {
+  const SECRET = 'kexxy';
+  let buffer = '';
+
+  document.addEventListener('keydown', e => {
+    // Ignore typing inside form fields
+    const t = e.target;
+    if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
+    if (!e.key || e.key.length !== 1) return;
+
+    buffer = (buffer + e.key.toLowerCase()).slice(-SECRET.length);
+    if (buffer === SECRET) {
+      window.location.href = 'admin.html';
+    }
+  });
+})();

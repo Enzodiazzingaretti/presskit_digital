@@ -4507,3 +4507,18 @@ section[id] {
     overflow: hidden;
   }
 }
+
+/* --- Hidden admin sigil in footer --- */
+.contact__footer-links a.admin-sigil {
+  color: rgba(200,200,200,0.12);
+  text-decoration: none;
+  font-size: 0.85rem;
+  line-height: 1;
+  padding: 0 0.2rem;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.contact__footer-links a.admin-sigil:hover {
+  color: var(--blood);
+  text-shadow: 0 0 8px rgba(179, 18, 23, 0.6);
+}
