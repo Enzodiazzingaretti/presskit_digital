@@ -914,8 +914,18 @@ if (scrollIndicator) {
     }
   };
 
+  // Remote content (content.json) overrides these built-in defaults.
+  // Built-ins stay as the offline/fetch-failure fallback.
+  let remote = null;
+
+  function dict(lang) {
+    const base = translations[lang] || translations['en'];
+    const over = remote && remote.i18n && remote.i18n[lang];
+    return over ? Object.assign({}, base, over) : base;
+  }
+
   function applyLang(lang) {
-    const t = translations[lang] || translations['en'];
+    const t = dict(lang);
 
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
@@ -942,6 +952,128 @@ if (scrollIndicator) {
     localStorage.setItem('kexxy-lang', lang);
   }
 
+  /* --- Language-independent artist data from content.json --- */
+  function setText(sel, value) {
+    if (value == null) return;
+    document.querySelectorAll(sel).forEach(el => { el.textContent = value; });
+  }
+
+  function applyArtist(data) {
+    const a = data.artist || {};
+
+    if (a.name) {
+      const word = document.querySelector('.hero__name-word');
+      if (word) {
+        word.textContent = a.name;
+        word.setAttribute('data-text', a.name);
+      }
+      setText('.contact__info-name, .contact__footer-logo', a.name);
+    }
+
+    if (a.email) {
+      document.querySelectorAll('a[href^="mailto:"]').forEach(el => {
+        const showsEmail = /@/.test(el.textContent);
+        el.setAttribute('href', 'mailto:' + a.email);
+        if (showsEmail) el.textContent = a.email;
+      });
+    }
+
+    setText('.contact__info-phone', a.location);
+
+    const s = a.socials || {};
+    const socialMap = { Instagram: s.instagram, SoundCloud: s.soundcloud, YouTube: s.youtube };
+    Object.keys(socialMap).forEach(label => {
+      if (!socialMap[label]) return;
+      document.querySelectorAll('.contact__social[aria-label="' + label + '"]').forEach(el => {
+        el.setAttribute('href', socialMap[label]);
+      });
+    });
+
+    // Links that repeat across the page (CTAs, footer, rider downloads)
+    if (s.soundcloud) {
+      document.querySelectorAll('a[href*="soundcloud.com"]').forEach(el => {
+        el.setAttribute('href', s.soundcloud);
+      });
+    }
+    if (a.pressKit) {
+      document.querySelectorAll('a[href*="drive.google.com"]').forEach(el => {
+        el.setAttribute('href', a.pressKit);
+      });
+    }
+    if (a.portfolio) {
+      document.querySelectorAll('.about__portfolio-btn, .contact__footer-copy a').forEach(el => {
+        el.setAttribute('href', a.portfolio);
+      });
+    }
+
+    // Stats — hero pair and live column (live values keep their unit span)
+    const st = data.stats || {};
+    const heroNums = document.querySelectorAll('.hero__stat-num');
+    if (heroNums[0] && st.heroYears) heroNums[0].textContent = st.heroYears;
+    if (heroNums[1] && st.heroCities) heroNums[1].textContent = st.heroCities;
+
+    const liveVals = document.querySelectorAll('.live__stat-val');
+    [st.liveShows, st.liveCities, st.liveLongestSet].forEach((raw, i) => {
+      if (!raw || !liveVals[i]) return;
+      const m = String(raw).match(/^(\d+)(.*)$/);
+      const num = m ? m[1] : String(raw);
+      const unit = m ? m[2] : '';
+      liveVals[i].innerHTML = '';
+      liveVals[i].appendChild(document.createTextNode(num));
+      if (unit) {
+        const span = document.createElement('span');
+        span.className = 'live__stat-unit';
+        span.textContent = unit;
+        liveVals[i].appendChild(span);
+      }
+    });
+
+    // Genre chips (bio tag strip + rider music card)
+    if (Array.isArray(data.genres) && data.genres.length) {
+      const bioTags = document.querySelector('.bio__tags');
+      if (bioTags) {
+        bioTags.innerHTML = '';
+        data.genres.forEach(g => {
+          const el = document.createElement('span');
+          el.className = 'bio__tag';
+          el.textContent = g;
+          bioTags.appendChild(el);
+        });
+      }
+      const riderGenres = document.querySelector('.rcard__genres');
+      if (riderGenres) {
+        riderGenres.innerHTML = '';
+        data.genres.forEach((g, i) => {
+          const el = document.createElement('span');
+          el.className = 'rcard__genre' + (i === 0 ? ' rcard__genre--primary' : '');
+          el.textContent = g;
+          riderGenres.appendChild(el);
+        });
+      }
+    }
+
+    // Promoters list
+    if (Array.isArray(data.promoters) && data.promoters.length) {
+      const list = document.querySelector('.live__fest-list');
+      if (list) {
+        list.innerHTML = '';
+        data.promoters.forEach(p => {
+          const li = document.createElement('li');
+          li.className = 'live__fest-item';
+          const name = document.createElement('span');
+          name.className = 'live__fest-name';
+          name.textContent = p.name || '';
+          const meta = document.createElement('span');
+          meta.className = 'live__fest-meta';
+          meta.textContent = p.meta || '';
+          li.appendChild(name);
+          li.appendChild(meta);
+          list.appendChild(li);
+        });
+      }
+    }
+  }
+
   document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => applyLang(btn.getAttribute('data-lang')));
   });
@@ -951,6 +1083,15 @@ if (scrollIndicator) {
 
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
+
+  fetch('content.json', { cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
+    .then(data => {
+      remote = data;
+      applyArtist(data);
+      applyLang(document.documentElement.getAttribute('lang') || saved);
+    })
+    .catch(() => { /* built-in text stays */ });
 
 })();
 

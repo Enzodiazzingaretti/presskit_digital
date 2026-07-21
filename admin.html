@@ -32,35 +32,16 @@
 
     ::selection { background: var(--blood); color: var(--white); }
 
-    .wrap {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 3rem 1.5rem 5rem;
-    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 3rem 1.5rem 6rem; }
 
-    .head {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 2.5rem;
-    }
-
-    .head img { height: 44px; filter: none; opacity: 0.9; }
-
+    .head { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .head img { height: 44px; opacity: 0.9; }
     .head h1 {
       font-family: var(--font-display);
-      font-weight: 900;
-      font-size: 1.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
+      font-weight: 900; font-size: 1.6rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
     }
-
-    .head .num {
-      font-family: 'Pirata One', var(--font-display);
-      color: var(--blood);
-      font-size: 1.3rem;
-      margin-left: auto;
-    }
+    .head .num { font-family: 'Pirata One', var(--font-display); color: var(--blood); font-size: 1.3rem; margin-left: auto; }
 
     .card {
       background: rgba(10,10,10,0.85);
@@ -71,147 +52,150 @@
 
     .label {
       font-family: var(--font-display);
-      font-weight: 300;
-      font-size: 0.65rem;
-      letter-spacing: 0.35em;
-      text-transform: uppercase;
+      font-weight: 300; font-size: 0.65rem;
+      letter-spacing: 0.35em; text-transform: uppercase;
       color: var(--chrome-dim);
-      display: block;
-      margin-bottom: 0.5rem;
+      display: block; margin-bottom: 0.5rem;
     }
 
-    input, select {
+    input, select, textarea {
       width: 100%;
       background: rgba(255,255,255,0.04);
       border: 1px solid rgba(200,200,200,0.15);
       color: var(--white);
       font-family: var(--font-body);
-      font-weight: 300;
-      font-size: 0.9rem;
+      font-weight: 300; font-size: 0.9rem;
       padding: 0.7rem 0.9rem;
-      outline: none;
-      border-radius: 0;
+      outline: none; border-radius: 0;
       transition: border-color 0.25s ease;
       color-scheme: dark;
     }
-
-    input:focus { border-color: rgba(200,200,200,0.45); }
+    textarea { resize: vertical; min-height: 84px; line-height: 1.6; }
+    input:focus, textarea:focus, select:focus { border-color: rgba(200,200,200,0.45); }
 
     .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
+      display: inline-flex; align-items: center; justify-content: center;
       font-family: var(--font-display);
-      font-weight: 700;
-      font-size: 0.75rem;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
+      font-weight: 700; font-size: 0.75rem;
+      letter-spacing: 0.28em; text-transform: uppercase;
       padding: 0.85rem 1.8rem;
-      cursor: pointer;
-      border: 1px solid transparent;
+      cursor: pointer; border: 1px solid transparent;
       transition: all 0.25s ease;
       clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
     }
-
     .btn--primary { background: var(--white); color: var(--black); }
     .btn--primary:hover { background: var(--chrome-hi); }
     .btn--primary:disabled { opacity: 0.4; cursor: default; }
-
-    .btn--ghost {
-      background: transparent;
-      color: var(--chrome);
-      border-color: rgba(200,200,200,0.25);
-    }
+    .btn--ghost { background: transparent; color: var(--chrome); border-color: rgba(200,200,200,0.25); }
     .btn--ghost:hover { border-color: rgba(200,200,200,0.6); color: var(--white); }
-
     .btn--danger {
-      background: transparent;
-      color: rgba(200,200,200,0.5);
+      background: transparent; color: rgba(200,200,200,0.5);
       border-color: rgba(200,200,200,0.15);
-      padding: 0.5rem 0.8rem;
-      font-size: 0.65rem;
+      padding: 0.5rem 0.8rem; font-size: 0.65rem;
     }
     .btn--danger:hover { border-color: var(--blood); color: var(--blood); }
+    .btn--sm { padding: 0.55rem 1rem; font-size: 0.65rem; letter-spacing: 0.2em; }
 
-    .hint {
-      font-size: 0.75rem;
-      color: var(--chrome-dim);
-      line-height: 1.6;
-      margin-top: 0.9rem;
-    }
-
+    .hint { font-size: 0.75rem; color: var(--chrome-dim); line-height: 1.6; margin-top: 0.9rem; }
     .hint a { color: var(--chrome); }
+    .hint code { font-family: monospace; color: var(--chrome); }
 
-    .row {
-      display: grid;
-      grid-template-columns: 150px 1fr 1fr auto;
-      gap: 0.6rem;
-      align-items: center;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid rgba(200,200,200,0.07);
+    /* Tabs */
+    .tabs { display: flex; gap: 1px; background: rgba(200,200,200,0.12); border: 1px solid rgba(200,200,200,0.12); margin-bottom: 1.5rem; }
+    .tab {
+      flex: 1; background: rgba(10,10,10,0.9);
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--chrome-dim); padding: 0.9rem 0.5rem;
+      border: none; cursor: pointer; transition: all 0.2s ease;
     }
+    .tab:hover { color: var(--chrome-hi); }
+    .tab.active { background: rgba(30,30,30,0.95); color: var(--white); box-shadow: inset 0 2px 0 var(--blood); }
 
-    .row--past { opacity: 0.45; }
-
-    .rows-head {
-      display: grid;
-      grid-template-columns: 150px 1fr 1fr auto;
-      gap: 0.6rem;
-      padding-bottom: 0.5rem;
-    }
-
+    /* Dates rows */
+    .row, .rows-head { display: grid; grid-template-columns: 150px 1fr 1fr auto; gap: 0.6rem; }
+    .row { align-items: center; padding: 0.6rem 0; border-bottom: 1px solid rgba(200,200,200,0.07); }
+    .rows-head { padding-bottom: 0.5rem; }
     .rows-head span {
-      font-family: var(--font-display);
-      font-size: 0.6rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--chrome-dim);
+      font-family: var(--font-display); font-size: 0.6rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--chrome-dim);
     }
 
-    .toolbar {
-      display: flex;
-      gap: 0.75rem;
-      align-items: center;
-      margin-top: 1.4rem;
-      flex-wrap: wrap;
+    /* Text groups */
+    details {
+      border: 1px solid rgba(200,200,200,0.1);
+      margin-bottom: 0.6rem;
+      background: rgba(255,255,255,0.015);
     }
+    summary {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--chrome); padding: 0.9rem 1.1rem; cursor: pointer;
+      list-style: none; display: flex; align-items: center; gap: 0.6rem;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before { content: '›'; color: var(--blood); font-size: 1.1rem; transition: transform 0.2s ease; }
+    details[open] summary::before { transform: rotate(90deg); }
+    summary .count { margin-left: auto; font-size: 0.6rem; color: var(--chrome-dim); letter-spacing: 0.15em; }
+    .group-body { padding: 0 1.1rem 1.1rem; display: flex; flex-direction: column; gap: 1rem; }
+
+    .field-key {
+      font-family: monospace; font-size: 0.6rem;
+      color: rgba(200,200,200,0.3); letter-spacing: 0.05em;
+      display: block; margin-top: 0.25rem;
+    }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    .toolbar { display: flex; gap: 0.75rem; align-items: center; margin-top: 1.4rem; flex-wrap: wrap; }
 
     .status {
-      font-family: var(--font-display);
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      margin-left: auto;
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase; margin-left: auto;
     }
-
     .status--ok { color: rgba(120,200,120,0.9); }
     .status--err { color: var(--blood); }
     .status--busy { color: var(--chrome-dim); }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-    }
-
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
     .topbar a {
-      font-family: var(--font-display);
-      font-size: 0.7rem;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--chrome-dim);
-      text-decoration: none;
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--chrome-dim); text-decoration: none;
     }
-
     .topbar a:hover { color: var(--chrome-hi); }
+
+    .langbar { display: flex; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .langbar button {
+      font-family: var(--font-display); font-weight: 700; font-size: 0.65rem;
+      letter-spacing: 0.15em; background: none; cursor: pointer;
+      border: 1px solid rgba(200,200,200,0.18); color: rgba(200,200,200,0.45);
+      padding: 0.4rem 0.7rem; transition: all 0.2s ease;
+    }
+    .langbar button.active { color: var(--white); border-color: rgba(200,200,200,0.7); background: rgba(255,255,255,0.06); }
+
+    /* Sticky save bar */
+    .savebar {
+      position: sticky; bottom: 0;
+      background: rgba(6,6,6,0.96);
+      backdrop-filter: blur(14px);
+      border-top: 1px solid rgba(200,200,200,0.12);
+      padding: 1rem 1.5rem;
+      margin: 1.5rem -1.5rem -6rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    }
+    .dirty-flag {
+      font-family: var(--font-display); font-size: 0.62rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--blood);
+    }
 
     .hidden { display: none !important; }
 
     @media (max-width: 640px) {
-      .row, .rows-head { grid-template-columns: 1fr; gap: 0.4rem; }
+      .row, .rows-head, .grid2 { grid-template-columns: 1fr; gap: 0.4rem; }
       .rows-head { display: none; }
       .row { padding: 1rem 0; }
+      .tab { font-size: 0.6rem; letter-spacing: 0.12em; padding: 0.8rem 0.3rem; }
     }
   </style>
 </head>
@@ -245,24 +229,75 @@
     <div class="hidden" id="editor">
       <div class="topbar">
         <a href="/">← Ver sitio</a>
-        <button class="btn btn--ghost" id="logoutBtn">Salir</button>
+        <button class="btn btn--ghost btn--sm" id="logoutBtn">Salir</button>
       </div>
 
-      <div class="card">
+      <div class="tabs">
+        <button class="tab active" data-tab="dates">Fechas</button>
+        <button class="tab" data-tab="texts">Textos</button>
+        <button class="tab" data-tab="artist">Artista</button>
+      </div>
+
+      <!-- TAB: DATES -->
+      <div class="card" id="tab-dates">
         <label class="label">Fechas de shows</label>
         <div class="rows-head">
           <span>Fecha</span><span>Ciudad</span><span>Venue / Productora</span><span></span>
         </div>
         <div id="rows"></div>
         <div class="toolbar">
-          <button class="btn btn--ghost" id="addBtn">+ Agregar fecha</button>
-          <button class="btn btn--primary" id="saveBtn">Guardar y publicar</button>
-          <span class="status" id="saveStatus"></span>
+          <button class="btn btn--ghost btn--sm" id="addBtn">+ Agregar fecha</button>
+        </div>
+        <p class="hint">Las fechas pasadas se tachan solas en el sitio. Si no queda ninguna futura, aparece el aviso de bookings abiertos.</p>
+      </div>
+
+      <!-- TAB: TEXTS -->
+      <div class="card hidden" id="tab-texts">
+        <label class="label">Textos del sitio</label>
+        <div class="langbar" id="langbar">
+          <button data-lang="es" class="active">ES</button>
+          <button data-lang="en">EN</button>
+          <button data-lang="pt">PT</button>
+        </div>
+        <div id="groups"></div>
+        <p class="hint">
+          Cada idioma se edita por separado — cambiá de pestaña ES/EN/PT para traducir el mismo campo.
+          Los cambios se guardan todos juntos al publicar.
+        </p>
+      </div>
+
+      <!-- TAB: ARTIST -->
+      <div class="card hidden" id="tab-artist">
+        <label class="label">Datos del artista</label>
+        <div id="artistFields"></div>
+
+        <label class="label" style="margin-top:1.8rem">Géneros</label>
+        <input type="text" id="genresField" placeholder="Techno, Industrial, Schranz" />
+        <p class="hint">Separados por coma. Aparecen en la bio y en la tarjeta de Music Profile.</p>
+
+        <label class="label" style="margin-top:1.8rem">Productoras / Clubs</label>
+        <div id="promoters"></div>
+        <div class="toolbar">
+          <button class="btn btn--ghost btn--sm" id="addPromoterBtn">+ Agregar productora</button>
+        </div>
+
+        <label class="label" style="margin-top:2rem">Plantilla</label>
+        <div class="toolbar" style="margin-top:0.4rem">
+          <button class="btn btn--ghost btn--sm" id="exportBtn">↓ Exportar contenido</button>
+          <button class="btn btn--ghost btn--sm" id="importBtn">↑ Importar contenido</button>
+          <input type="file" id="importFile" accept="application/json" class="hidden" />
         </div>
         <p class="hint">
-          Al guardar se commitea <code>dates.json</code> al repo y Vercel redeploya solo —
-          los cambios quedan en vivo en ±1 minuto. Las fechas pasadas se tachan automáticamente en el sitio.
+          Exportá <code>content.json</code> para reutilizar este press kit con otro artista:
+          importás el archivo, cambiás nombre, textos y redes, y publicás.
         </p>
+      </div>
+
+      <!-- SAVE BAR -->
+      <div class="savebar">
+        <button class="btn btn--primary" id="saveBtn">Guardar y publicar</button>
+        <span class="dirty-flag hidden" id="dirtyFlag">● Cambios sin publicar</span>
+        <span class="status" id="saveStatus"></span>
       </div>
     </div>
 
@@ -271,13 +306,50 @@
   <script>
     const OWNER = 'enzodiazzingaretti27-design';
     const REPO = 'presskit_digital';
-    const PATH = 'dates.json';
     const BRANCH = 'master';
-    const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + PATH;
     const TOKEN_KEY = 'kexxy-admin-token';
+    const DATES_FILE = 'dates.json';
+    const CONTENT_FILE = 'content.json';
+
+    const LANGS = ['es', 'en', 'pt'];
+
+    // Section grouping for the Textos tab, in page order
+    const GROUPS = [
+      { prefix: 'hero.',     label: 'Hero' },
+      { prefix: 'listen.',   label: 'Sets / SoundCloud' },
+      { prefix: 'dates.',    label: 'Fechas · etiquetas' },
+      { prefix: 'bio.',      label: 'Biografía' },
+      { prefix: 'rider.',    label: 'Rider técnico' },
+      { prefix: 'live.',     label: 'En Vivo' },
+      { prefix: 'video.',    label: 'Videos' },
+      { prefix: 'about.',    label: 'Sobre Mí' },
+      { prefix: 'contact.',  label: 'Contacto · formulario' },
+      { prefix: 'footer.',   label: 'Footer' },
+      { prefix: 'nav.',      label: 'Navegación' },
+      { prefix: 'lightbox.', label: 'Galería' }
+    ];
+
+    const ARTIST_FIELDS = [
+      { path: 'artist.name',              label: 'Nombre artístico' },
+      { path: 'artist.email',             label: 'Email de booking' },
+      { path: 'artist.location',          label: 'Ciudad / País' },
+      { path: 'artist.socials.instagram', label: 'Instagram (URL)' },
+      { path: 'artist.socials.soundcloud',label: 'SoundCloud (URL)' },
+      { path: 'artist.socials.youtube',   label: 'YouTube (URL)' },
+      { path: 'artist.pressKit',          label: 'Press Kit (URL Drive)' },
+      { path: 'artist.portfolio',         label: 'Portfolio (URL)' },
+      { path: 'stats.heroYears',          label: 'Stat · años de experiencia' },
+      { path: 'stats.heroCities',         label: 'Stat · ciudades (hero)' },
+      { path: 'stats.liveShows',          label: 'Stat · shows en vivo' },
+      { path: 'stats.liveCities',         label: 'Stat · ciudades (live)' },
+      { path: 'stats.liveLongestSet',     label: 'Stat · set más largo' }
+    ];
 
     let token = localStorage.getItem(TOKEN_KEY) || '';
-    let fileSha = null;
+    let content = null;
+    let shas = {};
+    let dirty = {};
+    let activeLang = 'es';
 
     const $ = id => document.getElementById(id);
 
@@ -289,9 +361,16 @@
       };
     }
 
+    function apiUrl(path) {
+      return 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + path;
+    }
+
     // UTF-8-safe base64
     function b64encode(str) {
-      return btoa(String.fromCharCode(...new TextEncoder().encode(str)));
+      const bytes = new TextEncoder().encode(str);
+      let bin = '';
+      bytes.forEach(b => { bin += String.fromCharCode(b); });
+      return btoa(bin);
     }
     function b64decode(b64) {
       return new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, '')), c => c.charCodeAt(0)));
@@ -302,6 +381,62 @@
       el.className = 'status' + (cls ? ' status--' + cls : '');
     }
 
+    function markDirty(file) {
+      dirty[file] = true;
+      $('dirtyFlag').classList.remove('hidden');
+      setStatus($('saveStatus'), '', '');
+    }
+
+    function clearDirty() {
+      dirty = {};
+      $('dirtyFlag').classList.add('hidden');
+    }
+
+    function getPath(obj, path) {
+      return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+    }
+    function setPath(obj, path, value) {
+      const keys = path.split('.');
+      const last = keys.pop();
+      const target = keys.reduce((o, k) => {
+        if (o[k] == null || typeof o[k] !== 'object') o[k] = {};
+        return o[k];
+      }, obj);
+      target[last] = value;
+    }
+
+    async function ghGet(path) {
+      const res = await fetch(apiUrl(path) + '?ref=' + BRANCH, { headers: headers() });
+      if (res.status === 404) return null;
+      if (!res.ok) {
+        throw new Error(res.status === 401 || res.status === 403
+          ? 'Token inválido o sin permisos'
+          : 'Error ' + res.status);
+      }
+      const json = await res.json();
+      shas[path] = json.sha;
+      return JSON.parse(b64decode(json.content));
+    }
+
+    async function ghPut(path, data, message) {
+      const body = {
+        message: message,
+        content: b64encode(JSON.stringify(data, null, 2) + '\n'),
+        branch: BRANCH
+      };
+      if (shas[path]) body.sha = shas[path];
+
+      const res = await fetch(apiUrl(path), { method: 'PUT', headers: headers(), body: JSON.stringify(body) });
+      if (res.status === 409) {
+        throw new Error(path + ' cambió en el repo — recargá la página y volvé a guardar');
+      }
+      if (!res.ok) throw new Error('Error ' + res.status + ' al guardar ' + path);
+      const json = await res.json();
+      shas[path] = json.content.sha;
+    }
+
+    /* ---------------- DATES TAB ---------------- */
+
     function todayISO() {
       const d = new Date();
       return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
@@ -310,58 +445,210 @@
     function addRow(data) {
       data = data || { date: '', city: '', venue: '' };
       const row = document.createElement('div');
-      row.className = 'row' + (data.date && data.date < todayISO() ? ' row--past' : '');
+      row.className = 'row';
       row.innerHTML =
-        '<input type="date" class="f-date" value="' + data.date + '" />' +
-        '<input type="text" class="f-city" placeholder="Ciudad" value="" />' +
-        '<input type="text" class="f-venue" placeholder="Venue / Productora" value="" />' +
+        '<input type="date" class="f-date" />' +
+        '<input type="text" class="f-city" placeholder="Ciudad" />' +
+        '<input type="text" class="f-venue" placeholder="Venue / Productora" />' +
         '<button class="btn btn--danger" title="Eliminar">✕</button>';
+      row.querySelector('.f-date').value = data.date || '';
       row.querySelector('.f-city').value = data.city || '';
       row.querySelector('.f-venue').value = data.venue || '';
-      row.querySelector('.btn--danger').addEventListener('click', () => row.remove());
+      row.querySelectorAll('input').forEach(i => i.addEventListener('input', () => markDirty(DATES_FILE)));
+      row.querySelector('.btn--danger').addEventListener('click', () => {
+        row.remove();
+        markDirty(DATES_FILE);
+      });
       $('rows').appendChild(row);
       return row;
     }
 
-    async function loadDates() {
-      const res = await fetch(API + '?ref=' + BRANCH, { headers: headers() });
-      if (!res.ok) throw new Error(res.status === 401 || res.status === 403 ? 'Token inválido o sin permisos' : 'Error ' + res.status);
-      const json = await res.json();
-      fileSha = json.sha;
-      const data = JSON.parse(b64decode(json.content));
-      $('rows').innerHTML = '';
-      (data.dates || []).forEach(addRow);
-    }
-
-    async function saveDates() {
-      const rows = [...document.querySelectorAll('#rows .row')];
+    function collectDates() {
       const dates = [];
-      for (const row of rows) {
+      document.querySelectorAll('#rows .row').forEach(row => {
         const date = row.querySelector('.f-date').value;
         const city = row.querySelector('.f-city').value.trim();
         const venue = row.querySelector('.f-venue').value.trim();
-        if (!date) { throw new Error('Hay una fila sin fecha'); }
+        if (!date) throw new Error('Hay una fecha vacía en la lista');
         dates.push({ date, city, venue: venue || 'TBA' });
-      }
+      });
       dates.sort((a, b) => a.date.localeCompare(b.date));
-
-      const body = {
-        message: 'update: fechas de shows desde admin panel',
-        content: b64encode(JSON.stringify({ dates }, null, 2) + '\n'),
-        branch: BRANCH,
-        sha: fileSha
-      };
-
-      const res = await fetch(API, { method: 'PUT', headers: headers(), body: JSON.stringify(body) });
-      if (res.status === 409) {
-        // sha stale — reload and ask to retry
-        await loadDates();
-        throw new Error('El archivo cambió en el repo; recargué las fechas, guardá de nuevo');
-      }
-      if (!res.ok) throw new Error('Error ' + res.status + ' al guardar');
-      const json = await res.json();
-      fileSha = json.content.sha;
+      return { dates };
     }
+
+    /* ---------------- TEXTS TAB ---------------- */
+
+    function renderGroups() {
+      const box = $('groups');
+      box.innerHTML = '';
+      const dict = content.i18n[activeLang] || {};
+      const keys = Object.keys(dict);
+      const used = new Set();
+
+      GROUPS.forEach(g => {
+        const groupKeys = keys.filter(k => k.indexOf(g.prefix) === 0);
+        groupKeys.forEach(k => used.add(k));
+        if (!groupKeys.length) return;
+        box.appendChild(buildGroup(g.label, groupKeys, dict));
+      });
+
+      const rest = keys.filter(k => !used.has(k));
+      if (rest.length) box.appendChild(buildGroup('Otros', rest, dict));
+    }
+
+    function buildGroup(label, keys, dict) {
+      const details = document.createElement('details');
+      const summary = document.createElement('summary');
+      summary.innerHTML = label + '<span class="count">' + keys.length + '</span>';
+      details.appendChild(summary);
+
+      const body = document.createElement('div');
+      body.className = 'group-body';
+
+      keys.forEach(key => {
+        const value = dict[key] == null ? '' : String(dict[key]);
+        const wrap = document.createElement('div');
+
+        const lab = document.createElement('label');
+        lab.className = 'label';
+        lab.textContent = humanize(key);
+        wrap.appendChild(lab);
+
+        const long = value.length > 90;
+        const input = document.createElement(long ? 'textarea' : 'input');
+        if (!long) input.type = 'text';
+        input.value = value;
+        if (long) input.rows = Math.min(8, Math.ceil(value.length / 70) + 1);
+        input.addEventListener('input', () => {
+          content.i18n[activeLang][key] = input.value;
+          markDirty(CONTENT_FILE);
+        });
+        wrap.appendChild(input);
+
+        const k = document.createElement('span');
+        k.className = 'field-key';
+        k.textContent = key;
+        wrap.appendChild(k);
+
+        body.appendChild(wrap);
+      });
+
+      details.appendChild(body);
+      return details;
+    }
+
+    function humanize(key) {
+      const tail = key.split('.').slice(1).join('.');
+      return tail
+        .replace(/([A-Z])/g, ' $1')
+        .replace(/[._]/g, ' ')
+        .replace(/^\w/, c => c.toUpperCase())
+        .trim();
+    }
+
+    /* ---------------- ARTIST TAB ---------------- */
+
+    function renderArtist() {
+      const box = $('artistFields');
+      box.innerHTML = '';
+      const grid = document.createElement('div');
+      grid.className = 'grid2';
+
+      ARTIST_FIELDS.forEach(f => {
+        const wrap = document.createElement('div');
+        const lab = document.createElement('label');
+        lab.className = 'label';
+        lab.textContent = f.label;
+        const input = document.createElement('input');
+        input.type = 'text';
+        const v = getPath(content, f.path);
+        input.value = v == null ? '' : v;
+        input.addEventListener('input', () => {
+          setPath(content, f.path, input.value);
+          markDirty(CONTENT_FILE);
+        });
+        wrap.appendChild(lab);
+        wrap.appendChild(input);
+        grid.appendChild(wrap);
+      });
+
+      box.appendChild(grid);
+
+      $('genresField').value = (content.genres || []).join(', ');
+      renderPromoters();
+    }
+
+    function renderPromoters() {
+      const box = $('promoters');
+      box.innerHTML = '';
+      (content.promoters || []).forEach((p, i) => addPromoterRow(p, i));
+    }
+
+    function addPromoterRow(p, index) {
+      p = p || { name: '', meta: '' };
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.style.gridTemplateColumns = '1fr 1fr auto';
+      row.innerHTML =
+        '<input type="text" class="p-name" placeholder="Productora / Club" />' +
+        '<input type="text" class="p-meta" placeholder="Ciudad" />' +
+        '<button class="btn btn--danger" title="Eliminar">✕</button>';
+      row.querySelector('.p-name').value = p.name || '';
+      row.querySelector('.p-meta').value = p.meta || '';
+      row.querySelectorAll('input').forEach(inp => {
+        inp.addEventListener('input', () => {
+          content.promoters = collectPromoters();
+          markDirty(CONTENT_FILE);
+        });
+      });
+      row.querySelector('.btn--danger').addEventListener('click', () => {
+        row.remove();
+        content.promoters = collectPromoters();
+        markDirty(CONTENT_FILE);
+      });
+      $('promoters').appendChild(row);
+      return row;
+    }
+
+    function collectPromoters() {
+      const list = [];
+      document.querySelectorAll('#promoters .row').forEach(row => {
+        const name = row.querySelector('.p-name').value.trim();
+        const meta = row.querySelector('.p-meta').value.trim();
+        if (name) list.push({ name, meta });
+      });
+      return list;
+    }
+
+    /* ---------------- LOAD / SAVE ---------------- */
+
+    async function loadAll() {
+      const dates = await ghGet(DATES_FILE);
+      $('rows').innerHTML = '';
+      ((dates && dates.dates) || []).forEach(addRow);
+
+      content = await ghGet(CONTENT_FILE);
+      if (!content) throw new Error('Falta content.json en el repo');
+      content.i18n = content.i18n || {};
+      LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
+
+      renderGroups();
+      renderArtist();
+      clearDirty();
+    }
+
+    async function saveAll() {
+      if (dirty[DATES_FILE]) {
+        await ghPut(DATES_FILE, collectDates(), 'update: fechas de shows desde admin');
+      }
+      if (dirty[CONTENT_FILE]) {
+        content.genres = $('genresField').value.split(',').map(s => s.trim()).filter(Boolean);
+        content.promoters = collectPromoters();
+        await ghPut(CONTENT_FILE, content, 'update: contenido del sitio desde admin');
+      }
+    }
+
+    /* ---------------- WIRING ---------------- */
 
     async function enter() {
       const t = $('token').value.trim() || token;
@@ -369,7 +656,7 @@
       token = t;
       setStatus($('loginStatus'), 'Verificando…', 'busy');
       try {
-        await loadDates();
+        await loadAll();
         localStorage.setItem(TOKEN_KEY, token);
         $('loginCard').classList.add('hidden');
         $('editor').classList.remove('hidden');
@@ -387,21 +674,94 @@
       location.reload();
     });
 
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === tab));
+        ['dates', 'texts', 'artist'].forEach(name => {
+          $('tab-' + name).classList.toggle('hidden', name !== tab.dataset.tab);
+        });
+      });
+    });
+
+    $('langbar').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      activeLang = btn.dataset.lang;
+      document.querySelectorAll('#langbar button').forEach(b => b.classList.toggle('active', b === btn));
+      renderGroups();
+    });
+
     $('addBtn').addEventListener('click', () => {
-      const row = addRow();
-      row.querySelector('.f-date').focus();
+      addRow().querySelector('.f-date').focus();
+      markDirty(DATES_FILE);
+    });
+
+    $('addPromoterBtn').addEventListener('click', () => {
+      addPromoterRow().querySelector('.p-name').focus();
+    });
+
+    $('genresField').addEventListener('input', () => markDirty(CONTENT_FILE));
+
+    $('exportBtn').addEventListener('click', () => {
+      content.genres = $('genresField').value.split(',').map(s => s.trim()).filter(Boolean);
+      content.promoters = collectPromoters();
+      const blob = new Blob([JSON.stringify(content, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'content.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $('importBtn').addEventListener('click', () => $('importFile').click());
+
+    $('importFile').addEventListener('change', e => {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const parsed = JSON.parse(reader.result);
+          if (!parsed || typeof parsed !== 'object' || !parsed.i18n) {
+            throw new Error('El archivo no tiene el formato de content.json');
+          }
+          content = parsed;
+          content.i18n = content.i18n || {};
+          LANGS.forEach(l => { content.i18n[l] = content.i18n[l] || {}; });
+          renderGroups();
+          renderArtist();
+          markDirty(CONTENT_FILE);
+          setStatus($('saveStatus'), 'Importado — revisá y publicá', 'ok');
+        } catch (err) {
+          setStatus($('saveStatus'), err.message, 'err');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
     });
 
     $('saveBtn').addEventListener('click', async () => {
+      if (!dirty[DATES_FILE] && !dirty[CONTENT_FILE]) {
+        setStatus($('saveStatus'), 'No hay cambios', 'busy');
+        return;
+      }
       $('saveBtn').disabled = true;
       setStatus($('saveStatus'), 'Publicando…', 'busy');
       try {
-        await saveDates();
+        await saveAll();
+        clearDirty();
         setStatus($('saveStatus'), '✓ Publicado — en vivo en ±1 min', 'ok');
       } catch (e) {
         setStatus($('saveStatus'), e.message, 'err');
       } finally {
         $('saveBtn').disabled = false;
+      }
+    });
+
+    window.addEventListener('beforeunload', e => {
+      if (dirty[DATES_FILE] || dirty[CONTENT_FILE]) {
+        e.preventDefault();
+        e.returnValue = '';
       }
     });
 
