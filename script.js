@@ -90,6 +90,8 @@
   today.setHours(0,0,0,0);
 
   // Auto detect and set state
+  let upcomingCount = 0;
+
   document.querySelectorAll('.dates__row').forEach(row => {
     const raw = row.dataset.date;
     const parsed = parseDate(raw);
@@ -98,11 +100,25 @@
       row.classList.add('dates__row--past');
       if (statusEl) {
         statusEl.textContent = 'Past';
+        statusEl.setAttribute('data-i18n', 'dates.past');
         statusEl.classList.remove('dates__status--upcoming');
         statusEl.classList.add('dates__status--past');
       }
+    } else {
+      upcomingCount++;
     }
   });
+
+  // If every show already happened, add a booking-open note
+  if (upcomingCount === 0) {
+    const list = document.getElementById('datesList');
+    if (list) {
+      const note = document.createElement('div');
+      note.className = 'dates__note';
+      note.innerHTML = '<a href="#contact" data-i18n="dates.none">Nuevas fechas próximamente — bookings abiertos</a>';
+      list.appendChild(note);
+    }
+  }
 
   // Interactive UI Filtering
   const filterBtns = document.querySelectorAll('.dates__filter-btn');
@@ -478,8 +494,20 @@ if (scrollIndicator) {
     document.body.style.overflow = '';
   }
 
-  toggle.addEventListener('click', openNav);
-  toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openNav(); });
+  const mobileQuery = window.matchMedia('(max-width: 768px)');
+
+  // On mobile the logo opens the menu; on desktop (where the nav is
+  // already visible) it scrolls back to the top.
+  function handleToggle() {
+    if (mobileQuery.matches) {
+      openNav();
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
+
+  toggle.addEventListener('click', handleToggle);
+  toggle.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') handleToggle(); });
   close.addEventListener('click', closeNav);
 
   nav.querySelectorAll('.mobile-nav__link').forEach(link => {
@@ -505,6 +533,14 @@ if (scrollIndicator) {
       'nav.about':      'About',
       'nav.contact':    'Contact',
       'dates.label':    'Upcoming Shows',
+      'dates.upcoming': 'Upcoming',
+      'dates.past':     'Past',
+      'dates.all':      'All',
+      'dates.none':     'New dates coming soon — bookings open',
+      'listen.label':   'Latest Sets',
+      'listen.link':    'See all sets on SoundCloud →',
+      'live.festTitle': 'Promoters',
+      'live.ctaBtn2':   'View Rider',
       'video.label':    'Media Showcase',
       'video.title':    'Live Action',
       'video.v1Label':  'Featured Live Set',
@@ -598,7 +634,7 @@ if (scrollIndicator) {
       'contact.placeholderMsg':  'Tell us about the event, expected attendance, lineup context...',
       'contact.formNote':    'We typically respond within 48 hours.',
       'contact.send':        'Send Message',
-      'footer.copy':         '© 2024 KEXXY. All rights reserved. Unauthorized use prohibited.',
+      'footer.copy':         '© 2026 KEXXY. All rights reserved. Unauthorized use prohibited.',
       'footer.privacy':      'Privacy',
       'footer.presskit':     'Press Kit',
       'footer.epk':          'EPK',
@@ -612,6 +648,14 @@ if (scrollIndicator) {
       'nav.about':      'Sobre Mí',
       'nav.contact':    'Contacto',
       'dates.label':    'Próximas Fechas',
+      'dates.upcoming': 'Próxima',
+      'dates.past':     'Pasada',
+      'dates.all':      'Todas',
+      'dates.none':     'Nuevas fechas próximamente — bookings abiertos',
+      'listen.label':   'Últimos Sets',
+      'listen.link':    'Ver todos los sets en SoundCloud →',
+      'live.festTitle': 'Productoras',
+      'live.ctaBtn2':   'Ver Rider',
       'video.label':    'Galería de Sets',
       'video.title':    'En Acción',
       'video.v1Label':  'Set en Vivo Destacado',
@@ -705,7 +749,7 @@ if (scrollIndicator) {
       'contact.placeholderMsg':  'Contanos sobre el evento, capacidad estimada, contexto del lineup...',
       'contact.formNote':    'Respondemos en un máximo de 48 horas.',
       'contact.send':        'Enviar Mensaje',
-      'footer.copy':         '© 2024 KEXXY. Todos los derechos reservados.',
+      'footer.copy':         '© 2026 KEXXY. Todos los derechos reservados.',
       'footer.privacy':      'Privacidad',
       'footer.presskit':     'Press Kit',
       'footer.epk':          'EPK',
@@ -719,6 +763,14 @@ if (scrollIndicator) {
       'nav.about':      'Sobre Mim',
       'nav.contact':    'Contato',
       'dates.label':    'Próximas Datas',
+      'dates.upcoming': 'Em breve',
+      'dates.past':     'Passada',
+      'dates.all':      'Todas',
+      'dates.none':     'Novas datas em breve — bookings abertos',
+      'listen.label':   'Últimos Sets',
+      'listen.link':    'Ver todos os sets no SoundCloud →',
+      'live.festTitle': 'Produtoras',
+      'live.ctaBtn2':   'Ver Rider',
       'video.label':    'Galeria de Sets',
       'video.title':    'Em Ação',
       'video.v1Label':  'Set ao Vivo em Destaque',
@@ -812,7 +864,7 @@ if (scrollIndicator) {
       'contact.placeholderMsg':  'Conte-nos sobre o evento, capacidade esperada, contexto do lineup...',
       'contact.formNote':    'Respondemos em até 48 horas.',
       'contact.send':        'Enviar Mensagem',
-      'footer.copy':         '© 2024 KEXXY. Todos los direitos reservados.',
+      'footer.copy':         '© 2026 KEXXY. Todos los direitos reservados.',
       'footer.privacy':      'Privacidade',
       'footer.presskit':     'Press Kit',
       'footer.epk':          'EPK',
