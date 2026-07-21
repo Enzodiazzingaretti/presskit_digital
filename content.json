@@ -28,6 +28,13 @@
     "videos": true,
     "about": true
   },
+  "images": {
+    "hero": "hero-bg.webp",
+    "bio": "bio-photo.webp",
+    "live": "live-photo.webp",
+    "riderBg": "rider-bg.webp",
+    "riderDiagram": "rider-diagram.webp"
+  },
   "stats": {
     "heroYears": "6+",
     "heroCities": "5+",

@@ -1100,6 +1100,32 @@ if (scrollIndicator) {
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
 
+  /* --- Swappable images (content.json > images) --- */
+  const IMAGE_TARGETS = {
+    hero:         [{ sel: '.hero__bg', kind: 'bg' }],
+    bio:          [{ sel: '.bio__img', kind: 'src' }],
+    live:         [{ sel: '.live__img', kind: 'src' }, { sel: '.live__bg', kind: 'bg' }],
+    riderBg:      [{ sel: '.rider__bg', kind: 'bg' }],
+    riderDiagram: [{ sel: '.rider__diagram-img', kind: 'src' }]
+  };
+
+  function applyImages(data) {
+    const imgs = (data && data.images) || {};
+    Object.keys(IMAGE_TARGETS).forEach(slot => {
+      const src = imgs[slot];
+      if (!src) return;
+      IMAGE_TARGETS[slot].forEach(t => {
+        document.querySelectorAll(t.sel).forEach(el => {
+          if (t.kind === 'bg') {
+            el.style.backgroundImage = 'url("' + src + '")';
+          } else {
+            el.setAttribute('src', src);
+          }
+        });
+      });
+    });
+  }
+
   /* --- Optional page sections (content.json > sections) --- */
   const SECTIONS = {
     listen: { el: '#listen' },
@@ -1158,6 +1184,7 @@ if (scrollIndicator) {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
     .then(data => {
       remote = data;
+      applyImages(data);
       applySections(data);
       applyArtist(data);
       applyLang(resolveLanguages(data));
