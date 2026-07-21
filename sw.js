@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kexxy-v1';
+const CACHE_NAME = 'kexxy-v2-20260720';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/style.css',
-  '/script.js',
+  '/style.css?v=20260720',
+  '/script.js?v=20260720',
   '/kexxy-logo-black.png',
   '/kexxy-logo-white.png',
   '/hero-bg.webp',
@@ -41,7 +41,7 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network-first for pages, cache-first for assets
 self.addEventListener('fetch', (event) => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') return;
@@ -49,6 +49,26 @@ self.addEventListener('fetch', (event) => {
   // Skip external requests
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Navigations (HTML) go network-first so visitors always get the
+  // latest version; cache is only the offline fallback.
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          return caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, networkResponse.clone());
+            return networkResponse;
+          });
+        })
+        .catch(() => {
+          return caches.match(event.request).then((cached) => {
+            return cached || caches.match('/index.html');
+          });
+        })
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request)
