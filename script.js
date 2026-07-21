@@ -927,6 +927,10 @@ if (scrollIndicator) {
   function applyLang(lang) {
     const t = dict(lang);
 
+    // Video copy lives on each video, so rebuild those nodes BEFORE the
+    // translation pass below — otherwise it wipes their translated labels.
+    if (remote && remote.videos) renderVideos(remote.videos, lang);
+
     document.querySelectorAll('[data-i18n]').forEach(el => {
       const key = el.getAttribute('data-i18n');
       if (t[key] !== undefined) {
@@ -1100,6 +1104,154 @@ if (scrollIndicator) {
   // Expose for external modules (language auto-detection)
   window.applyLang = applyLang;
 
+  /* --- Media: SoundCloud sets and YouTube videos (content.json) --- */
+
+  function youtubeId(url) {
+    const s = String(url || '').trim();
+    const m = s.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{6,})/);
+    if (m) return m[1];
+    if (/^[A-Za-z0-9_-]{6,}$/.test(s)) return s; // bare id pasted straight in
+    return null;
+  }
+
+  function soundcloudEmbed(url) {
+    return 'https://w.soundcloud.com/player/?url=' + encodeURIComponent(String(url).trim()) +
+      '&color=%23747474&auto_play=false&hide_related=false&show_comments=false' +
+      '&show_user=true&show_reposts=false&show_teaser=false&visual=true';
+  }
+
+  // Use the active language, falling back to whatever the artist did fill in.
+  function pickText(value, lang) {
+    if (value == null) return '';
+    if (typeof value === 'string') return value;
+    if (value[lang]) return value[lang];
+    const first = Object.keys(value).find(k => value[k]);
+    return first ? value[first] : '';
+  }
+
+  function renderSets(list) {
+    const box = document.querySelector('.listen__players');
+    if (!box || !Array.isArray(list)) return;
+
+    const urls = list.map(s => (typeof s === 'string' ? s : (s && s.url))).filter(Boolean);
+    box.innerHTML = '';
+
+    urls.forEach(url => {
+      const wrap = document.createElement('div');
+      wrap.className = 'listen__player';
+
+      const frame = document.createElement('iframe');
+      frame.width = '100%';
+      frame.height = '300';
+      frame.scrolling = 'no';
+      frame.frameBorder = 'no';
+      frame.loading = 'lazy';
+      frame.title = 'SoundCloud player';
+      frame.allow = 'autoplay; encrypted-media';
+      frame.src = soundcloudEmbed(url);
+
+      wrap.appendChild(frame);
+      box.appendChild(wrap);
+    });
+
+    const section = document.getElementById('listen');
+    if (section) section.dataset.empty = urls.length ? '' : '1';
+  }
+
+  function renderVideos(list, lang) {
+    const grid = document.querySelector('.video-showcase__grid');
+    if (!grid || !Array.isArray(list)) return;
+
+    const items = list.filter(v => v && youtubeId(v.url));
+    grid.innerHTML = '';
+
+    items.forEach((v, i) => {
+      const id = youtubeId(v.url);
+      const watchUrl = 'https://youtu.be/' + id;
+      const title = pickText(v.title, lang);
+      const reverse = i % 2 === 1;
+
+      const item = document.createElement('div');
+      // Marked in-view: the reveal observer already ran before this data arrived.
+      item.className = 'video-showcase__featured reveal-up in-view' +
+        (reverse ? ' video-showcase__featured--reverse' : '');
+      if (i > 0) item.style.marginTop = '6rem';
+
+      const media = document.createElement('a');
+      media.href = watchUrl;
+      media.target = '_blank';
+      media.rel = 'noopener';
+      media.className = 'video-showcase__link';
+      media.setAttribute('aria-label', title ? title + ' en YouTube' : 'Ver en YouTube');
+      media.innerHTML =
+        '<div class="video-showcase__player-wrap video-showcase__player-wrap--link">' +
+          '<img class="video-showcase__thumb" loading="lazy" decoding="async" />' +
+          '<div class="video-showcase__play-overlay">' +
+            '<div class="video-showcase__play-btn">' +
+              '<svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">' +
+                '<polygon points="5 3 19 12 5 21 5 3"/>' +
+              '</svg>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      const thumb = media.querySelector('.video-showcase__thumb');
+      thumb.src = 'https://img.youtube.com/vi/' + id + '/maxresdefault.jpg';
+      thumb.alt = title;
+
+      const info = document.createElement('div');
+      info.className = 'video-showcase__info';
+
+      const label = document.createElement('p');
+      label.className = 'video-showcase__featured-label';
+      label.textContent = pickText(v.label, lang);
+
+      const heading = document.createElement('h3');
+      heading.className = 'video-showcase__featured-title';
+      heading.textContent = title;
+
+      const desc = document.createElement('p');
+      desc.className = 'video-showcase__featured-desc';
+      desc.textContent = pickText(v.desc, lang);
+
+      const cta = document.createElement('a');
+      cta.href = watchUrl;
+      cta.target = '_blank';
+      cta.rel = 'noopener';
+      cta.className = 'btn btn--secondary';
+      cta.style.marginTop = '1rem';
+      cta.style.alignSelf = 'flex-start';
+
+      const ctaInner = document.createElement('span');
+      ctaInner.className = 'btn__inner';
+      ctaInner.setAttribute('data-i18n', 'video.watchBtn');
+      ctaInner.textContent = 'Watch on YouTube \u2197';
+      cta.appendChild(ctaInner);
+
+      info.appendChild(label);
+      info.appendChild(heading);
+      info.appendChild(desc);
+      info.appendChild(cta);
+
+      if (reverse) {
+        item.appendChild(info);
+        item.appendChild(media);
+      } else {
+        item.appendChild(media);
+        item.appendChild(info);
+      }
+      grid.appendChild(item);
+    });
+
+    const section = document.getElementById('videos');
+    if (section) section.dataset.empty = items.length ? '' : '1';
+  }
+
+  function applyMedia(data, lang) {
+    if (data.sets) renderSets(data.sets);
+    if (data.videos) renderVideos(data.videos, lang);
+  }
+
   /* --- Swappable images (content.json > images) --- */
   const IMAGE_TARGETS = {
     hero:         [{ sel: '.hero__bg', kind: 'bg' }],
@@ -1140,8 +1292,12 @@ if (scrollIndicator) {
   function applySections(data) {
     const cfg = (data && data.sections) || {};
     Object.keys(SECTIONS).forEach(key => {
-      const on = cfg[key] !== false; // sections default to visible
+      let on = cfg[key] !== false; // sections default to visible
       const conf = SECTIONS[key];
+
+      // An emptied media section hides even when its switch is on
+      const holder = document.querySelector(conf.el);
+      if (on && holder && holder.dataset.empty === '1') on = false;
 
       document.querySelectorAll(conf.el).forEach(el => {
         el.style.display = on ? '' : 'none';
@@ -1184,12 +1340,17 @@ if (scrollIndicator) {
     .then(r => (r.ok ? r.json() : Promise.reject(new Error('no content.json'))))
     .then(data => {
       remote = data;
+      const lang = resolveLanguages(data);
       applyImages(data);
+      applyMedia(data, lang);
       applySections(data);
       applyArtist(data);
-      applyLang(resolveLanguages(data));
+      applyLang(lang);
     })
-    .catch(() => { /* built-in text stays */ });
+    .catch(err => {
+      // Built-in text stays; log so a real failure is not invisible.
+      console.error('content.json could not be applied:', err);
+    });
 
 })();
 

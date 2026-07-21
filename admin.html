@@ -440,6 +440,7 @@
         <button class="rail__item active" data-view="dates">Fechas <small id="countDates"></small></button>
         <button class="rail__item" data-view="texts">Textos</button>
         <button class="rail__item" data-view="artist">Artista</button>
+        <button class="rail__item" data-view="media">Media <small id="countMedia"></small></button>
         <button class="rail__item" data-view="images">Imágenes</button>
         <button class="rail__item" data-view="advanced">Avanzado</button>
       </nav>
@@ -512,6 +513,46 @@
               <div style="margin-top:1.1rem">
                 <button class="btn btn--ghost btn--sm" id="addPromoterBtn">+ Agregar productora</button>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ---- MEDIA ---- -->
+        <section class="view" id="view-media">
+          <div class="view__head">
+            <h2 class="view__title">Media</h2>
+            <p class="view__note">Los sets y videos que se muestran en el sitio. Si quitás el último de una lista, esa sección desaparece sola.</p>
+          </div>
+
+          <div class="block">
+            <div class="block__head"><span class="block__title">Sets de SoundCloud</span></div>
+            <div class="block__body">
+              <div id="sets"></div>
+              <div style="margin-top:1.1rem">
+                <button class="btn btn--ghost btn--sm" id="addSetBtn">+ Agregar set</button>
+              </div>
+              <p class="hint">Pegá el enlace del track, por ejemplo <code>https://soundcloud.com/tu-usuario/tu-set</code>.</p>
+            </div>
+          </div>
+
+          <div class="block">
+            <div class="block__head">
+              <span class="block__title">Videos de YouTube</span>
+              <div class="langbar" id="mediaLangbar" style="margin:0 0 0 auto">
+                <button data-lang="es" class="active">ES</button>
+                <button data-lang="en">EN</button>
+                <button data-lang="pt">PT</button>
+              </div>
+            </div>
+            <div class="block__body">
+              <div id="videos"></div>
+              <div style="margin-top:1.1rem">
+                <button class="btn btn--ghost btn--sm" id="addVideoBtn">+ Agregar video</button>
+              </div>
+              <p class="hint">
+                Pegá el enlace del video (<code>youtu.be/…</code> o <code>youtube.com/watch?v=…</code>); la miniatura se toma sola.
+                El título y la descripción se escriben por idioma: si dejás uno vacío, se muestra el que sí completaste.
+              </p>
             </div>
           </div>
         </section>
@@ -810,6 +851,146 @@
       });
       dates.sort((a, b) => a.date.localeCompare(b.date));
       return { dates };
+    }
+
+    /* ---------------- Media ---------------- */
+
+    let mediaLang = 'es';
+
+    function youtubeId(url) {
+      const s = String(url || '').trim();
+      const m = s.match(/(?:youtu\.be\/|v=|\/embed\/|\/shorts\/)([A-Za-z0-9_-]{6,})/);
+      if (m) return m[1];
+      if (/^[A-Za-z0-9_-]{6,}$/.test(s)) return s;
+      return null;
+    }
+
+    function refreshMediaCount() {
+      const n = (content.sets || []).length + (content.videos || []).length;
+      $('countMedia').textContent = n ? n : '';
+    }
+
+    /* --- sets --- */
+
+    function renderSets() {
+      content.sets = content.sets || [];
+      $('sets').innerHTML = '';
+      if (!content.sets.length) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = 'Sin sets. La sección no se muestra en el sitio.';
+        $('sets').appendChild(empty);
+      }
+      content.sets.forEach(url => addSetRow(typeof url === 'string' ? url : (url && url.url) || ''));
+      refreshMediaCount();
+    }
+
+    function addSetRow(url) {
+      const row = document.createElement('div');
+      row.className = 'row';
+      row.style.gridTemplateColumns = '1fr auto';
+      row.innerHTML =
+        '<input type="url" class="s-url" placeholder="https://soundcloud.com/usuario/track" />' +
+        '<button class="btn--x" title="Quitar set">✕</button>';
+      row.querySelector('.s-url').value = url || '';
+      row.querySelector('.s-url').addEventListener('input', () => {
+        content.sets = collectSets();
+        markDirty(CONTENT_FILE);
+        refreshMediaCount();
+      });
+      row.querySelector('.btn--x').addEventListener('click', () => {
+        row.remove();
+        content.sets = collectSets();
+        markDirty(CONTENT_FILE);
+        refreshMediaCount();
+      });
+      $('sets').appendChild(row);
+      return row;
+    }
+
+    function collectSets() {
+      return [...document.querySelectorAll('#sets .row')]
+        .map(r => r.querySelector('.s-url').value.trim())
+        .filter(Boolean);
+    }
+
+    /* --- videos --- */
+
+    function renderVideoRows() {
+      content.videos = content.videos || [];
+      $('videos').innerHTML = '';
+      if (!content.videos.length) {
+        const empty = document.createElement('p');
+        empty.className = 'empty';
+        empty.textContent = 'Sin videos. La sección no se muestra en el sitio.';
+        $('videos').appendChild(empty);
+      }
+      content.videos.forEach((v, i) => addVideoRow(v, i));
+      refreshMediaCount();
+    }
+
+    function addVideoRow(video, index) {
+      video = video || { url: '', label: {}, title: {}, desc: {} };
+      ['label', 'title', 'desc'].forEach(k => {
+        if (typeof video[k] === 'string') video[k] = { es: video[k] };
+        video[k] = video[k] || {};
+      });
+
+      const box = document.createElement('div');
+      box.className = 'block';
+      box.style.margin = '0 0 0.9rem';
+      box.innerHTML =
+        '<div class="block__body" style="display:flex;flex-direction:column;gap:0.9rem">' +
+          '<div style="display:grid;grid-template-columns:100px 1fr auto;gap:0.8rem;align-items:center">' +
+            '<div class="slot__thumb" style="width:100px;height:62px"></div>' +
+            '<div><span class="label" style="margin-bottom:0.35rem">Enlace del video</span>' +
+              '<input type="url" class="v-url" placeholder="https://youtu.be/…" /></div>' +
+            '<button class="btn--x" title="Quitar video">✕</button>' +
+          '</div>' +
+          '<div class="grid2">' +
+            '<div><span class="label">Etiqueta</span><input type="text" class="v-label" placeholder="DJ Set" /></div>' +
+            '<div><span class="label">Título</span><input type="text" class="v-title" placeholder="Nombre del set" /></div>' +
+          '</div>' +
+          '<div><span class="label">Descripción</span><textarea class="v-desc" rows="3"></textarea></div>' +
+        '</div>';
+
+      const urlInput = box.querySelector('.v-url');
+      const thumb = box.querySelector('.slot__thumb');
+      urlInput.value = video.url || '';
+
+      function paintThumb() {
+        const id = youtubeId(urlInput.value);
+        thumb.style.backgroundImage = id ? 'url("https://img.youtube.com/vi/' + id + '/mqdefault.jpg")' : '';
+      }
+      paintThumb();
+
+      const fields = {
+        label: box.querySelector('.v-label'),
+        title: box.querySelector('.v-title'),
+        desc: box.querySelector('.v-desc')
+      };
+      Object.keys(fields).forEach(k => {
+        fields[k].value = video[k][mediaLang] || '';
+        fields[k].addEventListener('input', () => {
+          video[k][mediaLang] = fields[k].value;
+          markDirty(CONTENT_FILE);
+        });
+      });
+
+      urlInput.addEventListener('input', () => {
+        video.url = urlInput.value.trim();
+        paintThumb();
+        markDirty(CONTENT_FILE);
+      });
+
+      box.querySelector('.btn--x').addEventListener('click', () => {
+        content.videos.splice(content.videos.indexOf(video), 1);
+        renderVideoRows();
+        markDirty(CONTENT_FILE);
+      });
+
+      $('videos').appendChild(box);
+      return box;
     }
 
     /* ---------------- Imágenes ---------------- */
@@ -1170,6 +1351,8 @@
       renderArtist();
       renderChannels();
       renderSlots();
+      renderSets();
+      renderVideoRows();
       clearDirty();
     }
 
@@ -1180,6 +1363,7 @@
       if (dirty[CONTENT_FILE]) {
         content.genres = $('genresField').value.split(',').map(s => s.trim()).filter(Boolean);
         content.promoters = collectPromoters();
+        content.sets = collectSets();
         await writeFile(CONTENT_FILE, content, 'update: contenido del sitio desde la consola');
       }
     }
@@ -1287,6 +1471,30 @@
       markDirty(DATES_FILE);
     });
 
+    $('addSetBtn').addEventListener('click', () => {
+      const empty = $('sets').querySelector('.empty');
+      if (empty) empty.remove();
+      addSetRow('').querySelector('.s-url').focus();
+      markDirty(CONTENT_FILE);
+    });
+
+    $('addVideoBtn').addEventListener('click', () => {
+      content.videos = content.videos || [];
+      content.videos.push({ url: '', label: {}, title: {}, desc: {} });
+      renderVideoRows();
+      const rows = $('videos').querySelectorAll('.v-url');
+      if (rows.length) rows[rows.length - 1].focus();
+      markDirty(CONTENT_FILE);
+    });
+
+    $('mediaLangbar').addEventListener('click', e => {
+      const btn = e.target.closest('button');
+      if (!btn) return;
+      mediaLang = btn.dataset.lang;
+      document.querySelectorAll('#mediaLangbar button').forEach(b => b.classList.toggle('active', b === btn));
+      renderVideoRows();
+    });
+
     $('addPromoterBtn').addEventListener('click', () => {
       addPromoterRow().querySelector('.p-name').focus();
     });
@@ -1324,6 +1532,8 @@
           renderArtist();
           renderChannels();
           renderSlots();
+          renderSets();
+          renderVideoRows();
           markDirty(CONTENT_FILE);
           setStatus($('saveStatus'), 'Importado. Revisá y publicá', 'ok');
         } catch (err) {

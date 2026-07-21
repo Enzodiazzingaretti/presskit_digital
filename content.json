@@ -35,6 +35,66 @@
     "riderBg": "rider-bg.webp",
     "riderDiagram": "rider-diagram.webp"
   },
+  "videos": [
+    {
+      "url": "https://youtu.be/zkCGSwF465g",
+      "label": {
+        "es": "Set en Vivo Destacado",
+        "en": "Featured Live Set",
+        "pt": "Set ao Vivo em Destaque"
+      },
+      "title": {
+        "es": "KEXXY @ HAPPY SOUNDS",
+        "en": "KEXXY @ HAPPY SOUNDS",
+        "pt": "KEXXY @ HAPPY SOUNDS"
+      },
+      "desc": {
+        "es": "Video de la sesión capturada en vivo durante HAPPY SOUNDS. Una exhibición de energía hardgroove, mezclas rápidas y groove. En lo personal, fue una experiencia enriquecedora con una producción notablemente profesional. Me gusta destacar la atención del equipo \"Happy Sounds\" quienes me brindaron gran hospitalidad, permitiendo un mejor desarrollo del set y mi creatividad.",
+        "en": "Live performance video captured during HAPPY SOUNDS. A display of fast-paced hardgroove energy, dense layering, and drive. Personally, it was an enriching experience with a notably professional production. I like to highlight the attention of the \"Happy Sounds\" team who gave me great hospitality, allowing a better development of the set and my creativity.",
+        "pt": "Vídeo da sessão capturada ao vivo durante HAPPY SOUNDS. Uma exibição de energia hardgroove, mixagens rápidas e groove. Pessoalmente, foi uma experiência enriquecedora com uma produção notavelmente profissional. Gosto de destacar a atenção da equipe \"Happy Sounds\" que me proporcionou grande hospitalidade, permitindo um melhor desenvolvimento do set e minha criatividade."
+      }
+    },
+    {
+      "url": "https://youtu.be/3r4pIKcuirs",
+      "label": {
+        "es": "DJ Set",
+        "en": "DJ Set",
+        "pt": "DJ Set"
+      },
+      "title": {
+        "es": "KEXXY — Hard Techno Set",
+        "en": "KEXXY — Hard Techno Set",
+        "pt": "KEXXY — Hard Techno Set"
+      },
+      "desc": {
+        "es": "Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.",
+        "en": "A hard techno set with fast mixing and heavy structures. 100% CDJ mixing recorded in a private studio.",
+        "pt": "Um set de hard techno com mixagens rápidas e estruturas pesadas. 100% mixagem com CDJ gravado em um estúdio privado."
+      }
+    },
+    {
+      "url": "https://youtu.be/eBhTdJpH7DQ",
+      "label": {
+        "es": "DJ Set",
+        "en": "DJ Set",
+        "pt": "DJ Set"
+      },
+      "title": {
+        "es": "KEXXY — Hardgroove Set",
+        "en": "KEXXY — Hardgroove Set",
+        "pt": "KEXXY — Hardgroove Set"
+      },
+      "desc": {
+        "es": "Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.",
+        "en": "A hardgroove set with fast mixing and raw energy. 100% CDJ mixing recorded in a private studio.",
+        "pt": "Um set de hardgroove com mixagens rápidas e energia crua. 100% mixagem com CDJ gravado em um estúdio privado."
+      }
+    }
+  ],
+  "sets": [
+    "https://api.soundcloud.com/tracks/2074171416",
+    "https://api.soundcloud.com/tracks/1770277299"
+  ],
   "stats": {
     "heroYears": "6+",
     "heroCities": "5+",
@@ -103,15 +163,6 @@
       "live.ctaBtn2": "View Rider",
       "video.label": "Media Showcase",
       "video.title": "Live Action",
-      "video.v1Label": "Featured Live Set",
-      "video.v1Title": "KEXXY @ HAPPY SOUNDS",
-      "video.v1Desc": "Live performance video captured during HAPPY SOUNDS. A display of fast-paced hardgroove energy, dense layering, and drive. Personally, it was an enriching experience with a notably professional production. I like to highlight the attention of the \"Happy Sounds\" team who gave me great hospitality, allowing a better development of the set and my creativity.",
-      "video.v2Label": "DJ Set",
-      "video.v2Title": "KEXXY — Hard Techno Set",
-      "video.v2Desc": "A hard techno set with fast mixing and heavy structures. 100% CDJ mixing recorded in a private studio.",
-      "video.v3Label": "DJ Set",
-      "video.v3Title": "KEXXY — Hardgroove Set",
-      "video.v3Desc": "A hardgroove set with fast mixing and raw energy. 100% CDJ mixing recorded in a private studio.",
       "video.watchBtn": "Watch on YouTube ↗",
       "hero.tag": "Mendoza · Argentina",
       "hero.subtitle": "TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.",
@@ -218,15 +269,6 @@
       "live.ctaBtn2": "Ver Rider",
       "video.label": "Galería de Sets",
       "video.title": "En Acción",
-      "video.v1Label": "Set en Vivo Destacado",
-      "video.v1Title": "KEXXY @ HAPPY SOUNDS",
-      "video.v1Desc": "Video de la sesión capturada en vivo durante HAPPY SOUNDS. Una exhibición de energía hardgroove, mezclas rápidas y groove. En lo personal, fue una experiencia enriquecedora con una producción notablemente profesional. Me gusta destacar la atención del equipo \"Happy Sounds\" quienes me brindaron gran hospitalidad, permitiendo un mejor desarrollo del set y mi creatividad.",
-      "video.v2Label": "DJ Set",
-      "video.v2Title": "KEXXY — Hard Techno Set",
-      "video.v2Desc": "Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.",
-      "video.v3Label": "DJ Set",
-      "video.v3Title": "KEXXY — Hardgroove Set",
-      "video.v3Desc": "Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.",
       "video.watchBtn": "Ver en YouTube ↗",
       "hero.tag": "Mendoza · Argentina",
       "hero.subtitle": "TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.",
@@ -333,15 +375,6 @@
       "live.ctaBtn2": "Ver Rider",
       "video.label": "Galeria de Sets",
       "video.title": "Em Ação",
-      "video.v1Label": "Set ao Vivo em Destaque",
-      "video.v1Title": "KEXXY @ HAPPY SOUNDS",
-      "video.v1Desc": "Vídeo da sessão capturada ao vivo durante HAPPY SOUNDS. Uma exibição de energia hardgroove, mixagens rápidas e groove. Pessoalmente, foi uma experiência enriquecedora com uma produção notavelmente profissional. Gosto de destacar a atenção da equipe \"Happy Sounds\" que me proporcionou grande hospitalidade, permitindo um melhor desenvolvimento do set e minha criatividade.",
-      "video.v2Label": "DJ Set",
-      "video.v2Title": "KEXXY — Hard Techno Set",
-      "video.v2Desc": "Um set de hard techno com mixagens rápidas e estruturas pesadas. 100% mixagem com CDJ gravado em um estúdio privado.",
-      "video.v3Label": "DJ Set",
-      "video.v3Title": "KEXXY — Hardgroove Set",
-      "video.v3Desc": "Um set de hardgroove com mixagens rápidas e energia crua. 100% mixagem com CDJ gravado em um estúdio privado.",
       "video.watchBtn": "Assistir no YouTube ↗",
       "hero.tag": "Mendoza · Argentina",
       "hero.subtitle": "TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE.",
