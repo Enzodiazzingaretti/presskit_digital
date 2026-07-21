@@ -1514,7 +1514,7 @@ document.addEventListener('DOMContentLoaded', () => {
    TEMPLATE CREDIT — kept in the footer for every artist
    ============================================================ */
 (function footerCredit() {
-  const CREDIT_URL = 'https://enzodiazzingaretti27-design.github.io/kexxy-portfolio/';
+  const CREDIT_URL = 'https://portfolio-kexxy.vercel.app';
   const CREDIT_NAME = 'Enzo Díaz Zingaretti';
 
   function ensure() {
