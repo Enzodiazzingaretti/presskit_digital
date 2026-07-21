@@ -75,57 +75,77 @@
     octubre:9, oct:9, noviembre:10, nov:10, diciembre:11, dic:11
   };
 
+  const MONTH_ABBR = ['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+
   function parseDate(raw) {
-    const text = String(raw).trim().toLowerCase();
-    const m = text.match(/^(\d{1,2})\s+([a-záéíóúüñ]+)\s+(\d{4})$/i);
+    const text = String(raw).trim();
+    // ISO format (from dates.json, editable via /admin.html)
+    let m = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]), 12, 0, 0);
+    // Legacy "25 abril 2026" format (static HTML fallback rows)
+    m = text.toLowerCase().match(/^(\d{1,2})\s+([a-záéíóúüñ]+)\s+(\d{4})$/i);
     if (!m) return null;
     const day = Number(m[1]);
-    const month = MONTH_MAP[m[2].normalize('NFD').replace(/[\u0300-\u036f]/g,'')];
+    const month = MONTH_MAP[m[2].normalize('NFD').replace(/[̀-ͯ]/g,'')];
     const year = Number(m[3]);
     if (month === undefined) return null;
     return new Date(year, month, day, 12, 0, 0);
   }
 
+  const list = document.getElementById('datesList');
   const today = new Date();
   today.setHours(0,0,0,0);
 
-  // Auto detect and set state
-  let upcomingCount = 0;
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, c => (
+      { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+    ));
+  }
 
-  document.querySelectorAll('.dates__row').forEach(row => {
-    const raw = row.dataset.date;
-    const parsed = parseDate(raw);
-    const statusEl = row.querySelector('.dates__status');
-    if (parsed && parsed.getTime() < today.getTime()) {
-      row.classList.add('dates__row--past');
-      if (statusEl) {
-        statusEl.textContent = 'Past';
-        statusEl.setAttribute('data-i18n', 'dates.past');
-        statusEl.classList.remove('dates__status--upcoming');
-        statusEl.classList.add('dates__status--past');
+  // Build rows from dates.json data; static HTML rows stay as fallback
+  function renderRows(dates) {
+    if (!list || !Array.isArray(dates)) return;
+    const sorted = dates.slice().sort((a, b) => String(a.date).localeCompare(String(b.date)));
+    list.innerHTML = sorted.map(d => {
+      const parsed = parseDate(d.date);
+      const label = parsed
+        ? String(parsed.getDate()).padStart(2, '0') + ' ' + MONTH_ABBR[parsed.getMonth()] + ' ' + parsed.getFullYear()
+        : esc(d.date);
+      return '<div class="dates__row" data-date="' + esc(d.date) + '">' +
+        '<span class="dates__date">' + label + '</span>' +
+        '<span class="dates__city">' + esc(d.city || '') + '</span>' +
+        '<span class="dates__venue">' + esc(d.venue || '') + '</span>' +
+        '<span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Auto detect past shows; returns how many upcoming remain
+  function markPast() {
+    let upcomingCount = 0;
+    document.querySelectorAll('.dates__row').forEach(row => {
+      const parsed = parseDate(row.dataset.date);
+      const statusEl = row.querySelector('.dates__status');
+      if (parsed && parsed.getTime() < today.getTime()) {
+        row.classList.add('dates__row--past');
+        if (statusEl) {
+          statusEl.textContent = 'Past';
+          statusEl.setAttribute('data-i18n', 'dates.past');
+          statusEl.classList.remove('dates__status--upcoming');
+          statusEl.classList.add('dates__status--past');
+        }
+      } else {
+        upcomingCount++;
       }
-    } else {
-      upcomingCount++;
-    }
-  });
-
-  // If every show already happened, add a booking-open note
-  if (upcomingCount === 0) {
-    const list = document.getElementById('datesList');
-    if (list) {
-      const note = document.createElement('div');
-      note.className = 'dates__note';
-      note.innerHTML = '<a href="#contact" data-i18n="dates.none">Nuevas fechas próximamente — bookings abiertos</a>';
-      list.appendChild(note);
-    }
+    });
+    return upcomingCount;
   }
 
   // Interactive UI Filtering
   const filterBtns = document.querySelectorAll('.dates__filter-btn');
-  const rows = document.querySelectorAll('.dates__row');
 
   function applyFilter(filter) {
-    rows.forEach(row => {
+    document.querySelectorAll('.dates__row').forEach(row => {
       const isPast = row.classList.contains('dates__row--past');
       if (filter === 'all') {
         row.style.display = '';
@@ -150,8 +170,30 @@
     });
   });
 
-  // Default filter: show all dates
-  applyFilter('all');
+  function finalize() {
+    const upcoming = markPast();
+
+    // If every show already happened, add a booking-open note
+    if (upcoming === 0 && list && !list.querySelector('.dates__note')) {
+      const note = document.createElement('div');
+      note.className = 'dates__note';
+      note.innerHTML = '<a href="#contact" data-i18n="dates.none">Nuevas fechas próximamente — bookings abiertos</a>';
+      list.appendChild(note);
+    }
+
+    // Re-apply current language to freshly rendered nodes
+    if (typeof window.applyLang === 'function') {
+      window.applyLang(localStorage.getItem('kexxy-lang') || 'es');
+    }
+
+    applyFilter('all');
+  }
+
+  fetch('dates.json', { cache: 'no-store' })
+    .then(r => (r.ok ? r.json() : Promise.reject(new Error('fetch failed'))))
+    .then(data => renderRows(data.dates || data))
+    .catch(() => { /* keep static fallback rows */ })
+    .finally(finalize);
 })();
 
 /* ============================================================

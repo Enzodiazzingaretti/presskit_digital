@@ -1,9 +1,9 @@
-const CACHE_NAME = 'kexxy-v2-20260720';
+const CACHE_NAME = 'kexxy-v3-20260720';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/style.css?v=20260720',
-  '/script.js?v=20260720',
+  '/style.css?v=20260720b',
+  '/script.js?v=20260720b',
   '/kexxy-logo-black.png',
   '/kexxy-logo-white.png',
   '/hero-bg.webp',
@@ -50,9 +50,9 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Navigations (HTML) go network-first so visitors always get the
-  // latest version; cache is only the offline fallback.
-  if (event.request.mode === 'navigate') {
+  // Navigations (HTML) and dates.json go network-first so visitors
+  // always get the latest version; cache is only the offline fallback.
+  if (event.request.mode === 'navigate' || url.pathname === '/dates.json') {
     event.respondWith(
       fetch(event.request)
         .then((networkResponse) => {

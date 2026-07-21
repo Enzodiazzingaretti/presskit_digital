@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>KEXXY — Admin</title>
+  <link rel="icon" type="image/png" href="kexxy-logo-white.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400&family=Pirata+One&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #000;
+      --charcoal: #0d0d0d;
+      --chrome: #c8c8c8;
+      --chrome-dim: #6a6a6a;
+      --chrome-hi: #e8e8e8;
+      --white: #fff;
+      --blood: #b31217;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body: 'Barlow', sans-serif;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      background-image: radial-gradient(ellipse at 50% -20%, rgba(40,40,40,0.35), transparent 60%);
+    }
+
+    ::selection { background: var(--blood); color: var(--white); }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .head {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .head img { height: 44px; filter: none; opacity: 0.9; }
+
+    .head h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: 1.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+    }
+
+    .head .num {
+      font-family: 'Pirata One', var(--font-display);
+      color: var(--blood);
+      font-size: 1.3rem;
+      margin-left: auto;
+    }
+
+    .card {
+      background: rgba(10,10,10,0.85);
+      border: 1px solid rgba(200,200,200,0.12);
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .label {
+      font-family: var(--font-display);
+      font-weight: 300;
+      font-size: 0.65rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--chrome-dim);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    input, select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(200,200,200,0.15);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 0.9rem;
+      padding: 0.7rem 0.9rem;
+      outline: none;
+      border-radius: 0;
+      transition: border-color 0.25s ease;
+      color-scheme: dark;
+    }
+
+    input:focus { border-color: rgba(200,200,200,0.45); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      padding: 0.85rem 1.8rem;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.25s ease;
+      clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+    }
+
+    .btn--primary { background: var(--white); color: var(--black); }
+    .btn--primary:hover { background: var(--chrome-hi); }
+    .btn--primary:disabled { opacity: 0.4; cursor: default; }
+
+    .btn--ghost {
+      background: transparent;
+      color: var(--chrome);
+      border-color: rgba(200,200,200,0.25);
+    }
+    .btn--ghost:hover { border-color: rgba(200,200,200,0.6); color: var(--white); }
+
+    .btn--danger {
+      background: transparent;
+      color: rgba(200,200,200,0.5);
+      border-color: rgba(200,200,200,0.15);
+      padding: 0.5rem 0.8rem;
+      font-size: 0.65rem;
+    }
+    .btn--danger:hover { border-color: var(--blood); color: var(--blood); }
+
+    .hint {
+      font-size: 0.75rem;
+      color: var(--chrome-dim);
+      line-height: 1.6;
+      margin-top: 0.9rem;
+    }
+
+    .hint a { color: var(--chrome); }
+
+    .row {
+      display: grid;
+      grid-template-columns: 150px 1fr 1fr auto;
+      gap: 0.6rem;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(200,200,200,0.07);
+    }
+
+    .row--past { opacity: 0.45; }
+
+    .rows-head {
+      display: grid;
+      grid-template-columns: 150px 1fr 1fr auto;
+      gap: 0.6rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .rows-head span {
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--chrome-dim);
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      margin-top: 1.4rem;
+      flex-wrap: wrap;
+    }
+
+    .status {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-left: auto;
+    }
+
+    .status--ok { color: rgba(120,200,120,0.9); }
+    .status--err { color: var(--blood); }
+    .status--busy { color: var(--chrome-dim); }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .topbar a {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--chrome-dim);
+      text-decoration: none;
+    }
+
+    .topbar a:hover { color: var(--chrome-hi); }
+
+    .hidden { display: none !important; }
+
+    @media (max-width: 640px) {
+      .row, .rows-head { grid-template-columns: 1fr; gap: 0.4rem; }
+      .rows-head { display: none; }
+      .row { padding: 1rem 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="head">
+      <img src="kexxy-logo-white.png" alt="KEXXY" />
+      <h1>Admin</h1>
+      <span class="num">☩</span>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="card" id="loginCard">
+      <label class="label" for="token">Token de acceso (GitHub)</label>
+      <input type="password" id="token" placeholder="github_pat_…" autocomplete="off" />
+      <div class="toolbar">
+        <button class="btn btn--primary" id="loginBtn">Entrar</button>
+        <span class="status" id="loginStatus"></span>
+      </div>
+      <p class="hint">
+        Se genera una sola vez en
+        <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">GitHub → Fine-grained tokens</a>:
+        Repository access → <strong>Only select repositories → presskit_digital</strong> ·
+        Permissions → <strong>Contents: Read and write</strong>.
+        El token queda guardado solo en este navegador.
+      </p>
+    </div>
+
+    <!-- EDITOR -->
+    <div class="hidden" id="editor">
+      <div class="topbar">
+        <a href="/">← Ver sitio</a>
+        <button class="btn btn--ghost" id="logoutBtn">Salir</button>
+      </div>
+
+      <div class="card">
+        <label class="label">Fechas de shows</label>
+        <div class="rows-head">
+          <span>Fecha</span><span>Ciudad</span><span>Venue / Productora</span><span></span>
+        </div>
+        <div id="rows"></div>
+        <div class="toolbar">
+          <button class="btn btn--ghost" id="addBtn">+ Agregar fecha</button>
+          <button class="btn btn--primary" id="saveBtn">Guardar y publicar</button>
+          <span class="status" id="saveStatus"></span>
+        </div>
+        <p class="hint">
+          Al guardar se commitea <code>dates.json</code> al repo y Vercel redeploya solo —
+          los cambios quedan en vivo en ±1 minuto. Las fechas pasadas se tachan automáticamente en el sitio.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const OWNER = 'enzodiazzingaretti27-design';
+    const REPO = 'presskit_digital';
+    const PATH = 'dates.json';
+    const BRANCH = 'master';
+    const API = 'https://api.github.com/repos/' + OWNER + '/' + REPO + '/contents/' + PATH;
+    const TOKEN_KEY = 'kexxy-admin-token';
+
+    let token = localStorage.getItem(TOKEN_KEY) || '';
+    let fileSha = null;
+
+    const $ = id => document.getElementById(id);
+
+    function headers() {
+      return {
+        'Authorization': 'Bearer ' + token,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28'
+      };
+    }
+
+    // UTF-8-safe base64
+    function b64encode(str) {
+      return btoa(String.fromCharCode(...new TextEncoder().encode(str)));
+    }
+    function b64decode(b64) {
+      return new TextDecoder().decode(Uint8Array.from(atob(b64.replace(/\n/g, '')), c => c.charCodeAt(0)));
+    }
+
+    function setStatus(el, msg, cls) {
+      el.textContent = msg;
+      el.className = 'status' + (cls ? ' status--' + cls : '');
+    }
+
+    function todayISO() {
+      const d = new Date();
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    }
+
+    function addRow(data) {
+      data = data || { date: '', city: '', venue: '' };
+      const row = document.createElement('div');
+      row.className = 'row' + (data.date && data.date < todayISO() ? ' row--past' : '');
+      row.innerHTML =
+        '<input type="date" class="f-date" value="' + data.date + '" />' +
+        '<input type="text" class="f-city" placeholder="Ciudad" value="" />' +
+        '<input type="text" class="f-venue" placeholder="Venue / Productora" value="" />' +
+        '<button class="btn btn--danger" title="Eliminar">✕</button>';
+      row.querySelector('.f-city').value = data.city || '';
+      row.querySelector('.f-venue').value = data.venue || '';
+      row.querySelector('.btn--danger').addEventListener('click', () => row.remove());
+      $('rows').appendChild(row);
+      return row;
+    }
+
+    async function loadDates() {
+      const res = await fetch(API + '?ref=' + BRANCH, { headers: headers() });
+      if (!res.ok) throw new Error(res.status === 401 || res.status === 403 ? 'Token inválido o sin permisos' : 'Error ' + res.status);
+      const json = await res.json();
+      fileSha = json.sha;
+      const data = JSON.parse(b64decode(json.content));
+      $('rows').innerHTML = '';
+      (data.dates || []).forEach(addRow);
+    }
+
+    async function saveDates() {
+      const rows = [...document.querySelectorAll('#rows .row')];
+      const dates = [];
+      for (const row of rows) {
+        const date = row.querySelector('.f-date').value;
+        const city = row.querySelector('.f-city').value.trim();
+        const venue = row.querySelector('.f-venue').value.trim();
+        if (!date) { throw new Error('Hay una fila sin fecha'); }
+        dates.push({ date, city, venue: venue || 'TBA' });
+      }
+      dates.sort((a, b) => a.date.localeCompare(b.date));
+
+      const body = {
+        message: 'update: fechas de shows desde admin panel',
+        content: b64encode(JSON.stringify({ dates }, null, 2) + '\n'),
+        branch: BRANCH,
+        sha: fileSha
+      };
+
+      const res = await fetch(API, { method: 'PUT', headers: headers(), body: JSON.stringify(body) });
+      if (res.status === 409) {
+        // sha stale — reload and ask to retry
+        await loadDates();
+        throw new Error('El archivo cambió en el repo; recargué las fechas, guardá de nuevo');
+      }
+      if (!res.ok) throw new Error('Error ' + res.status + ' al guardar');
+      const json = await res.json();
+      fileSha = json.content.sha;
+    }
+
+    async function enter() {
+      const t = $('token').value.trim() || token;
+      if (!t) { setStatus($('loginStatus'), 'Pegá tu token', 'err'); return; }
+      token = t;
+      setStatus($('loginStatus'), 'Verificando…', 'busy');
+      try {
+        await loadDates();
+        localStorage.setItem(TOKEN_KEY, token);
+        $('loginCard').classList.add('hidden');
+        $('editor').classList.remove('hidden');
+      } catch (e) {
+        token = localStorage.getItem(TOKEN_KEY) || '';
+        setStatus($('loginStatus'), e.message, 'err');
+      }
+    }
+
+    $('loginBtn').addEventListener('click', enter);
+    $('token').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+
+    $('logoutBtn').addEventListener('click', () => {
+      localStorage.removeItem(TOKEN_KEY);
+      location.reload();
+    });
+
+    $('addBtn').addEventListener('click', () => {
+      const row = addRow();
+      row.querySelector('.f-date').focus();
+    });
+
+    $('saveBtn').addEventListener('click', async () => {
+      $('saveBtn').disabled = true;
+      setStatus($('saveStatus'), 'Publicando…', 'busy');
+      try {
+        await saveDates();
+        setStatus($('saveStatus'), '✓ Publicado — en vivo en ±1 min', 'ok');
+      } catch (e) {
+        setStatus($('saveStatus'), e.message, 'err');
+      } finally {
+        $('saveBtn').disabled = false;
+      }
+    });
+
+    // Auto-login if token is remembered
+    if (token) {
+      $('token').value = token;
+      enter();
+    }
+  </script>
+</body>
+</html>
