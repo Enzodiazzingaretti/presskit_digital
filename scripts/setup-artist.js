@@ -155,7 +155,35 @@ function currentSiteUrl(html) {
   console.log('content.json: nombre reemplazado, media vaciada y credenciales borradas');
 
   /* ---------- logos ---------- */
-  [[logoDark, 'kexxy-logo-black.png'], [logoLight, 'kexxy-logo-white.png']].forEach(([src, dest]) => {
+  // Drop the original artist's prefix from the filenames, then rewrite every
+  // reference to them across markup, styles, the panel and the service worker.
+  const RENAMES = [
+    ['kexxy-logo-black.png', 'logo-black.png'],
+    ['kexxy-logo-white.png', 'logo-white.png']
+  ];
+  const REFERENCING_FILES = ['index.html', 'admin.html', 'style.css', 'sw.js'];
+
+  let renamed = 0;
+  RENAMES.forEach(([from, to]) => {
+    const src = path.join(ROOT, from);
+    if (!fs.existsSync(src)) return;
+    fs.renameSync(src, path.join(ROOT, to));
+    renamed++;
+  });
+
+  if (renamed) {
+    REFERENCING_FILES.forEach(file => {
+      const full = path.join(ROOT, file);
+      if (!fs.existsSync(full)) return;
+      let text = fs.readFileSync(full, 'utf8');
+      const original = text;
+      RENAMES.forEach(([from, to]) => { text = text.split(from).join(to); });
+      if (text !== original) fs.writeFileSync(full, text, 'utf8');
+    });
+    console.log('logos renombrados a logo-black.png / logo-white.png y referencias actualizadas');
+  }
+
+  [[logoDark, 'logo-black.png'], [logoLight, 'logo-white.png']].forEach(([src, dest]) => {
     if (!src) return;
     if (!fs.existsSync(src)) { console.log('No encontré ' + src + ', salteado'); return; }
     fs.copyFileSync(src, path.join(ROOT, dest));
