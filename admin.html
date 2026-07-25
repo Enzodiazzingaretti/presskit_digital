@@ -345,31 +345,49 @@
     .slot__file { font-family: ui-monospace, monospace; font-size: 0.62rem; color: rgba(200,200,200,0.3); }
     .slot__actions { display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap; }
 
-    @media (max-width: 820px) {
-      .slot { grid-template-columns: 1fr; }
-      .slot__thumb { width: 100%; height: 150px; }
-    }
-
     .hidden { display: none !important; }
 
     @media (prefers-reduced-motion: reduce) {
       * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
     }
 
-    /* ---- Responsive: rail becomes a top strip ---- */
+    /* ============================================================
+       RESPONSIVE
+       - ≤980px : rail se estrecha antes de colapsar (tablet chica)
+       - ≤820px : rail pasa a ser una tira superior con scroll
+       - ≤480px : teléfonos — se aprieta todo y la master bar se simplifica
+       ============================================================ */
+
+    /* ---- Tablet: rail más angosto para ganar ancho de contenido ---- */
+    @media (max-width: 980px) and (min-width: 821px) {
+      :root { --rail-w: 196px; }
+      .work { padding: 2rem 1.8rem calc(var(--master-h) + 2rem); }
+      .master { padding: 0 1.8rem; }
+    }
+
+    /* ---- Rail se convierte en una tira superior ---- */
     @media (max-width: 820px) {
-      .shell.on { grid-template-columns: 1fr; }
-      .rail { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+      /* minmax(0,…) deja que la columna baje del min-content del nav; sin esto
+         los ítems nowrap estiran el grid y desbordan el viewport. */
+      .shell.on { grid-template-columns: minmax(0, 1fr); }
+      .rail {
+        position: sticky; top: 0; z-index: 15; height: auto; min-width: 0;
+        border-right: none; border-bottom: 1px solid var(--line);
+      }
       .rail__brand { padding: 1.1rem 1.2rem; }
-      .rail__nav { display: flex; overflow-x: auto; padding: 0; }
+      .rail__nav {
+        display: flex; overflow-x: auto; padding: 0;
+        -webkit-overflow-scrolling: touch; scrollbar-width: none;
+      }
+      .rail__nav::-webkit-scrollbar { display: none; }
       .rail__item {
         border-left: none; border-bottom: 2px solid transparent;
         white-space: nowrap; padding: 0.9rem 1.1rem;
       }
       .rail__item.active { border-left-color: transparent; border-bottom-color: var(--blood); }
       .rail__item small { display: none; }
-      .rail__foot { flex-direction: row; justify-content: space-between; }
-      .work { padding: 1.6rem 1.2rem calc(var(--master-h) + 1.5rem); }
+      .rail__foot { flex-direction: row; justify-content: space-between; align-items: center; }
+      .work { padding: 1.6rem 1.2rem calc(var(--master-h) + 1.5rem); max-width: none; }
       .master { left: 0; padding: 0 1.2rem; gap: 0.8rem; }
       .master__state { font-size: 0.58rem; letter-spacing: 0.14em; }
       .grid2, .row--date, .row--promoter, .rows-head { grid-template-columns: 1fr; }
@@ -377,6 +395,39 @@
       .row { padding: 0.9rem 0; }
       .view__title { font-size: 1.5rem; }
       .lang-row .pick { margin-left: 0; width: 100%; }
+      .slot { grid-template-columns: 1fr; }
+      .slot__thumb { width: 100%; height: 150px; }
+    }
+
+    /* ---- Teléfonos ---- */
+    @media (max-width: 480px) {
+      .gate { padding: 1.5rem 1rem; }
+      .gate__mark { margin-bottom: 1.4rem; }
+      .gate__card { padding: 1.3rem 1.1rem; }
+
+      .rail__brand { padding: 0.9rem 1rem; gap: 0.6rem; }
+      .rail__brand img { height: 28px; }
+      .rail__item { padding: 0.8rem 0.9rem; font-size: 0.72rem; letter-spacing: 0.16em; }
+      .rail__foot { padding: 0.8rem 1rem; }
+
+      .work { padding: 1.3rem 0.95rem calc(var(--master-h) + 1.3rem); }
+      .view__head { margin-bottom: 1.3rem; }
+      .view__title { font-size: 1.3rem; }
+      .view__note { font-size: 0.78rem; }
+      .block__head { padding: 0.85rem 1rem; }
+      .block__body { padding: 1rem; }
+
+      .langbar { flex-wrap: wrap; }
+      .slot { padding: 0.9rem; gap: 0.9rem; }
+      .slot__thumb { height: 130px; }
+      .channel { padding: 0.85rem 1rem; gap: 0.75rem; }
+
+      /* Master bar: prioriza el botón de publicar; el estado queda como
+         punto (el texto se oculta para que nada se corte a ≤360px). */
+      .master { height: auto; min-height: var(--master-h); padding: 0.7rem 0.95rem; gap: 0.6rem; }
+      #dirtyText { display: none; }
+      #saveBtn { padding: 0.7rem 1.1rem; letter-spacing: 0.16em; }
+      .status { font-size: 0.6rem; letter-spacing: 0.1em; }
     }
   </style>
 </head>
@@ -653,7 +704,7 @@
   <script>
     const OWNER = 'enzodiazzingaretti27-design';
     const REPO = 'presskit_digital';
-    const BRANCH = 'master';
+    const BRANCH = 'main';
     const TOKEN_KEY = 'kexxy-admin-token';
     const DATES_FILE = 'dates.json';
     const CONTENT_FILE = 'content.json';

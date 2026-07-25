@@ -6,7 +6,7 @@ const crypto = require('crypto');
 // a hardcoded repo: a clone that forgot GITHUB_REPO would write into it.
 const OWNER  = process.env.GITHUB_OWNER  || process.env.VERCEL_GIT_REPO_OWNER || '';
 const REPO   = process.env.GITHUB_REPO   || process.env.VERCEL_GIT_REPO_SLUG  || '';
-const BRANCH = process.env.GITHUB_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || 'master';
+const BRANCH = process.env.GITHUB_BRANCH || process.env.VERCEL_GIT_COMMIT_REF || 'main';
 
 const COOKIE_NAME = 'kexxy_session';
 const SESSION_MS = 12 * 60 * 60 * 1000;
