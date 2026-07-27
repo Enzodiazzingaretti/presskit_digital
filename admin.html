@@ -291,6 +291,18 @@
     .lang-row { display: flex; gap: 1.3rem; align-items: flex-end; flex-wrap: wrap; }
     .lang-row .pick { margin-left: auto; min-width: 165px; }
 
+    /* ---- Modo simple / avanzado ----
+       Por defecto la consola arranca en modo simple: esconde la pestaña
+       Avanzado y las claves técnicas de cada campo. El interruptor del pie
+       revela todo para quien lo necesite. */
+    body:not(.adv) .rail__item[data-view="advanced"] { display: none; }
+    body:not(.adv) .field-key { display: none; }
+    .rail__adv {
+      padding-bottom: 0.85rem; margin-bottom: 0.15rem;
+      border-bottom: 1px solid var(--line);
+    }
+    .rail__adv .label { margin: 0.35rem 0 0; letter-spacing: 0.22em; }
+
     .note {
       display: flex; gap: 0.7rem; align-items: flex-start;
       border: 1px solid var(--line); border-left: 2px solid var(--blood);
@@ -496,6 +508,10 @@
         <button class="rail__item" data-view="advanced">Avanzado</button>
       </nav>
       <div class="rail__foot">
+        <div class="rail__adv">
+          <label class="toggle"><input type="checkbox" id="advancedToggle" /> <span>Modo avanzado</span></label>
+          <p class="label">Secciones, idiomas y ajustes técnicos</p>
+        </div>
         <a class="rail__link" href="/" target="_blank" rel="noopener">Ver sitio ↗</a>
         <button class="rail__link" id="logoutBtn">Cerrar sesión</button>
       </div>
@@ -1525,6 +1541,23 @@
       localStorage.removeItem(TOKEN_KEY);
       location.reload();
     });
+
+    /* ---------------- Modo simple / avanzado ---------------- */
+    const ADV_KEY = 'kexxy-admin-advanced';
+    function setAdvanced(on) {
+      document.body.classList.toggle('adv', on);
+      $('advancedToggle').checked = on;
+      try { localStorage.setItem(ADV_KEY, on ? '1' : '0'); } catch (e) { /* ignore */ }
+      // Si se apaga estando en la pestaña Avanzado, volvemos a Fechas.
+      if (!on) {
+        const adv = document.querySelector('.rail__item[data-view="advanced"]');
+        if (adv && adv.classList.contains('active')) {
+          document.querySelector('.rail__item[data-view="dates"]').click();
+        }
+      }
+    }
+    $('advancedToggle').addEventListener('change', e => setAdvanced(e.target.checked));
+    setAdvanced((() => { try { return localStorage.getItem(ADV_KEY) === '1'; } catch (e) { return false; } })());
 
     document.querySelectorAll('.rail__item').forEach(item => {
       item.addEventListener('click', () => {
