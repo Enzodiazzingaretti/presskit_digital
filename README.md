@@ -7,6 +7,29 @@
 
 ---
 
+## v2 front-end: "Ritual de cromo"
+
+KEXXY's own kit now runs a custom front-end built on the same content model and admin panel:
+
+- **Liquid-chrome sigil in real time** (Three.js, extruded from the vectorised sigil). It loads after first paint; a static render shows until it is ready, and it stops rendering when the hero is off screen.
+- **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it flies into the hero. Skippable, and never shown with reduced motion.
+- **Everything pulses at 150 BPM** with CSS animations on the compositor; the WebGL clock is synced to them.
+- **Sets as CDJ decks:** each SoundCloud set is paired with the YouTube video in the same position in the panel. The SoundCloud player only loads when someone presses play, and two decks never play at once.
+- **Rider → PDF:** "Technical rider" prints only the rider section, so a promoter can save it as a PDF.
+- Text still comes from `content.json` (ES/EN/PT) and dates from `dates.json`; the panel edits both exactly as before.
+
+| Path | What |
+|---|---|
+| `index.html` | Markup with the Spanish copy as the no-JS fallback |
+| `assets/css/ritual.css` | All styles |
+| `assets/js/ritual.js` | Content, i18n, decks, dates, intro, form, cues |
+| `assets/js/sigil-gl.js` | WebGL sigil bundle (built from `tools/gl/`) |
+| `assets/brand/`, `assets/img/`, `assets/video/`, `assets/gl/` | Logo renders, photos, logo animations, sigil normal map |
+
+Rebuilding the WebGL bundle: `cd tools/gl && npm install && npm run build`. CSS/JS and the bundle are referenced with `?v=`; bump it (and `CACHE_NAME` in `sw.js`) when they change.
+
+> The cloning flow below (`docs/CLONAR-ARTISTA.md`, `scripts/setup-artist.js`) was written for the v1 front-end, which stays in the git history. The v2 front-end is specific to KEXXY's identity.
+
 ## Why it exists
 
 A press kit is what an artist sends to a promoter at 2am from their phone. It has to load instantly on bad signal, look serious, and stay current — and the artist has to be able to update it themselves, because a booking confirmed on Tuesday is useless on a site updated next month.
@@ -78,6 +101,21 @@ To clone this for another artist, follow **[`docs/CLONAR-ARTISTA.md`](docs/CLONA
 <summary><b>🇦🇷 Español</b></summary>
 
 <br>
+
+## Front v2: "Ritual de cromo"
+
+El kit de KEXXY ahora usa un front propio, con el mismo modelo de contenido y el mismo panel:
+
+- **Sigilo de cromo líquido en tiempo real** (Three.js, extruido del sigilo vectorizado). Carga después del primer render; mientras tanto se ve un render estático, y deja de dibujar cuando el hero sale de pantalla.
+- **Intro, solo la primera visita de cada sesión:** el logo rojo animado se deforma, el bombo lo vuelve cromo y vuela al hero. Se puede saltar y nunca aparece con movimiento reducido.
+- **Todo late a 150 BPM** con animaciones CSS en el compositor; el reloj del WebGL va sincronizado.
+- **Sets como decks de CDJ:** cada set de SoundCloud va con el video de YouTube que está en la misma posición en el panel. El reproductor de SoundCloud carga recién cuando alguien aprieta play, y nunca suenan dos decks a la vez.
+- **Rider → PDF:** "Rider técnico" imprime solo la sección del rider, para guardarla como PDF.
+- Los textos siguen en `content.json` (ES/EN/PT) y las fechas en `dates.json`; el panel los edita igual que antes.
+
+Para reconstruir el bundle del WebGL: `cd tools/gl && npm install && npm run build`. CSS/JS y el bundle van con `?v=`; subilo (y `CACHE_NAME` en `sw.js`) cuando cambien.
+
+> El flujo de clonado (`docs/CLONAR-ARTISTA.md`, `scripts/setup-artist.js`) se escribió para el front v1, que queda en el historial de git. El front v2 es propio de la identidad de KEXXY.
 
 **Press kit electrónico para artistas musicales, con panel de administración autogestionado y sin base de datos.** Bio, rider, fechas, sets de SoundCloud, videos de YouTube y fotos de prensa — todo editable por el artista desde el navegador y publicado directo a producción.
 

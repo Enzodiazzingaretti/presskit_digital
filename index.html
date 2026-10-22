@@ -1,1306 +1,506 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="KEXXY Press Kit — DJ and producer from Mendoza, Argentina. Techno, Hard-Techno, Hardgroove. Bookings, biography, rider, and live dates." />
-  <meta name="keywords" content="KEXXY press kit, KEXXY DJ, presskit dj kexxy, techno DJ Argentina, hard techno Mendoza, industrial techno, schranz, hardgroove, electronic music artist, DJ booking, KEXXY biography" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>KEXXY — DJ | Press Kit | Hard techno desde Mendoza, Argentina</title>
+  <meta name="description" content="Press kit de KEXXY, DJ de Mendoza, Argentina. Techno, hard techno, hardgroove, raw y bounce. Sets, fechas, bio, rider técnico y booking." />
   <meta name="author" content="KEXXY" />
   <meta name="robots" content="index, follow" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#060607" />
   <meta name="color-scheme" content="dark" />
-
-  <!-- Canonical URL -->
   <link rel="canonical" href="https://presskit-digital.vercel.app/" />
-
-  <!-- Sitemap -->
   <link rel="sitemap" type="application/xml" href="sitemap.xml" />
+  <link rel="icon" type="image/png" href="assets/brand/favicon-64.png" />
+  <link rel="apple-touch-icon" href="assets/brand/apple-touch-icon.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="kexxy-logo-white.png" />
-  <link rel="apple-touch-icon" href="kexxy-logo-white.png" />
-
-  <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://presskit-digital.vercel.app/" />
-  <meta property="og:title" content="KEXXY — DJ & Producer | Press Kit" />
-  <meta property="og:description" content="KEXXY Press Kit — Techno, Hard-Techno, Hardgroove from Mendoza, Argentina. Bookings, biography, rider, live dates." />
-  <meta property="og:image" content="https://presskit-digital.vercel.app/hero-bg.webp" />
+  <meta property="og:title" content="KEXXY — DJ | Press Kit" />
+  <meta property="og:description" content="Hard techno, hardgroove y raw desde Mendoza, Argentina. Sets, fechas, rider y booking." />
+  <meta property="og:image" content="https://presskit-digital.vercel.app/assets/brand/og-image.jpg" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:locale" content="en_US" />
+  <meta property="og:locale" content="es_AR" />
   <meta property="og:site_name" content="KEXXY" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="KEXXY — DJ | Press Kit" />
+  <meta name="twitter:description" content="Hard techno, hardgroove y raw desde Mendoza, Argentina." />
+  <meta name="twitter:image" content="https://presskit-digital.vercel.app/assets/brand/og-image.jpg" />
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://presskit-digital.vercel.app/" />
-  <meta property="twitter:title" content="KEXXY — DJ & Producer | Press Kit" />
-  <meta property="twitter:description" content="KEXXY Press Kit — Techno from Mendoza, Argentina. Bookings, biography, rider." />
-  <meta property="twitter:image" content="https://presskit-digital.vercel.app/hero-bg.webp" />
-
-  <!-- Preconnect to external domains -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://w.soundcloud.com" />
-  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+  <link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Pirata+One&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/ritual.css?v=1" />
 
-  <!-- Preload critical images (LCP - Largest Contentful Paint) -->
-  <link rel="preload" as="image" href="hero-bg.webp" fetchpriority="high" />
-  <link rel="preload" as="image" href="kexxy-logo-white.png" fetchpriority="high" />
-  <link rel="preload" as="image" href="bio-photo.webp" fetchpriority="medium" />
-  <link rel="preload" as="image" href="live-photo.webp" fetchpriority="medium" />
-  <link rel="preload" as="image" href="kexxy-logo-black.png" fetchpriority="medium" />
+  <!-- La intro (logo rojo → cromo) corre solo la primera vez por sesión y nunca con movimiento reducido -->
+  <script>
+    (function () {
+      var c = document.documentElement.classList;
+      c.add('js');
+      try {
+        if (!sessionStorage.getItem('kx-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) c.add('intro-on');
+      } catch (e) {}
+    })();
+  </script>
 
-  <title>KEXXY — DJ & Producer | Press Kit | Techno from Argentina</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400&family=Pirata+One&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=20260720p" />
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
-
-  <!-- Google Analytics loads from content.json > integrations.googleAnalytics -->
-
-
-  <!-- Vercel Analytics -->
   <script>
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
   </script>
   <script defer src="/_vercel/insights/script.js"></script>
 
-  <!-- Schema.org markup for MusicGroup -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "MusicGroup",
     "name": "KEXXY",
-    "description": "Techno artist from Mendoza, Argentina. Raw energy, relentless machines, zero compromise.",
+    "description": "DJ de Mendoza, Argentina. Techno, hard techno, hardgroove, raw y bounce.",
     "url": "https://presskit-digital.vercel.app/",
-    "image": "https://presskit-digital.vercel.app/hero-bg.webp",
-    "genre": ["Techno", "Industrial Techno", "Hard Techno", "Schranz"],
-    "knowsAbout": ["DJ", "Electronic Music", "Techno"],
-    "areaServed": {
-      "@type": "Place",
-      "name": "Mendoza, Argentina"
-    },
+    "image": "https://presskit-digital.vercel.app/assets/brand/og-image.jpg",
+    "genre": ["Techno", "Hard Techno", "Hardgroove", "Industrial Techno", "Schranz"],
+    "foundingLocation": { "@type": "Place", "name": "Mendoza, Argentina" },
     "sameAs": [
-      "https://soundcloud.com/enzo-diaz-zingaretti"
+      "https://soundcloud.com/enzo-diaz-zingaretti",
+      "https://www.instagram.com/kexxy.obj",
+      "https://www.youtube.com/@Kexxy-obj"
     ]
   }
   </script>
 </head>
 <body>
+  <a class="skip" href="#sets" data-i18n="a11y.skip">Saltar al contenido</a>
 
-  <!-- Custom Cursor -->
-  <div class="cursor" id="cursor"></div>
-  <div class="cursor-follower" id="cursorFollower"></div>
-
-  <!-- Preloader -->
-  <div id="preloader" class="preloader">
-    <div class="preloader__content">
-      <div class="preloader__logo-wrap">
-        <img src="kexxy-logo-white.png" alt="KEXXY" class="preloader__logo-img" />
-      </div>
-      <div class="preloader__bar">
-        <div class="preloader__progress"></div>
-      </div>
+  <!-- ============ INTRO: el logo rojo se deforma y en el bombo se vuelve cromo ============ -->
+  <div class="intro" id="intro" aria-hidden="true">
+    <div class="intro__stage" id="introStage">
+      <video class="intro__blood" id="introBlood" muted playsinline preload="none" disablepictureinpicture></video>
+      <img class="intro__chrome" id="introChrome" src="assets/brand/logo-chrome-1400.webp" alt="" decoding="async" />
     </div>
+    <div class="intro__flash"></div>
+    <div class="intro__hud">
+      <span class="rec"><i></i>KEXXY · PRESSKIT 2026</span>
+      <span class="beatbars"><i></i><i></i><i></i><i></i></span>
+    </div>
+    <button class="intro__skip" type="button" id="introSkip" tabindex="-1"><span data-i18n="intro.skip">Saltar</span> ↵</button>
   </div>
 
-  <!-- Skip link for accessibility -->
-  <a href="#bio" class="skip-link">Skip to main content</a>
+  <!-- ============ BARRA SUPERIOR ============ -->
+  <header class="top" id="top">
+    <a class="top__mark" href="#hero" aria-label="KEXXY — inicio">
+      <img src="assets/brand/kexxy-sigil.svg" alt="" width="36" height="45" />
+    </a>
+    <span class="rec top__rec"><i></i>PRESSKIT 2026</span>
+    <nav class="top__nav" aria-label="Secciones">
+      <a href="#sets" data-i18n="nav.sets">Sets</a>
+      <a href="#dates" data-i18n="nav.dates">Fechas</a>
+      <a href="#bio" data-i18n="nav.bio">Bio</a>
+      <a href="#live" data-i18n="nav.live">En Vivo</a>
+      <a href="#rider" data-i18n="nav.rider">Rider</a>
+      <a href="#booking" data-i18n="nav.contact">Booking</a>
+    </nav>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button class="lang__b" type="button" data-lang="es" aria-pressed="true">ES</button>
+      <button class="lang__b" type="button" data-lang="en" aria-pressed="false">EN</button>
+      <button class="lang__b" type="button" data-lang="pt" aria-pressed="false">PT</button>
+    </div>
+  </header>
 
-  <!-- HERO SECTION -->
-  <section class="hero" id="hero">
+  <!-- ============ CUE POINTS (riel a la derecha en desktop, barra inferior en el celu) ============ -->
+  <nav class="cues" id="cues" aria-label="Cue points">
+    <a href="#sets" data-cue="sets"><b>A</b><span data-i18n="nav.sets">Sets</span></a>
+    <a href="#dates" data-cue="dates"><b>B</b><span data-i18n="nav.dates">Fechas</span></a>
+    <a href="#bio" data-cue="bio"><b>C</b><span data-i18n="nav.bio">Bio</span></a>
+    <a href="#live" data-cue="live"><b>D</b><span data-i18n="nav.live">En Vivo</span></a>
+    <a href="#rider" data-cue="rider"><b>E</b><span data-i18n="nav.rider">Rider</span></a>
+    <a href="#booking" data-cue="booking"><b>F</b><span data-i18n="nav.contact">Booking</span></a>
+  </nav>
 
-    <!-- Background with parallax -->
-    <div class="hero__bg" id="heroBg"></div>
+  <main id="main">
 
-    <!-- Dark gradient overlay -->
-    <div class="hero__overlay"></div>
-
-    <!-- Particle canvas -->
-    <canvas class="hero__particles" id="particleCanvas"></canvas>
-
-    <!-- Chrome noise texture -->
-    <div class="hero__noise"></div>
-
-    <!-- Top bar -->
-    <header class="hero__header">
-      <div class="hero__logo" id="menuToggle" role="button" aria-label="Open menu" tabindex="0">
-        <img src="kexxy-logo-black.png" alt="KEXXY" class="hero__logo-img" loading="lazy" decoding="async" />
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="hero" aria-label="KEXXY">
+      <div class="hero__media" aria-hidden="true">
+        <img class="hero__bg" id="heroBg" src="assets/img/hero.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async" />
+        <div class="hero__glow"></div>
+        <div class="hero__sigil" id="heroSigil">
+          <img class="hero__sigil-img" src="assets/brand/sigil-crown.webp" alt="" width="900" height="1136" decoding="async" />
+          <canvas class="hero__sigil-gl" id="sigilGL"></canvas>
+        </div>
+        <img class="hero__fig" id="heroFig" src="assets/img/hero-cut.webp" alt="" width="1672" height="941" decoding="async" />
+        <div class="hero__shade"></div>
+        <div class="hero__scan"></div>
+        <div class="hero__grain"></div>
       </div>
-      <nav class="hero__nav">
-        <a href="#dates" data-i18n="nav.dates">Dates</a>
-        <a href="#bio" data-i18n="nav.bio">Bio</a>
-        <a href="#rider" data-i18n="nav.rider">Rider</a>
-        <a href="#live" data-i18n="nav.live">Live</a>
-        <a href="#about" data-i18n="nav.about">About</a>
-        <a href="#contact" data-i18n="nav.contact">Contact</a>
-      </nav>
 
-      <!-- Language selector -->
-      <div class="lang-switcher">
-        <button class="lang-btn" data-lang="es" title="Español">ES</button>
-        <button class="lang-btn" data-lang="en" title="English">EN</button>
-        <button class="lang-btn" data-lang="pt" title="Português">PT</button>
+      <div class="hero__bpm" aria-hidden="true">
+        <b id="bpm">150.00</b>
+        <small>BPM · MASTER</small>
+        <span class="beatbars"><i></i><i></i><i></i><i></i></span>
       </div>
-    </header>
 
-    <!-- Mobile fullscreen nav overlay -->
-    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-      <button class="mobile-nav__close" id="menuClose" aria-label="Close menu">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="28" height="28"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-      <nav class="mobile-nav__links">
-        <a href="#dates" class="mobile-nav__link" data-i18n="nav.dates">Dates</a>
-        <a href="#bio" class="mobile-nav__link" data-i18n="nav.bio">Bio</a>
-        <a href="#rider" class="mobile-nav__link" data-i18n="nav.rider">Rider</a>
-        <a href="#live" class="mobile-nav__link" data-i18n="nav.live">Live</a>
-        <a href="#about" class="mobile-nav__link" data-i18n="nav.about">About</a>
-        <a href="#contact" class="mobile-nav__link" data-i18n="nav.contact">Contact</a>
-      </nav>
-      <a href="mailto:k3xxy.art@gmail.com" class="mobile-nav__email">k3xxy.art@gmail.com</a>
-      <div class="mobile-nav__lang">
-        <button class="lang-btn" data-lang="es" title="Español">ES</button>
-        <button class="lang-btn" data-lang="en" title="English">EN</button>
-        <button class="lang-btn" data-lang="pt" title="Português">PT</button>
+      <div class="hero__copy">
+        <p class="hero__kicker" data-reveal><b class="rit" data-i18n="hero.ritual">Ritual</b><span>DJ — <span data-i18n="hero.tag">Mendoza · Argentina</span></span></p>
+        <h1 class="hero__logo" id="heroLogo">
+          <span class="sr-only">KEXXY</span>
+          <span class="logo" id="logo" aria-hidden="true">
+            <img class="logo__chrome" src="assets/brand/logo-chrome-1400.webp" srcset="assets/brand/logo-chrome-800.webp 800w, assets/brand/logo-chrome-1400.webp 1400w" sizes="(max-width: 720px) 94vw, 640px" alt="" width="1400" height="736" decoding="async" />
+            <img class="logo__glint" src="assets/brand/logo-glint-1400.webp" srcset="assets/brand/logo-glint-800.webp 800w, assets/brand/logo-glint-1400.webp 1400w" sizes="(max-width: 720px) 94vw, 640px" alt="" width="1400" height="736" decoding="async" />
+            <span class="logo__sweep"></span>
+          </span>
+        </h1>
+        <p class="hero__genres" id="heroGenres" data-reveal>TECHNO <em>/</em> HARD&#8209;TECHNO <em>/</em> HARD&#8209;GROOVE <em>/</em> RAW <em>/</em> BOUNCE</p>
+        <p class="hero__desc" data-i18n="hero.desc" data-reveal>DJ de Argentina. Sonido pesado, mezclas rápidas</p>
+        <div class="hero__ctas" data-reveal>
+          <a class="btn btn--chrome" href="#sets"><svg viewBox="0 0 10 12" width="10" height="12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z" /></svg><span data-i18n="hero.cta1">Escuchar</span></a>
+          <a class="btn btn--ghost" href="#booking"><i class="dia" aria-hidden="true"></i><span data-i18n="hero.cta2">Booking</span></a>
+        </div>
+      </div>
+
+      <dl class="hero__stats" data-reveal>
+        <div><dt data-i18n="hero.stat1">Años de experiencia</dt><dd data-stat="heroYears">6+</dd></div>
+        <div><dt data-i18n="live.stat1">Shows en Vivo</dt><dd data-stat="liveShows">40+</dd></div>
+        <div><dt data-i18n="hero.stat2">Ciudades</dt><dd data-stat="heroCities">5+</dd></div>
+        <div><dt data-i18n="live.stat3">Set más largo</dt><dd class="blood" data-stat="liveLongestSet">11h</dd></div>
+      </dl>
+    </section>
+
+    <!-- géneros en loop -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker__track" id="ticker">
+        <span>TECHNO</span><i>✕</i><span>INDUSTRIAL</span><i>✕</i><span>SCHRANZ</span><i>✕</i><span>HARDGROOVE</span><i>✕</i><span>RAW</span><i>✕</i><span>BOUNCE</span><i>✕</i>
       </div>
     </div>
 
-    <!-- Main content -->
-    <div class="hero__content">
-
-      <div class="hero__tag">
-        <span class="hero__tag-line"></span>
-        <span class="hero__tag-text" data-i18n="hero.tag">Mendoza · Argentina</span>
-      </div>
-
-      <h1 class="hero__name">
-        <span class="hero__name-word" data-text="KEXXY">KEXXY</span>
-      </h1>
-
-      <p class="hero__subtitle">
-        <span class="typewriter" data-text="TECHNO. HARD-TECHNO. HARD-GROOVE. RAW. BOUNCE."></span><span class="typewriter__cursor">|</span>
-      </p>
-
-      <p class="hero__desc">
-        <span data-i18n="hero.desc">Raw energy, relentless machines, zero compromise.</span>
-      </p>
-
-      <div class="hero__cta">
-        <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" class="btn btn--primary">
-          <span class="btn__inner" data-i18n="hero.cta1">Listen Now</span>
-          <span class="btn__glow"></span>
-        </a>
-        <a href="#contact" class="btn btn--secondary">
-          <span class="btn__inner" data-i18n="hero.cta2">Book KEXXY</span>
-        </a>
-      </div>
-
-      <!-- Stats strip -->
-      <div class="hero__stats">
-        <div class="hero__stat">
-          <span class="hero__stat-num">6+</span>
-          <span class="hero__stat-label" data-i18n="hero.stat1">Años de experiencia</span>
-        </div>
-        <div class="hero__stat-divider"></div>
-        <div class="hero__stat">
-          <span class="hero__stat-num">5+</span>
-          <span class="hero__stat-label" data-i18n="hero.stat2">Ciudades</span>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Scroll indicator -->
-    <div class="hero__scroll" id="scrollIndicator">
-      <div class="hero__scroll-line"></div>
-      <span class="hero__scroll-text">Scroll</span>
-    </div>
-
-    <!-- Chrome accent lines -->
-    <div class="hero__accent hero__accent--left"></div>
-    <div class="hero__accent hero__accent--right"></div>
-
-  </section>
-
-  <!-- BIO SECTION -->
-  <!-- LISTEN SECTION -->
-  <section class="listen" id="listen">
-    <div class="listen__inner">
-      <div class="listen__header">
-        <span class="listen__label-line"></span>
-        <span class="listen__label-text" data-i18n="listen.label">Latest Set</span>
-      </div>
-      <div class="listen__players">
-        <div class="listen__player">
-          <iframe width="100%" height="300" scrolling="no" frameborder="no" loading="lazy" title="SoundCloud player" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/2074171416&color=%23747474&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
-        </div>
-        <div class="listen__player">
-          <iframe width="100%" height="300" scrolling="no" frameborder="no" loading="lazy" title="SoundCloud player" allow="autoplay; encrypted-media" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1770277299&color=%23747474&auto_play=false&hide_related=false&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
-        </div>
-      </div>
-      <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" class="listen__link" data-i18n="listen.link">Ver todos los sets en SoundCloud →</a>
-    </div>
-  </section>
-
-  <!-- DATES SECTION -->
-  <section class="dates" id="dates">
-    <div class="dates__inner">
-      <div class="dates__header">
-        <span class="dates__label-line"></span>
-        <span class="dates__label-text" data-i18n="dates.label">Upcoming Shows</span>
-        
-        <!-- Dates Filter Switcher -->
-        <div class="dates__filter" role="group" aria-label="Filter dates">
-          <button class="dates__filter-btn" data-filter="upcoming" data-i18n="dates.upcoming">Upcoming</button>
-          <button class="dates__filter-btn active" data-filter="all" data-i18n="dates.all">All</button>
-          <button class="dates__filter-btn" data-filter="past" data-i18n="dates.past">Past</button>
-        </div>
-      </div>
-      <div class="dates__list" id="datesList">
-        <div class="dates__row" data-date="25 abril 2026">
-          <span class="dates__date">25 ABR 2026</span>
-          <span class="dates__city">San Rafael</span>
-          <span class="dates__venue">Vibra Producciones</span>
-          <span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>
-        </div>
-        <div class="dates__row" data-date="30 abril 2026">
-          <span class="dates__date">30 ABR 2026</span>
-          <span class="dates__city">Mendoza</span>
-          <span class="dates__venue">Sicódromo</span>
-          <span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>
-        </div>
-        <div class="dates__row" data-date="08 mayo 2026">
-          <span class="dates__date">08 MAY 2026</span>
-          <span class="dates__city">Mendoza</span>
-          <span class="dates__venue">Secta Club</span>
-          <span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>
-        </div>
-        <div class="dates__row" data-date="16 mayo 2026">
-          <span class="dates__date">16 MAY 2026</span>
-          <span class="dates__city">San Rafael</span>
-          <span class="dates__venue">Boing Clap</span>
-          <span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>
-        </div>
-        <div class="dates__row" data-date="20 junio 2026">
-          <span class="dates__date">20 JUN 2026</span>
-          <span class="dates__city">San Rafael</span>
-          <span class="dates__venue">TBA</span>
-          <span class="dates__status dates__status--upcoming" data-i18n="dates.upcoming">Upcoming</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="bio" id="bio">
-
-    <!-- Decorative top border line -->
-    <div class="bio__border-top">
-      <div class="bio__border-line bio__border-line--animated"></div>
-    </div>
-
-    <div class="bio__container">
-
-      <!-- Left: image column -->
-      <div class="bio__image-col reveal-left">
-        <div class="bio__image-frame">
-          <div class="bio__image-inner" id="bioImg">
-            <img src="bio-photo.webp" alt="KEXXY — Artist photo" class="bio__img" loading="lazy" decoding="async" />
+    <!-- ============ I · SETS ============ -->
+    <section class="sec" id="sets" data-section="listen">
+      <span class="alias" id="listen"></span>
+      <div class="wrap">
+        <header class="sec__head">
+          <span class="sec__num" aria-hidden="true">I</span>
+          <div class="sec__titles">
+            <span class="sec__kick">CUE A · <span data-i18n="nav.sets">Sets</span></span>
+            <h2 data-i18n="listen.label" data-scramble>Últimos Sets</h2>
           </div>
-          <!-- Corner brackets brutalist -->
-          <span class="bio__corner bio__corner--tl"></span>
-          <span class="bio__corner bio__corner--br"></span>
+          <span class="sec__bar" aria-hidden="true">BAR 001 — 004</span>
+        </header>
+
+        <div class="decks" id="decks">
+          <article class="deck">
+            <div class="deck__top"><span>DECK 1 · SET 01</span><span class="deck__state">◆ CUE</span></div>
+            <h3 class="deck__title">KEXXY — Hard Techno Set</h3>
+            <p class="deck__desc">Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.</p>
+            <div class="deck__ctas"><a class="btn btn--chrome" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a><a class="btn btn--ghost" href="https://youtu.be/3r4pIKcuirs" target="_blank" rel="noopener">YouTube ↗</a></div>
+          </article>
+          <article class="deck">
+            <div class="deck__top"><span>DECK 2 · SET 02</span><span class="deck__state">◆ CUE</span></div>
+            <h3 class="deck__title">KEXXY — Hardgroove Set</h3>
+            <p class="deck__desc">Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.</p>
+            <div class="deck__ctas"><a class="btn btn--ghost" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a><a class="btn btn--ghost" href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener">YouTube ↗</a></div>
+          </article>
+        </div>
+        <a class="linkline" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" data-link="soundcloud" data-i18n="listen.link">Ver todos los sets en SoundCloud →</a>
+      </div>
+    </section>
+
+    <!-- ============ II · FECHAS ============ -->
+    <section class="sec sec--alt" id="dates" data-section="dates">
+      <div class="wrap">
+        <header class="sec__head">
+          <span class="sec__num" aria-hidden="true">II</span>
+          <div class="sec__titles">
+            <span class="sec__kick">CUE B · <span data-i18n="nav.dates">Fechas</span></span>
+            <h2 data-i18n="dates.label" data-scramble>Próximas Fechas</h2>
+          </div>
+          <span class="sec__bar" aria-hidden="true">BAR 005 — 008</span>
+        </header>
+
+        <div class="filters" role="group" aria-label="Filtrar fechas" id="dateFilters">
+          <button type="button" data-f="all" aria-pressed="true" data-i18n="dates.all">Todas</button>
+          <button type="button" data-f="up" aria-pressed="false" data-i18n="dates.filterUpcoming">Próximas</button>
+          <button type="button" data-f="past" aria-pressed="false" data-i18n="dates.filterPast">Pasadas</button>
+        </div>
+
+        <div class="tracklist">
+          <table class="tracklist__t">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col" data-i18n="dates.colDate">Fecha</th>
+                <th scope="col" data-i18n="dates.colVenue">Venue</th>
+                <th scope="col" data-i18n="dates.colCity">Ciudad</th>
+                <th scope="col" class="r" data-i18n="dates.colStatus">Estado</th>
+              </tr>
+            </thead>
+            <tbody id="datesBody">
+              <tr class="is-past" data-kind="past">
+                <td class="n">01</td>
+                <td class="d">16.05.26</td>
+                <td class="v">Boing Clap</td>
+                <td class="c">San Rafael</td>
+                <td class="s r">Pasada</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="dates__foot">
+          <p class="note"><i class="dia" aria-hidden="true"></i><span data-i18n="dates.none">Nuevas fechas próximamente — bookings abiertos</span></p>
+          <a class="btn btn--blood" href="#booking"><span data-i18n="dates.cta">Consultar disponibilidad</span><span aria-hidden="true">→</span></a>
         </div>
       </div>
+    </section>
 
-      <!-- Right: text column -->
-      <div class="bio__text-col reveal-right">
+    <!-- ============ III · BIO ============ -->
+    <section class="sec" id="bio" data-section="bio">
+      <div class="wrap">
+        <header class="sec__head">
+          <span class="sec__num" aria-hidden="true">III</span>
+          <div class="sec__titles">
+            <span class="sec__kick">CUE C · <span data-i18n="bio.label">Biografía</span></span>
+            <h2 data-i18n="bio.title" data-scramble>Origen</h2>
+          </div>
+          <span class="sec__bar" aria-hidden="true">BAR 009 — 012</span>
+        </header>
 
-        <!-- Section label -->
-        <div class="bio__label">
-          <span class="bio__label-num">01</span>
-          <span class="bio__label-sep"></span>
-          <span class="bio__label-text" data-i18n="bio.label">Biography</span>
-        </div>
+        <div class="bio">
+          <figure class="bio__fig" data-reveal>
+            <img class="bio__img" id="bioImg" src="assets/img/bio.webp" alt="KEXXY con máscara y cadenas" width="1672" height="941" loading="lazy" decoding="async" />
+            <figcaption><span data-i18n="hero.tag">Mendoza · Argentina</span><span data-i18n="bio.since">Desde 2020</span></figcaption>
+          </figure>
 
-        <!-- Section title -->
-        <h2 class="bio__title">
-          <span data-i18n="bio.title">The Sound of Concrete & Steel.</span>
-        </h2>
-
-        <!-- Chrome divider -->
-        <div class="bio__divider">
-          <div class="bio__divider-bar"></div>
-          <div class="bio__divider-dot"></div>
-        </div>
-
-        <!-- Bio body -->
-        <div class="bio__body">
-          <p class="bio__para bio__para--lead">
-            <span data-i18n="bio.p1">KEXXY emerged from Mendoza's rave circuit — a raw, unfiltered force built on the philosophy that the floor is the only judge, and the bass is the only truth.</span>
-          </p>
-          <p class="bio__para">
-            <span data-i18n="bio.p2">Blending hardcore techno, industrial noise, and dark electronics, KEXXY's sets are renowned for their relentless intensity and visceral precision. No compromise. No filters. Pure machine logic translated into physical force.</span>
-          </p>
-          <p class="bio__para">
-            <span data-i18n="bio.p3">From warehouse raves in Cuyo to international festival stages, KEXXY has cemented a reputation as one of the most uncompromising acts in South America's electronics scene. A relentless touring schedule across Argentina and beyond has built a devoted following through nothing but raw energy and a zero-compromise approach to sound.</span>
-          </p>
-        </div>
-
-        <!-- Tag strip -->
-        <div class="bio__tags">
-          <span class="bio__tag">Techno</span>
-          <span class="bio__tag">Industrial</span>
-          <span class="bio__tag">Schranz</span>
-          <span class="bio__tag">Hardgroove</span>
-          <span class="bio__tag">Raw</span>
-          <span class="bio__tag">Bounce</span>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- Decorative bottom border -->
-    <div class="bio__border-bottom">
-      <div class="bio__border-line bio__border-line--animated bio__border-line--delay"></div>
-    </div>
-
-  </section>
-
-  <!-- RIDER / PROFILE SECTION -->
-  <section class="rider" id="rider">
-
-    <!-- Background visual -->
-    <div class="rider__bg" id="riderBg"></div>
-    <div class="rider__bg-overlay"></div>
-
-    <div class="rider__inner">
-
-      <!-- Section header -->
-      <div class="rider__header reveal-up">
-        <div class="rider__header-label">
-          <span class="rider__label-num">02</span>
-          <span class="rider__label-sep"></span>
-          <span class="rider__label-text">Technical Rider &amp; Profile</span>
-        </div>
-        <h2 class="rider__title"><span data-i18n="rider.title">Artist Specifications</span></h2>
-        <p class="rider__subtitle" data-i18n="rider.subtitle">Everything a promoter or booker needs to know.</p>
-      </div>
-
-      <!-- Main dashboard grid -->
-      <div class="rider__grid">
-
-        <!-- Diagram — full width top row -->
-        <div class="rider__diagram-col reveal-up">
-          <div class="rider__diagram-inner">
-            <img src="rider-diagram.webp" alt="DJ Setup Diagram" class="rider__diagram-img" loading="lazy" decoding="async" />
-            <div class="rider__diagram-caption">
-              <span class="rider__diagram-line"></span>
-              <span class="rider__diagram-text" data-i18n="rider.diagramCaption">Technical Setup — 2024</span>
+          <div class="bio__txt">
+            <p class="bio__lead" data-i18n="bio.lead" data-i18n-html data-reveal>Mezclas rápidas, layering denso y texturas <em>pesadas</em>.</p>
+            <p data-i18n="bio.p1">Soy un DJ y productor de Mendoza, Argentina; originado durante la pandemia en 2020. Este proyecto comenzó como una exploración personal de la música electrónica junto a mis amigos, en un espacio creativo que, rápidamente, se convirtió en un compromiso serio con la música.</p>
+            <p data-i18n="bio.p2">Busco que mi sonido se defina por mezclas rápidas, layering denso y texturas pesadas — un impulso inspirado en el Techno, Industrial, Schranz, Hardgroove y Raw. Me obsesiona construir sets físicos e intensos que prioricen la energía y la precisión por encima de todo, reflejado en la lectura del público.</p>
+            <p data-i18n="bio.p3">En más de 6 años de trayectoria, he tenido el gusto de presentar mis sets en diferentes partes de Mendoza y Buenos Aires. Además de compartir cabina con referentes de la escena argentina como Dist, Raptis, Shodnan Ref, Uma Scheffer y West Code.</p>
+            <div class="chips" id="genreChips">
+              <span class="chip chip--on">Techno</span><span class="chip">Industrial</span><span class="chip">Schranz</span><span class="chip">Hardgroove</span><span class="chip">Raw</span><span class="chip">Bounce</span>
             </div>
-          </div>
-        </div>
 
-        <!-- Cards wrapper -->
-        <div class="rider__cards">
-
-        <!-- Card 1: Equipment -->
-        <div class="rcard rcard--equipment reveal-up" style="--delay:.05s">
-          <div class="rcard__head">
-            <span class="rcard__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07"/></svg>
-            </span>
-            <span class="rcard__label" data-i18n="rider.card1Title">Equipment</span>
-            <span class="rcard__num">01</span>
-          </div>
-          <ul class="rcard__list">
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.cdjSetup">CDJ Setup</span>
-              <span class="rcard__item-value">4× Pioneer CDJ-2000NXS2 / 3000</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.mixer">Mixer</span>
-              <span class="rcard__item-value">Pioneer V10 · Allen &amp; Heath Xone 96/92</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.monitoring">Monitoring</span>
-              <span class="rcard__item-value">Sound System Sub + 2 MIDI/Hi Speakers</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Card 2: Performance Info -->
-        <div class="rcard rcard--performance reveal-up" style="--delay:.15s">
-          <div class="rcard__head">
-            <span class="rcard__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            </span>
-            <span class="rcard__label" data-i18n="rider.card2Title">Performance</span>
-            <span class="rcard__num">02</span>
-          </div>
-          <div class="rcard__perf-grid">
-            <div class="rcard__perf-item">
-              <span class="rcard__perf-val">2–5h</span>
-              <span class="rcard__perf-key" data-i18n="rider.setDuration">Set Duration</span>
-            </div>
-            <div class="rcard__perf-item">
-              <span class="rcard__perf-val">145–160</span>
-              <span class="rcard__perf-key" data-i18n="rider.bpmRange">BPM Range</span>
-            </div>
-            <div class="rcard__perf-item">
-              <span class="rcard__perf-val">DJ Set</span>
-              <span class="rcard__perf-key" data-i18n="rider.format">Format</span>
-            </div>
-            <div class="rcard__perf-item">
-              <span class="rcard__perf-val">USB</span>
-              <span class="rcard__perf-key" data-i18n="rider.media">Media</span>
-            </div>
-          </div>
-          <ul class="rcard__list rcard__list--mt">
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.formatsAccepted">Formats Accepted</span>
-              <span class="rcard__item-value">WAV · AIFF · MP3 320kbps</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.stageSharing">Stage Sharing</span>
-              <span class="rcard__item-value" data-i18n="rider.stageSharingValue">No B2B unless pre-arranged</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.soundcheck">Soundcheck</span>
-              <span class="rcard__item-value" data-i18n="rider.soundcheckValue">Required · Min 45 min prior</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.lighting">Lighting</span>
-              <span class="rcard__item-value" data-i18n="rider.lightingValue">Dark stage preferred</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Card 3: Music Profile -->
-        <div class="rcard rcard--music reveal-up" style="--delay:.25s">
-          <div class="rcard__head">
-            <span class="rcard__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            </span>
-            <span class="rcard__label" data-i18n="rider.card3Title">Music Profile</span>
-            <span class="rcard__num">03</span>
-          </div>
-          <div class="rcard__genres">
-            <span class="rcard__genre rcard__genre--primary">Techno</span>
-            <span class="rcard__genre">Industrial</span>
-            <span class="rcard__genre">Schranz</span>
-            <span class="rcard__genre">Hardgroove</span>
-            <span class="rcard__genre">Raw</span>
-            <span class="rcard__genre">Bounce</span>
-          </div>
-          <!-- Waveform visual bar -->
-          <div class="rcard__waveform" aria-hidden="true">
-            <div class="rcard__wave-bars" id="waveBars"></div>
-          </div>
-          <ul class="rcard__list">
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label">Estilos</span>
-              <span class="rcard__item-value">Techno · Industrial · Schranz · Hardgroove · Raw · Bounce</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Card 4: Hospitality -->
-        <div class="rcard rcard--hospitality reveal-up" style="--delay:.35s">
-          <div class="rcard__head">
-            <span class="rcard__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            </span>
-            <span class="rcard__label" data-i18n="rider.card4Title">Hospitality</span>
-            <span class="rcard__num">04</span>
-          </div>
-          <ul class="rcard__list rcard__list--full">
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.hotel">Hotel</span>
-              <span class="rcard__item-value" data-i18n="rider.hotelValue">Single room · Night of show</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.travel">Travel</span>
-              <span class="rcard__item-value" data-i18n="rider.travelValue">To be arranged with management</span>
-            </li>
-            <li class="rcard__item">
-              <span class="rcard__item-dot"></span>
-              <span class="rcard__item-label" data-i18n="rider.catering">Catering</span>
-              <span class="rcard__item-value" data-i18n="rider.cateringValue">Water · Snacks backstage</span>
-            </li>
-          </ul>
-        </div>
-
-        <!-- Card 5: Download area — full width -->
-        <div class="rcard rcard--downloads reveal-up" style="--delay:.45s">
-          <div class="rcard__head">
-            <span class="rcard__icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            </span>
-            <span class="rcard__label" data-i18n="rider.card5Title">Press Downloads</span>
-            <span class="rcard__num">05</span>
-          </div>
-          <div class="rcard__dl-grid">
-            <a href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" class="rcard__dl-btn">
-              <span class="rcard__dl-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              </span>
-              <span class="rcard__dl-info">
-                <span class="rcard__dl-name" data-i18n="rider.pressPhotos">Press Photos</span>
-                <span class="rcard__dl-size">Google Drive</span>
-              </span>
-              <span class="rcard__dl-arrow">↓</span>
-            </a>
-            <a href="#rider" class="rcard__dl-btn">
-              <span class="rcard__dl-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              </span>
-              <span class="rcard__dl-info">
-                <span class="rcard__dl-name" data-i18n="rider.techRiderBtn">Technical Rider</span>
-                <span class="rcard__dl-size" data-i18n="rider.viewOnPage">Ver en página</span>
-              </span>
-              <span class="rcard__dl-arrow">↑</span>
-            </a>
-            <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" class="rcard__dl-btn">
-              <span class="rcard__dl-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-              </span>
-              <span class="rcard__dl-info">
-                <span class="rcard__dl-name" data-i18n="rider.djMix">DJ Mix / Demo</span>
-                <span class="rcard__dl-size">SoundCloud</span>
-              </span>
-              <span class="rcard__dl-arrow">↗</span>
-            </a>
-          </div>
-        </div>
-
-        </div>
-        <!-- /cards wrapper -->
-
-      </div>
-      <!-- /grid -->
-
-    </div>
-  </section>
-
-  <!-- LIVE PERFORMANCE SECTION -->
-  <section class="live" id="live">
-
-    <!-- Cinematic background -->
-    <div class="live__bg" id="liveBg"></div>
-    <div class="live__overlay"></div>
-    <div class="live__noise"></div>
-
-    <!-- Scanline FX -->
-    <div class="live__scanlines" aria-hidden="true"></div>
-
-    <div class="live__inner">
-
-      <!-- Top label row -->
-      <div class="live__label reveal-up">
-        <span class="live__label-num">03</span>
-        <span class="live__label-sep"></span>
-        <span class="live__label-text" data-i18n="live.label">Live Performance</span>
-        <span class="live__label-sep"></span>
-        <span class="live__status"><span class="live__status-dot"></span><span data-i18n="live.status">Available for booking</span></span>
-      </div>
-
-      <!-- Main title -->
-      <h2 class="live__title reveal-up" style="--delay:.1s">
-        <span class="live__title-sm">The</span><br />
-        Raw<br />
-        <span class="live__title-outline">Energy</span>
-      </h2>
-
-      <!-- Asymmetric content grid -->
-      <div class="live__content">
-
-        <!-- Left: stats column -->
-        <div class="live__stats-col reveal-left" style="--delay:.2s">
-          <div class="live__stat-card">
-            <span class="live__stat-val">40<span class="live__stat-unit">+</span></span>
-            <span class="live__stat-key" data-i18n="live.stat1">Live Shows</span>
-            <div class="live__stat-bar"><div class="live__stat-fill" style="--fill:80%"></div></div>
-          </div>
-          <div class="live__stat-card">
-            <span class="live__stat-val">5<span class="live__stat-unit">+</span></span>
-            <span class="live__stat-key" data-i18n="live.stat2">Ciudades</span>
-            <div class="live__stat-bar"><div class="live__stat-fill" style="--fill:60%"></div></div>
-          </div>
-          <div class="live__stat-card">
-            <span class="live__stat-val">11<span class="live__stat-unit">h</span></span>
-            <span class="live__stat-key" data-i18n="live.stat3">Longest Set</span>
-            <div class="live__stat-bar"><div class="live__stat-fill" style="--fill:100%"></div></div>
-          </div>
-        </div>
-
-        <!-- Center: image frame -->
-        <div class="live__image-col reveal-up" style="--delay:.15s">
-          <div class="live__image-frame">
-            <img src="live-photo.webp" alt="KEXXY performing live" class="live__img" loading="lazy" decoding="async" />
-            <div class="live__img-overlay"></div>
-            <!-- Corner brackets -->
-            <span class="live__corner live__corner--tl"></span>
-            <span class="live__corner live__corner--tr"></span>
-            <span class="live__corner live__corner--bl"></span>
-            <span class="live__corner live__corner--br"></span>
-            <!-- Live badge -->
-            <div class="live__badge">
-              <span class="live__badge-dot"></span>
-              <span class="live__badge-text">Live</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right: festivals column -->
-        <div class="live__fest-col reveal-right" style="--delay:.25s">
-          <div class="live__fest-head">
-            <span class="live__fest-line"></span>
-            <span class="live__fest-title" data-i18n="live.festTitle">Productoras</span>
-          </div>
-          <ul class="live__fest-list">
-            <li class="live__fest-item">
-              <span class="live__fest-name">Underberlin</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Teiko Warehouse</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Sicódromo</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Secta Club</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">BoingClap</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Fraternity</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Vibra Producciones</span>
-              <span class="live__fest-meta">Mendoza</span>
-            </li>
-            <li class="live__fest-item">
-              <span class="live__fest-name">Overkill</span>
-              <span class="live__fest-meta">Buenos Aires</span>
-            </li>
-          </ul>
-        </div>
-
-      </div>
-      <!-- /content grid -->
-
-      <!-- Bottom CTA bar -->
-      <div class="live__cta-bar reveal-up" style="--delay:.4s">
-        <div class="live__cta-text">
-          <p class="live__cta-label" data-i18n="live.ctaLabel">Ready to book?</p>
-          <p class="live__cta-sub" data-i18n="live.ctaSub">Contact management for availability and fees.</p>
-        </div>
-        <div class="live__cta-actions">
-          <a href="#contact" class="btn btn--primary">
-            <span class="btn__inner" data-i18n="live.ctaBtn">Book a Show</span>
-            <span class="btn__glow"></span>
-          </a>
-          <a href="#rider" class="btn btn--secondary">
-            <span class="btn__inner" data-i18n="live.ctaBtn2">Ver Rider</span>
-          </a>
-        </div>
-        <div class="live__cta-contact">
-          <span class="live__cta-contact-label">Bookings</span>
-          <a href="mailto:k3xxy.art@gmail.com" class="live__cta-email">k3xxy.art@gmail.com</a>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- VIDEO SHOWCASE SECTION -->
-  <section class="video-showcase" id="videos">
-    <div class="video-showcase__inner">
-      <div class="video-showcase__header reveal-up">
-        <span class="video-showcase__label-line"></span>
-        <span class="video-showcase__label-text" data-i18n="video.label">Media Showcase</span>
-        <h2 class="video-showcase__title" data-i18n="video.title">Live Action</h2>
-      </div>
-      
-      <div class="video-showcase__grid">
-        <!-- Main Featured Video (YouTube Live Set Link with Custom Thumbnail & Play Button Overlay) -->
-        <div class="video-showcase__featured reveal-up">
-          <a href="https://youtu.be/zkCGSwF465g?si=u611i1jGzYYPHV-t" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY @ HAPPY SOUNDS live set on YouTube">
-            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
-              <img src="https://img.youtube.com/vi/zkCGSwF465g/maxresdefault.jpg" alt="KEXXY @ HAPPY SOUNDS Sessions #14" class="video-showcase__thumb" loading="lazy" decoding="async" />
-              <!-- Custom Play Button Overlay -->
-              <div class="video-showcase__play-overlay">
-                <div class="video-showcase__play-btn">
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                  </svg>
+            <div class="about" data-section="about">
+              <blockquote class="quote" data-reveal>
+                <span class="quote__mark" aria-hidden="true">“</span>
+                <p data-i18n="about.p3highlight">Creo que la autenticidad lo es todo — tanto en la vida como en el arte.</p>
+              </blockquote>
+              <details class="about__more">
+                <summary><span data-i18n="about.title">La persona detrás de los decks.</span><i aria-hidden="true">+</i></summary>
+                <div class="about__body">
+                  <p data-i18n="about.p1">Más allá de la música y las presentaciones, soy alguien profundamente curioso sobre el mundo.</p>
+                  <p data-i18n="about.p2">Cuando no estoy detrás de un deck, realizo trabajos de programación, escultura y arte digital.</p>
+                  <p data-i18n="about.p3">Este proyecto es una extensión de quien soy.</p>
                 </div>
+              </details>
+              <div class="about__foot">
+                <span data-i18n="about.ctaHint">Programación · Escultura · Arte Digital</span>
+                <a class="linkline" href="https://portfolio-kexxy.vercel.app" target="_blank" rel="noopener" data-link="portfolio"><span data-i18n="about.portfolioBtn">Ver Mi Portfolio</span> ↗</a>
               </div>
             </div>
-          </a>
-          <div class="video-showcase__info">
-            <p class="video-showcase__featured-label" data-i18n="video.v1Label">Featured Live Set</p>
-            <h3 class="video-showcase__featured-title" data-i18n="video.v1Title">KEXXY @ HAPPY SOUNDS</h3>
-            <p class="video-showcase__featured-desc" data-i18n="video.v1Desc">Live performance video captured during HAPPY SOUNDS. A display of fast-paced hardgroove energy, dense layering, and drive.</p>
-            <a href="https://youtu.be/zkCGSwF465g?si=u611i1jGzYYPHV-t" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
-              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
-            </a>
           </div>
         </div>
+      </div>
+    </section>
 
-        <!-- Second Featured Video (Asymmetric alternating layout - Text Left, Video Right) -->
-        <div class="video-showcase__featured video-showcase__featured--reverse reveal-up" style="margin-top: 6rem;">
-          <div class="video-showcase__info">
-            <p class="video-showcase__featured-label" data-i18n="video.v2Label">DJ Set</p>
-            <h3 class="video-showcase__featured-title" data-i18n="video.v2Title">KEXXY — Hard Techno Set</h3>
-            <p class="video-showcase__featured-desc" data-i18n="video.v2Desc">A hard techno set with fast mixing and heavy structures. 100% CDJ mixing recorded in a private studio.</p>
-            <a href="https://youtu.be/3r4pIKcuirs?si=febptIw0eiB79r46" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
-              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
-            </a>
+    <!-- ============ IV · EN VIVO ============ -->
+    <section class="sec" id="live" data-section="live">
+      <div class="wrap">
+        <header class="sec__head">
+          <span class="sec__num" aria-hidden="true">IV</span>
+          <div class="sec__titles">
+            <span class="sec__kick">CUE D · <span data-i18n="live.label">En Vivo</span></span>
+            <h2 data-i18n="live.title" data-scramble>En la cabina</h2>
           </div>
-          <a href="https://youtu.be/3r4pIKcuirs?si=febptIw0eiB79r46" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY live set on YouTube">
-            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
-              <img src="https://img.youtube.com/vi/3r4pIKcuirs/maxresdefault.jpg" alt="KEXXY — Hard Techno Set" class="video-showcase__thumb" loading="lazy" decoding="async" />
-              <!-- Custom Play Button Overlay -->
-              <div class="video-showcase__play-overlay">
-                <div class="video-showcase__play-btn">
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                  </svg>
-                </div>
+          <span class="sec__bar" aria-hidden="true">BAR 013 — 016</span>
+        </header>
+
+        <div class="booth" data-reveal>
+          <img class="booth__img" id="liveImg" src="assets/img/live.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
+          <div class="booth__top">
+            <span class="status"><i></i><span data-i18n="live.status">Disponible para contratación</span></span>
+            <span class="booth__cities" id="liveCities">Mendoza · Buenos Aires</span>
+          </div>
+          <dl class="booth__stats">
+            <div><dd data-stat="heroYears">6+</dd><dt data-i18n="hero.stat1">Años de experiencia</dt></div>
+            <div><dd data-stat="liveShows">40+</dd><dt data-i18n="live.stat1">Shows en Vivo</dt></div>
+            <div><dd data-stat="liveCities">5+</dd><dt data-i18n="live.stat2">Ciudades</dt></div>
+            <div><dd class="blood" data-stat="liveLongestSet">11h</dd><dt data-i18n="live.stat3">Set más largo</dt></div>
+          </dl>
+        </div>
+
+        <div class="hotcues">
+          <div class="hotcues__head">
+            <h3><span data-i18n="live.festTitle">Productoras</span> · Hot cues</h3>
+            <span id="hotcueCount">08 / 08</span>
+          </div>
+          <ol class="hotcues__grid" id="hotcues">
+            <li><b>A</b><span class="m">Mendoza</span><span class="n">Underberlin</span></li>
+            <li><b>B</b><span class="m">Mendoza</span><span class="n">Teiko Warehouse</span></li>
+            <li><b>C</b><span class="m">Mendoza</span><span class="n">Sicódromo</span></li>
+            <li><b>D</b><span class="m">Mendoza</span><span class="n">Secta Club</span></li>
+            <li><b>E</b><span class="m">Mendoza</span><span class="n">BoingClap</span></li>
+            <li><b>F</b><span class="m">Mendoza</span><span class="n">Fraternity</span></li>
+            <li><b>G</b><span class="m">Mendoza</span><span class="n">Vibra Producciones</span></li>
+            <li class="is-away"><b>H</b><span class="m">Buenos Aires</span><span class="n">Overkill</span></li>
+          </ol>
+        </div>
+
+        <div class="shared" data-reveal>
+          <span class="shared__t" data-i18n="live.sharedTitle">Compartí cabina con</span>
+          <p class="shared__names" id="sharedNames">Dist <em>/</em> Raptis <em>/</em> Shodnan Ref <em>/</em> Uma Scheffer <em>/</em> West Code</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ V · RIDER ============ -->
+    <section class="sec sec--alt" id="rider" data-section="rider">
+      <div class="rider__bg" id="riderBg" aria-hidden="true"></div>
+      <div class="wrap">
+        <header class="sec__head">
+          <span class="sec__num" aria-hidden="true">V</span>
+          <div class="sec__titles">
+            <span class="sec__kick">CUE E · <span data-i18n="nav.rider">Rider</span></span>
+            <h2 data-i18n="rider.title" data-scramble>Especificaciones</h2>
+          </div>
+          <span class="sec__bar" aria-hidden="true">BAR 017 — 020</span>
+        </header>
+
+        <div class="rider">
+          <div class="rider__strip">
+            <span><i class="dot" aria-hidden="true"></i><span data-i18n="rider.label">Rider Técnico y Perfil</span></span>
+            <span data-i18n="rider.subtitle">Todo lo que un promotor o booker necesita saber.</span>
+          </div>
+          <div class="rider__body">
+            <figure class="rider__fig">
+              <div class="rider__plot"><img id="riderDiagram" src="assets/img/rider-diagram-dark.webp" alt="Diagrama del setup técnico: cuatro CDJ y mixer" width="1770" height="627" loading="lazy" decoding="async" /></div>
+              <figcaption><span data-i18n="rider.diagramCaption">Setup Técnico</span><span data-i18n="rider.diagramNote">4 CDJ + Mixer</span></figcaption>
+            </figure>
+
+            <div class="rider__spec">
+              <dl class="rider__quick">
+                <div><dd data-i18n="rider.setDurationValue">2–5h</dd><dt data-i18n="rider.setDuration">Duración del Set</dt></div>
+                <div><dd class="blood" data-i18n="rider.bpmRangeValue">145–160</dd><dt data-i18n="rider.bpmRange">Rango BPM</dt></div>
+                <div><dd data-i18n="rider.formatValue">DJ Set</dd><dt data-i18n="rider.format">Formato</dt></div>
+                <div><dd data-i18n="rider.mediaValue">USB</dd><dt data-i18n="rider.media">Medio</dt></div>
+              </dl>
+
+              <h3 class="spec__h"><i aria-hidden="true"></i>01 · <span data-i18n="rider.card1Title">Equipamiento</span></h3>
+              <dl class="spec">
+                <div><dt data-i18n="rider.cdjSetup">Setup CDJ</dt><dd data-i18n="rider.cdjSetupValue">4× Pioneer CDJ-2000NXS2 / 3000</dd></div>
+                <div><dt data-i18n="rider.mixer">Mixer</dt><dd data-i18n="rider.mixerValue">Pioneer V10 · Allen &amp; Heath Xone 96/92</dd></div>
+                <div><dt data-i18n="rider.monitoring">Monitoreo</dt><dd data-i18n="rider.monitoringValue">Sound System Sub + 2 MIDI/Hi Speakers</dd></div>
+              </dl>
+              <h3 class="spec__h"><i aria-hidden="true"></i>02 · <span data-i18n="rider.card2Title">Performance</span></h3>
+              <dl class="spec">
+                <div><dt data-i18n="rider.formatsAccepted">Formatos Aceptados</dt><dd data-i18n="rider.formatsAcceptedValue">WAV · AIFF · MP3 320kbps</dd></div>
+                <div><dt data-i18n="rider.stageSharing">Compartir Escenario</dt><dd data-i18n="rider.stageSharingValue">Sin B2B salvo acuerdo previo</dd></div>
+                <div><dt data-i18n="rider.soundcheck">Prueba de Sonido</dt><dd data-i18n="rider.soundcheckValue">Obligatorio · Mín 45 min antes</dd></div>
+                <div><dt data-i18n="rider.lighting">Iluminación</dt><dd data-i18n="rider.lightingValue">Escenario oscuro preferido</dd></div>
+              </dl>
+              <h3 class="spec__h"><i aria-hidden="true"></i>03 · <span data-i18n="rider.card4Title">Hospitalidad</span></h3>
+              <dl class="spec">
+                <div><dt data-i18n="rider.hotel">Hotel</dt><dd data-i18n="rider.hotelValue">Habitación individual · Noche del show</dd></div>
+                <div><dt data-i18n="rider.travel">Viaje</dt><dd data-i18n="rider.travelValue">A coordinar con management</dd></div>
+                <div><dt data-i18n="rider.catering">Catering</dt><dd data-i18n="rider.cateringValue">Agua · Snacks backstage</dd></div>
+              </dl>
+            </div>
+          </div>
+          <div class="rider__dl">
+            <button class="btn btn--chrome" type="button" id="printRider" data-i18n-title="rider.printHint" title="Se abre para imprimir o guardar en PDF"><span data-i18n="rider.techRiderBtn">Rider Técnico</span> ↓</button>
+            <a class="btn btn--ghost" href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" data-link="presskit"><span data-i18n="rider.pressKit">Press Kit Completo</span> ↗</a>
+            <a class="btn btn--ghost" href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" data-link="presskit"><span data-i18n="rider.pressPhotos">Fotos de Prensa</span> ↗</a>
+            <a class="btn btn--ghost" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" data-link="soundcloud"><span data-i18n="rider.djMix">DJ Mix / Demo</span> ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ VI · BOOKING ============ -->
+    <section class="sec sec--booking" id="booking">
+      <span class="alias" id="contact"></span>
+      <div class="wrap">
+        <div class="booking">
+          <div class="booking__info">
+            <div class="booking__mark">
+              <span class="sec__num" aria-hidden="true">VI</span>
+              <div class="sec__titles">
+                <span class="sec__kick">CUE F · <span data-i18n="nav.contact">Booking</span></span>
+                <span class="sec__kick sec__kick--bone" data-i18n="contact.label">Contacto y Contratación</span>
               </div>
             </div>
-          </a>
+            <h2 class="booking__title" data-i18n="contact.title">Conectemos<em>.</em></h2>
+            <p class="booking__sub" data-i18n="contact.subtitle">Para contrataciones, consultas de prensa y colaboraciones — escribime directo o podes usar el formulario.</p>
+            <p class="status"><i></i><span data-i18n="live.ctaSub">Contactá al management para disponibilidad y tarifas.</span></p>
+            <ul class="channels">
+              <li><a href="mailto:k3xxy.art@gmail.com" data-link="email"><span>Email</span><b data-text="email">k3xxy.art@gmail.com</b></a></li>
+              <li><a href="https://www.instagram.com/kexxy.obj" target="_blank" rel="noopener" data-link="instagram"><span>Instagram</span><b data-text="instagram">@kexxy.obj ↗</b></a></li>
+              <li><a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" data-link="soundcloud"><span>SoundCloud</span><b>KEXXY ↗</b></a></li>
+              <li><a href="https://www.youtube.com/@Kexxy-obj" target="_blank" rel="noopener" data-link="youtube"><span>YouTube</span><b data-text="youtube">@Kexxy-obj ↗</b></a></li>
+            </ul>
+          </div>
+
+          <form class="form" id="contactForm" novalidate>
+            <div class="form__head"><span data-i18n="contact.formTitle">Formulario</span><span class="rec"><i></i>REC</span></div>
+            <div class="hp" aria-hidden="true"><label for="cf-honeypot">No completar</label><input type="text" id="cf-honeypot" name="honeypot" tabindex="-1" autocomplete="off" /></div>
+            <label class="field" for="cf-name"><span data-i18n="contact.fieldName">Nombre</span>
+              <input id="cf-name" name="name" type="text" autocomplete="name" required data-i18n-placeholder="contact.placeholderName" placeholder="Tu nombre" />
+            </label>
+            <label class="field" for="cf-email"><span data-i18n="contact.fieldEmail">Email</span>
+              <input id="cf-email" name="email" type="email" autocomplete="email" required data-i18n-placeholder="contact.placeholderEmail" placeholder="tu@email.com" />
+            </label>
+            <label class="field" for="cf-subject"><span data-i18n="contact.fieldSubject">Tipo de consulta</span>
+              <select id="cf-subject" name="subject">
+                <option value="booking" data-i18n="contact.optBooking">Solicitud de contratación</option>
+                <option value="press" data-i18n="contact.optPress">Prensa / Medios</option>
+                <option value="collab" data-i18n="contact.optCollab">Colaboración</option>
+                <option value="other" data-i18n="contact.optOther">Otro</option>
+              </select>
+            </label>
+            <label class="field field--hot" for="cf-venue"><span data-i18n="contact.fieldVenue">Venue / Evento (opcional)</span>
+              <input id="cf-venue" name="venue" type="text" data-i18n-placeholder="contact.placeholderVenue" placeholder="Nombre del venue, ciudad, fecha" />
+            </label>
+            <label class="field" for="cf-message"><span data-i18n="contact.fieldMsg">Mensaje</span>
+              <textarea id="cf-message" name="message" rows="4" required data-i18n-placeholder="contact.placeholderMsg" placeholder="Contanos sobre el evento, capacidad estimada, contexto del lineup..."></textarea>
+            </label>
+            <button class="btn btn--blood btn--wide" type="submit"><span data-i18n="contact.send">Enviar Mensaje</span><span aria-hidden="true">→</span></button>
+            <p class="form__note" data-i18n="contact.formNote">Respondemos en un máximo de 48 horas.</p>
+          </form>
         </div>
 
-        <!-- Third Featured Video (Hardgroove Set - Embedded YouTube iframe) -->
-        <div class="video-showcase__featured reveal-up" style="margin-top: 6rem;">
-          <a href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener" class="video-showcase__link" aria-label="Watch KEXXY hardgroove set on YouTube">
-            <div class="video-showcase__player-wrap video-showcase__player-wrap--link">
-              <img src="https://img.youtube.com/vi/eBhTdJpH7DQ/maxresdefault.jpg" alt="KEXXY — Hardgroove Set" class="video-showcase__thumb" loading="lazy" decoding="async" />
-              <!-- Custom Play Button Overlay -->
-              <div class="video-showcase__play-overlay">
-                <div class="video-showcase__play-btn">
-                  <svg viewBox="0 0 24 24" fill="currentColor" width="32" height="32">
-                    <polygon points="5 3 19 12 5 21 5 3"/>
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </a>
-          <div class="video-showcase__info">
-            <p class="video-showcase__featured-label" data-i18n="video.v3Label">DJ Set</p>
-            <h3 class="video-showcase__featured-title" data-i18n="video.v3Title">KEXXY — Hardgroove Set</h3>
-            <p class="video-showcase__featured-desc" data-i18n="video.v3Desc">A hardgroove set with fast mixing and raw energy. 100% CDJ mixing recorded in a private studio.</p>
-            <a href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener" class="btn btn--secondary" style="margin-top: 1rem; align-self: flex-start;">
-              <span class="btn__inner" data-i18n="video.watchBtn">Watch on YouTube ↗</span>
-            </a>
-          </div>
+        <!-- cierre: el logo rojo vivo -->
+        <div class="closing" id="closing">
+          <video class="closing__blood" id="closingBlood" muted loop playsinline preload="none" poster="assets/video/blood-loop.jpg" disablepictureinpicture aria-hidden="true"></video>
+          <p class="closing__line" data-i18n="footer.signoff">Nos vemos en la cabina.</p>
         </div>
+
+        <footer class="foot">
+          <div class="foot__id">
+            <img src="assets/brand/kexxy-sigil.svg" alt="" width="29" height="36" />
+            <span data-i18n="footer.copy">© 2026 KEXXY. Todos los derechos reservados.</span>
+          </div>
+          <nav class="foot__links" aria-label="Prensa">
+            <a href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" data-link="presskit" data-i18n="footer.presskit">Press Kit</a>
+            <a href="#rider">Rider</a>
+            <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" data-link="soundcloud">SoundCloud</a>
+            <a class="foot__admin" href="admin.html" aria-label="Panel" tabindex="-1">☩</a>
+          </nav>
+          <div class="lang lang--foot" role="group" aria-label="Idioma / Language">
+            <button class="lang__b" type="button" data-lang="es" aria-pressed="true">ES</button>
+            <button class="lang__b" type="button" data-lang="en" aria-pressed="false">EN</button>
+            <button class="lang__b" type="button" data-lang="pt" aria-pressed="false">PT</button>
+          </div>
+          <p class="foot__credit">Website by <a href="https://portfolio-kexxy.vercel.app" target="_blank" rel="noopener">Enzo Díaz Zingaretti</a></p>
+        </footer>
       </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ABOUT ME SECTION -->
-  <section class="about" id="about">
-    <div class="about__inner">
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
-      <!-- Header -->
-      <div class="about__header reveal-up">
-        <div class="about__header-label">
-          <span class="about__label-num">03</span>
-          <span class="about__label-sep"></span>
-          <span class="about__label-text" data-i18n="about.label">About Me</span>
-        </div>
-        <h2 class="about__title" data-i18n="about.title">The person behind the decks.</h2>
-      </div>
-
-      <!-- Content -->
-      <div class="about__content">
-        <div class="about__text reveal-up">
-          <p class="about__para" data-i18n="about.p1">
-            Beyond music and performances, I'm someone deeply curious about the world. I find inspiration in everyday moments, in connections with people, and in the constant pursuit of growth.
-          </p>
-          <p class="about__para" data-i18n="about.p2">
-            When I'm not behind a deck, I do programming work, sculpture and digital art (audio-reactive visuals, video editing, 3D modeling and rendering). I also enjoy photography and composition as hobbies.
-          </p>
-          <p class="about__para about__para--highlight" data-i18n="about.p3highlight">
-            I believe that authenticity is everything — both in life and in art.
-          </p>
-          <p class="about__para" data-i18n="about.p3">
-            This project is an extension of who I am: intense, passionate, and always seeking new experiences that challenge my perspective. My name is Enzo Díaz Zingaretti and I'm 24 years old.
-          </p>
-        </div>
-        <div class="about__cta reveal-right">
-          <a href="https://portfolio-kexxy.vercel.app" target="_blank" rel="noopener" class="btn btn--primary about__portfolio-btn">
-            <span class="btn__inner">
-              <span data-i18n="about.portfolioBtn">View My Portfolio</span> ↗
-            </span>
-          </a>
-          <p class="about__cta-hint" data-i18n="about.ctaHint">Programming · Sculpture · Digital Art</p>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT & BOOKING SECTION -->
-  <section class="contact" id="contact">
-
-    <div class="contact__grid">
-
-      <!-- Left: panel -->
-      <div class="contact__image-panel reveal-left">
-        <!-- Large logo overlay -->
-        <div class="contact__logo-big">
-          <img src="kexxy-logo-black.png" alt="KEXXY" class="contact__logo-img" loading="lazy" decoding="async" />
-        </div>
-
-        <!-- Floating info card -->
-        <div class="contact__info-card">
-          <div class="contact__info-label">
-            <span class="contact__info-line"></span>
-            <span class="contact__info-text">Booking &amp; Management</span>
-          </div>
-          <p class="contact__info-name">KEXXY</p>
-          <a href="mailto:k3xxy.art@gmail.com" class="contact__info-email">k3xxy.art@gmail.com</a>
-          <p class="contact__info-phone">Mendoza, Argentina</p>
-        </div>
-
-        <!-- Social links -->
-        <div class="contact__socials">
-          <a href="https://www.instagram.com/kexxy.obj" target="_blank" rel="noopener" class="contact__social" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
-          </a>
-          <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" class="contact__social" aria-label="SoundCloud">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M2 16a3 3 0 0 0 3 3h13a4 4 0 0 0 0-8 5 5 0 0 0-9.9-1A3 3 0 0 0 2 13"/></svg>
-          </a>
-          <a href="https://www.youtube.com/@Kexxy-obj" target="_blank" rel="noopener" class="contact__social" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58a2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <!-- Right: form panel -->
-      <div class="contact__form-panel reveal-right">
-
-        <!-- Section header -->
-        <div class="contact__header">
-          <div class="contact__header-label">
-            <span class="contact__label-num">04</span>
-            <span class="contact__label-sep"></span>
-            <span class="contact__label-text" data-i18n="contact.label">Contact &amp; Booking</span>
-          </div>
-          <h2 class="contact__title" data-i18n="contact.title">Let's<br /><span class="contact__title-outline">Connect.</span></h2>
-          <p class="contact__subtitle" data-i18n="contact.subtitle">
-            For bookings, press inquiries, and collaborations — reach out directly or use the form below.
-          </p>
-        </div>
-
-        <!-- Contact form -->
-        <form class="contact__form" id="contactForm" novalidate>
-
-          <!-- Honeypot Field for Spam Protection (Oculto visualmente) -->
-          <div style="display: none;" aria-hidden="true">
-            <label for="cf-honeypot">Leave this field empty</label>
-            <input type="text" id="cf-honeypot" name="honeypot" tabindex="-1" autocomplete="off" />
-          </div>
-
-          <div class="contact__form-row">
-            <div class="contact__field">
-              <label class="contact__field-label" for="cf-name" data-i18n="contact.fieldName">Name</label>
-              <input class="contact__input" type="text" id="cf-name" name="name" data-i18n-placeholder="contact.placeholderName" placeholder="Your name" autocomplete="name" />
-            </div>
-            <div class="contact__field">
-              <label class="contact__field-label" for="cf-email" data-i18n="contact.fieldEmail">Email</label>
-              <input class="contact__input" type="email" id="cf-email" name="email" placeholder="your@email.com" autocomplete="email" />
-            </div>
-          </div>
-
-          <div class="contact__field">
-            <label class="contact__field-label" for="cf-subject" data-i18n="contact.fieldSubject">Inquiry Type</label>
-            <select class="contact__input contact__select" id="cf-subject" name="subject">
-              <option value="" disabled selected data-i18n="contact.optDefault">Select inquiry type</option>
-              <option value="booking" data-i18n="contact.optBooking">Booking Request</option>
-              <option value="press" data-i18n="contact.optPress">Press / Media</option>
-              <option value="collab" data-i18n="contact.optCollab">Collaboration</option>
-              <option value="other" data-i18n="contact.optOther">Other</option>
-            </select>
-          </div>
-
-          <div class="contact__field">
-            <label class="contact__field-label" for="cf-venue" data-i18n="contact.fieldVenue">Venue / Event (optional)</label>
-            <input class="contact__input" type="text" id="cf-venue" name="venue" data-i18n-placeholder="contact.placeholderVenue" placeholder="Venue name, city, date" />
-          </div>
-
-          <div class="contact__field">
-            <label class="contact__field-label" for="cf-message" data-i18n="contact.fieldMsg">Message</label>
-            <textarea class="contact__input contact__textarea" id="cf-message" name="message" data-i18n-placeholder="contact.placeholderMsg" placeholder="Tell us about the event, expected attendance, lineup context..." rows="5"></textarea>
-          </div>
-
-          <div class="contact__form-footer">
-            <p class="contact__form-note" data-i18n="contact.formNote">We typically respond within 48 hours.</p>
-            <button type="submit" class="btn btn--primary contact__submit">
-              <span class="btn__inner" data-i18n="contact.send">Send Message</span>
-              <span class="btn__glow"></span>
-            </button>
-          </div>
-
-        </form>
-
-      </div>
-    </div>
-
-    <!-- Footer bar -->
-    <footer class="contact__footer">
-      <div class="contact__footer-inner">
-        <div class="contact__footer-logo">KEXXY</div>
-        <p class="contact__footer-copy">
-          <span data-i18n="footer.copy">© 2026 KEXXY. All rights reserved.</span>
-          <!-- Template author credit — fixed, not driven by content.json -->
-          <span class="footer-credit" id="footerCredit">Website by <a href="https://portfolio-kexxy.vercel.app" target="_blank" rel="noopener">Enzo Díaz Zingaretti</a></span>
-        </p>
-        <div class="contact__footer-links">
-          <a href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" data-i18n="footer.presskit">Press Kit</a>
-          <span>·</span>
-          <a href="#rider">Rider</a>
-          <span>·</span>
-          <a href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud</a>
-          <a href="admin.html" class="admin-sigil" aria-label="Admin" tabindex="-1">☩</a>
-        </div>
-      </div>
-    </footer>
-
-  </section>
-
-  <!-- LIGHTBOX GALLERY MODAL -->
-  <div class="lightbox" id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Image viewer">
-    <button class="lightbox__close" id="lightboxClose" aria-label="Close viewer">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="32" height="32">
-        <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-      </svg>
-    </button>
-    <div class="lightbox__content">
-      <img src="" alt="" class="lightbox__img" id="lightboxImg" />
-      <div class="lightbox__caption" id="lightboxCaption"></div>
-      <a href="" download class="lightbox__download" id="lightboxDownload" target="_blank" rel="noopener">
-        <span data-i18n="lightbox.download">Download High-Res</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-      </a>
-    </div>
-  </div>
-
+  <script src="assets/js/ritual.js?v=1" defer></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-
-    // EmailJS credentials live in content.json > integrations.emailjs, so a
-    // copy of this template never sends its bookings to the original inbox.
-    function emailjsConfig() {
-      const c = window.__kexxyContent;
-      return (c && c.integrations && c.integrations.emailjs) || {};
-    }
-    function bookingEmail() {
-      const c = window.__kexxyContent;
-      return (c && c.artist && c.artist.email) || '';
-    }
-
-    var FORM_MSGS = {
-      es: { sending: 'Enviando…', sent: 'Mensaje enviado correctamente. Te responderemos en 48 horas.', invalid: 'Por favor, completá los campos requeridos correctamente.', error: 'Error al enviar el mensaje. Intentá de nuevo o escribinos por email.', noForm: 'El formulario todavía no está configurado. Escribinos a' },
-      en: { sending: 'Sending…', sent: 'Message sent successfully. We will get back to you within 48 hours.', invalid: 'Please fill in the required fields correctly.', error: 'Error sending the message. Try again or contact us by email.', noForm: 'The form is not set up yet. Write to' },
-      pt: { sending: 'Enviando…', sent: 'Mensagem enviada com sucesso. Responderemos em até 48 horas.', invalid: 'Por favor, preencha os campos obrigatórios corretamente.', error: 'Erro ao enviar a mensagem. Tente novamente ou fale conosco por e-mail.', noForm: 'O formulário ainda não está configurado. Escreva para' }
-    };
-    function formMsgs() { return FORM_MSGS[document.documentElement.lang] || FORM_MSGS.es; }
-
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const T = formMsgs();
-
-      // 1. Honeypot check (Spam Protection)
-      const honeypot = document.getElementById('cf-honeypot');
-      if (honeypot && honeypot.value.trim() !== '') {
-        console.warn('Bot detected via honeypot');
-        // Pretend it was successful to trick the bot
-        const btn = this.querySelector('button[type="submit"]');
-        const inner = btn.querySelector('.btn__inner');
-        const originalText = inner.textContent;
-        inner.textContent = T.sending;
-        btn.disabled = true;
-        setTimeout(() => {
-          inner.textContent = originalText;
-          btn.disabled = false;
-          document.getElementById('contactForm').reset();
-          if (typeof Toast !== 'undefined') {
-            Toast.show(T.sent, 'success', 6000);
-          }
-        }, 1000);
-        return;
-      }
-
-      // 2. Interactive Input Validation
-      const name = document.getElementById('cf-name');
-      const email = document.getElementById('cf-email');
-      const message = document.getElementById('cf-message');
-      let isValid = true;
-
-      // Reset validation states
-      this.querySelectorAll('.contact__field').forEach(field => {
-        field.classList.remove('contact__field--error');
-      });
-
-      if (!name || name.value.trim() === '') {
-        name.parentElement.classList.add('contact__field--error');
-        isValid = false;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email || !emailRegex.test(email.value.trim())) {
-        email.parentElement.classList.add('contact__field--error');
-        isValid = false;
-      }
-
-      if (!message || message.value.trim() === '') {
-        message.parentElement.classList.add('contact__field--error');
-        isValid = false;
-      }
-
-      if (!isValid) {
-        if (typeof Toast !== 'undefined') {
-          Toast.show(T.invalid, 'error', 4000);
-        }
-        return;
-      }
-
-      const cfg = emailjsConfig();
-      if (!cfg.publicKey || !cfg.serviceId || !cfg.templateId) {
-        // Nothing configured yet: point the visitor at the inbox directly
-        // instead of silently dropping their message.
-        const to = bookingEmail();
-        if (typeof Toast !== 'undefined') {
-          Toast.show(to ? T.noForm + ' ' + to : T.noForm, 'error', 8000);
-        }
-        if (to) window.location.href = 'mailto:' + to;
-        return;
-      }
-
-      const btn = this.querySelector('button[type="submit"]');
-      const inner = btn.querySelector('.btn__inner');
-      const originalText = inner.textContent;
-      inner.textContent = T.sending;
-      btn.disabled = true;
-
-      emailjs.init(cfg.publicKey);
-      emailjs.sendForm(cfg.serviceId, cfg.templateId, this)
-        .then(function() {
-          inner.textContent = originalText;
-          btn.disabled = false;
-          document.getElementById('contactForm').reset();
-          if (typeof Toast !== 'undefined') {
-            Toast.show(T.sent, 'success', 6000);
-          }
-        }, function(error) {
-          inner.textContent = originalText;
-          btn.disabled = false;
-          if (typeof Toast !== 'undefined') {
-            Toast.show(T.error, 'error', 6000);
-          }
-        });
-    });
-    }); // DOMContentLoaded
-
-    /* ============================================================
-       PRELOADER
-       ============================================================ */
-    (function initPreloader() {
-      const preloader = document.getElementById('preloader');
-      const progress = preloader?.querySelector('.preloader__progress');
-      
-      if (!preloader) return;
-      
-      let loaded = 0;
-      const images = document.querySelectorAll('img');
-      const total = images.length || 1;
-      
-      function updateProgress() {
-        loaded++;
-        const percent = Math.min((loaded / total) * 100, 100);
-        if (progress) progress.style.width = percent + '%';
-        
-        if (loaded >= total || percent >= 100) {
-          setTimeout(() => {
-            preloader.classList.add('preloader--fade');
-            setTimeout(() => {
-              preloader.style.display = 'none';
-            }, 500);
-          }, 800);
-        }
-      }
-      
-      images.forEach(img => {
-        if (img.complete) {
-          updateProgress();
-        } else {
-          img.addEventListener('load', updateProgress);
-          img.addEventListener('error', updateProgress);
-        }
-      });
-      
-      // Fallback timeout
-      setTimeout(() => {
-        if (progress) progress.style.width = '100%';
-        setTimeout(() => {
-          preloader.classList.add('preloader--fade');
-          setTimeout(() => {
-            preloader.style.display = 'none';
-          }, 500);
-        }, 500);
-      }, 3000);
-    })();
-
-    /* ============================================================
-       TYPEWRITER EFFECT
-       ============================================================ */
-    (function initTypewriter() {
-      const typewriter = document.querySelector('.typewriter');
-      if (!typewriter) return;
-      
-      // Get text from data-text attribute only
-      const text = typewriter.getAttribute('data-text');
-      if (!text) return;
-      
-      // Clear immediately
-      typewriter.textContent = '';
-      
-      let i = 0;
-      const speed = 80;
-      
-      function type() {
-        if (i < text.length) {
-          typewriter.textContent += text.charAt(i);
-          i++;
-          setTimeout(type, speed);
-        }
-      }
-      
-      // Start typing after preloader fades
-      setTimeout(type, 1500);
-    })();
-
-    /* ============================================================
-       SHARE BUTTON
-       ============================================================ */
-    (function initShareBtn() {
-      const shareBtn = document.getElementById('shareBtn');
-      if (!shareBtn) return;
-      
-      // Show share button on scroll
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-          shareBtn.classList.add('is-visible');
-        } else {
-          shareBtn.classList.remove('is-visible');
-        }
-      });
-      
-      shareBtn.addEventListener('click', async () => {
-        const shareData = {
-          title: 'KEXXY — Techno Artist',
-          text: 'Check out KEXXY - Techno artist from Mendoza, Argentina',
-          url: window.location.href
-        };
-        
-        if (navigator.share) {
-          try {
-            await navigator.share(shareData);
-          } catch (err) {
-            console.log('Share cancelled');
-          }
-        } else {
-          // Fallback: copy to clipboard
-          try {
-            await navigator.clipboard.writeText(window.location.href);
-            if (typeof Toast !== 'undefined') {
-              Toast.show('Link copied to clipboard!', 'success', 3000);
-            }
-          } catch (err) {
-            console.log('Copy failed');
-          }
-        }
-      });
-    })();
-
-    /* ============================================================
-       HEADER SCROLL EFFECT
-       ============================================================ */
-    (function initHeaderScroll() {
-      const header = document.querySelector('.hero__header');
-      if (!header) return;
-      
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-          header.classList.add('hero__header--scrolled');
-        } else {
-          header.classList.remove('hero__header--scrolled');
-        }
-      });
-    })();
-
-    // Register Service Worker for offline support
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-          .then((registration) => {
-            console.log('SW registered:', registration.scope);
-          })
-          .catch((error) => {
-            console.log('SW registration failed:', error);
-          });
-      });
+      window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
     }
   </script>
-  <!-- Toast notifications container -->
-  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
-
-  <!-- Share button -->
-  <button class="share-btn" id="shareBtn" aria-label="Share this page" title="Share">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
-      <circle cx="18" cy="5" r="3"/>
-      <circle cx="6" cy="12" r="3"/>
-      <circle cx="18" cy="19" r="3"/>
-      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-    </svg>
-  </button>
-
-  <!-- Back to top button -->
-  <button class="back-to-top" id="backToTop" aria-label="Back to top" title="Back to top">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
-      <path d="M18 15l-6-6-6 6"/>
-    </svg>
-  </button>
-
-  <!-- Reading progress indicator -->
-  <div class="reading-progress" id="readingProgress" aria-hidden="true"></div>
-
-  <script src="script.js?v=20260720p" defer></script>
 </body>
 </html>

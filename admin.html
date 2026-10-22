@@ -727,13 +727,13 @@
     const LANGS = ['es', 'en', 'pt'];
 
     const SECTION_LIST = [
-      { key: 'listen', name: 'Sets',        desc: 'Reproductores de SoundCloud' },
+      { key: 'listen', name: 'Sets',        desc: 'Decks con los sets de SoundCloud' },
       { key: 'dates',  name: 'Fechas',      desc: 'Próximos shows' },
       { key: 'bio',    name: 'Biografía',   desc: 'Foto y texto del artista' },
       { key: 'rider',  name: 'Rider',       desc: 'Equipamiento y descargas de prensa' },
-      { key: 'live',   name: 'En vivo',     desc: 'Estadísticas, foto y productoras' },
-      { key: 'videos', name: 'Videos',      desc: 'Sets en YouTube' },
-      { key: 'about',  name: 'Sobre mí',    desc: 'Texto personal y portfolio' }
+      { key: 'live',   name: 'En vivo',     desc: 'Foto, estadísticas, productoras y cabinas compartidas' },
+      { key: 'videos', name: 'Videos',      desc: 'Botón de YouTube en cada deck' },
+      { key: 'about',  name: 'Sobre mí',    desc: 'Cita, texto personal y portfolio (dentro de la bio)' }
     ];
 
     const GROUPS = [
@@ -748,7 +748,9 @@
       { prefix: 'contact.',  label: 'Contacto y formulario' },
       { prefix: 'footer.',   label: 'Footer' },
       { prefix: 'nav.',      label: 'Navegación' },
-      { prefix: 'lightbox.', label: 'Galería' }
+      { prefix: 'lightbox.', label: 'Galería' },
+      { prefix: 'intro.',    label: 'Intro' },
+      { prefix: 'a11y.',     label: 'Accesibilidad' }
     ];
 
     const ARTIST_FIELDS = [
@@ -768,11 +770,11 @@
     ];
 
     const IMAGE_SLOTS = [
-      { key: 'hero',         name: 'Portada',          desc: 'Fondo del inicio, detrás del nombre',        maxW: 1920 },
+      { key: 'hero',         name: 'Portada',          desc: 'Foto del inicio. Si la cambiás, el sigilo pasa al frente (el recorte de la figura es de la foto original)', maxW: 1920 },
       { key: 'bio',          name: 'Biografía',        desc: 'Foto de la sección de bio',                  maxW: 1200 },
       { key: 'live',         name: 'En vivo',          desc: 'Foto de show, también fondo de la sección',  maxW: 1600 },
       { key: 'riderBg',      name: 'Fondo del rider',  desc: 'Imagen tenue detrás del rider',              maxW: 1600 },
-      { key: 'riderDiagram', name: 'Diagrama',         desc: 'Esquema del setup técnico',                  maxW: 1600 }
+      { key: 'riderDiagram', name: 'Diagrama',         desc: 'Esquema del setup técnico (mejor con fondo transparente u oscuro)', maxW: 1600 }
     ];
 
     let token = localStorage.getItem(TOKEN_KEY) || '';

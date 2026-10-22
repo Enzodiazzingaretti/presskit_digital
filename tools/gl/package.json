@@ -1,0 +1,12 @@
+{
+  "name": "kexxy-sigil-gl",
+  "private": true,
+  "description": "Construye assets/js/sigil-gl.js (sigilo de cromo en WebGL) a partir de sigil-gl.src.js",
+  "scripts": {
+    "build": "esbuild sigil-gl.src.js --bundle --format=esm --minify --target=es2019 --legal-comments=none --outfile=../../assets/js/sigil-gl.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "three": "0.160.0"
+  }
+}

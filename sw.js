@@ -1,105 +1,72 @@
-const CACHE_NAME = 'kexxy-v14-20260720';
+/* Service worker del presskit — Ritual de cromo.
+   - HTML, content.json y dates.json: primero la red (siempre lo último que publicó el panel); la caché es el respaldo sin conexión.
+   - Assets: primero la caché. Los CSS/JS llevan ?v= para invalidarse al cambiar.
+   - Videos y pedidos con Range: no se tocan (Safari necesita las respuestas 206 tal cual). */
+const CACHE_NAME = 'kexxy-ritual-v1';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/style.css?v=20260720p',
-  '/script.js?v=20260720p',
-  '/kexxy-logo-black.png',
-  '/kexxy-logo-white.png',
-  '/hero-bg.webp',
-  '/bio-photo.webp',
-  '/live-photo.webp',
-  '/rider-bg.webp',
-  '/rider-diagram.webp'
+  '/assets/css/ritual.css?v=1',
+  '/assets/js/ritual.js?v=1',
+  '/assets/brand/kexxy-sigil.svg',
+  '/assets/brand/logo-chrome-800.webp',
+  '/assets/brand/logo-glint-800.webp',
+  '/assets/brand/sigil-crown.webp',
+  '/assets/img/hero.webp',
+  '/assets/img/hero-cut.webp'
 ];
 
-// Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
-        return cache.addAll(STATIC_ASSETS);
-      })
-      .catch((err) => {
-        console.log('Cache install failed:', err);
-      })
+      .then((cache) => cache.addAll(STATIC_ASSETS))
+      .catch(() => { /* sin precache igual funciona */ })
   );
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    })
+    caches.keys().then((names) => Promise.all(names.filter((n) => n !== CACHE_NAME).map((n) => caches.delete(n))))
   );
   self.clients.claim();
 });
 
-// Fetch event - network-first for pages, cache-first for assets
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') return;
-
-  // Skip external requests
-  const url = new URL(event.request.url);
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
   if (url.origin !== self.location.origin) return;
+  // el panel y su API nunca pasan por la caché
+  if (url.pathname.indexOf('/api/') === 0 || url.pathname === '/admin.html' || url.pathname === '/admin') return;
+  if (req.headers.has('range') || /\.(mp4|webm)$/i.test(url.pathname)) return;
 
-  // Never cache or intercept the admin API — it is session-scoped and
-  // a stale /api/session response would break login entirely.
-  if (url.pathname.indexOf('/api/') === 0) return;
-
-  // Navigations (HTML) and dates.json go network-first so visitors
-  // always get the latest version; cache is only the offline fallback.
-  if (event.request.mode === 'navigate' || url.pathname === '/dates.json' || url.pathname === '/content.json') {
+  const networkFirst = req.mode === 'navigate' || url.pathname === '/content.json' || url.pathname === '/dates.json';
+  if (networkFirst) {
     event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          return caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, networkResponse.clone());
-            return networkResponse;
-          });
+      fetch(req)
+        .then((res) => {
+          if (res.ok) {
+            const copy = res.clone();
+            caches.open(CACHE_NAME).then((c) => c.put(req, copy)).catch(() => {});
+          }
+          return res;
         })
-        .catch(() => {
-          return caches.match(event.request).then((cached) => {
-            return cached || caches.match('/index.html');
-          });
-        })
+        .catch(() => caches.match(req).then((hit) => hit || (req.mode === 'navigate' ? caches.match('/index.html') : undefined)))
     );
     return;
   }
 
   event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version or fetch from network
-        if (response) {
-          return response;
+    caches.match(req).then((hit) => {
+      if (hit) return hit;
+      return fetch(req).then((res) => {
+        if (res.ok && res.status === 200 && res.type === 'basic') {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then((c) => c.put(req, copy)).catch(() => {});
         }
-        return fetch(event.request)
-          .then((networkResponse) => {
-            // Don't cache API requests
-            if (event.request.url.includes('api.')) {
-              return networkResponse;
-            }
-            // Cache new requests
-            return caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, networkResponse.clone());
-              return networkResponse;
-            });
-          })
-          .catch(() => {
-            // Return offline fallback for navigation requests
-            if (event.request.mode === 'navigate') {
-              return caches.match('/index.html');
-            }
-            return new Response('Offline', { status: 503 });
-          });
-      })
+        return res;
+      }).catch(() => new Response('Offline', { status: 503, statusText: 'Offline' }));
+    })
   );
 });
