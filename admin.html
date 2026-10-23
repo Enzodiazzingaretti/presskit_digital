@@ -588,7 +588,7 @@
         <section class="view" id="view-media">
           <div class="view__head">
             <h2 class="view__title">Media</h2>
-            <p class="view__note">Los sets de SoundCloud y los videos de YouTube van separados en el sitio. El título y el texto de cada video también se usan para el set del mismo número. La lista de videos solo aparece si la activás en Configuración → Secciones.</p>
+            <p class="view__note">De cada set el sitio muestra solo lo que está en SoundCloud: título, portada, género, duración, fecha y la forma de onda real. Si cambiás algo en SoundCloud, se actualiza solo. Los videos de YouTube son una lista aparte que solo aparece si la activás en Configuración → Secciones.</p>
           </div>
 
           <div class="block">
@@ -604,7 +604,7 @@
 
           <div class="block">
             <div class="block__head">
-              <span class="block__title">Videos de YouTube · títulos de los sets</span>
+              <span class="block__title">Videos de YouTube</span>
               <div class="langbar" id="mediaLangbar" style="margin:0 0 0 auto">
                 <button data-lang="es" class="active">ES</button>
                 <button data-lang="en">EN</button>
@@ -770,11 +770,10 @@
     ];
 
     const IMAGE_SLOTS = [
-      { key: 'hero',         name: 'Portada',          desc: 'Foto del inicio. En desktop va a la derecha y se funde a negro a la izquierda, donde va el logo', maxW: 1920 },
-      { key: 'bio',          name: 'Biografía',        desc: 'Foto de la sección de bio',                  maxW: 1200 },
-      { key: 'live',         name: 'En vivo',          desc: 'Foto de show, también fondo de la sección',  maxW: 1600 },
-      { key: 'riderBg',      name: 'Fondo del rider',  desc: 'Imagen tenue detrás del rider',              maxW: 1600 },
-      { key: 'riderDiagram', name: 'Diagrama',         desc: 'Esquema del setup técnico (mejor con fondo transparente u oscuro)', maxW: 1600 }
+      { key: 'hero',         name: 'Portada',          desc: 'La tapa usa tu retrato en dotwork. Si subís otra foto, se imprime en blanco y negro tipo fotocopia (mejor con fondo liso)', maxW: 1920 },
+      { key: 'bio',          name: 'Biografía',        desc: 'Foto de la nota de la bio, pegada con cinta',  maxW: 1400 },
+      { key: 'live',         name: 'En vivo',          desc: 'Foto de cabina a todo el ancho, con los números pintados encima',  maxW: 1800 },
+      { key: 'riderDiagram', name: 'Diagrama',         desc: 'Esquema del setup técnico (mejor en tinta negra sobre fondo transparente)', maxW: 1800 }
     ];
 
     let token = localStorage.getItem(TOKEN_KEY) || '';

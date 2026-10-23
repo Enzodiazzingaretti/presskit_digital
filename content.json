@@ -37,11 +37,10 @@
     "about": true
   },
   "images": {
-    "hero": "assets/img/portrait.webp",
-    "bio": "assets/img/hero.webp",
-    "live": "assets/img/live.webp",
-    "riderBg": "assets/img/bio.webp",
-    "riderDiagram": "assets/img/rider-diagram-dark.webp"
+    "hero": "assets/zine/cover-ink.webp",
+    "bio": "assets/zine/bio-cells.webp",
+    "live": "assets/zine/live-cells.webp",
+    "riderDiagram": "assets/zine/rider-ink.webp"
   },
   "videos": [
     {
@@ -273,7 +272,9 @@
       "contact.formTitle": "Form",
       "contact.placeholderEmail": "you@email.com",
       "nav.menu": "Menu",
-      "live.manifesto": "{years} years in the booth. {shows} nights. {cities} cities. One {longest} set, non-stop."
+      "listen.open": "Open on SoundCloud",
+      "footer.made": "Made in Mendoza, Argentina",
+      "nav.close": "Close"
     },
     "es": {
       "nav.bio": "Bio",
@@ -413,7 +414,9 @@
       "contact.formTitle": "Formulario",
       "contact.placeholderEmail": "tu@email.com",
       "nav.menu": "Menú",
-      "live.manifesto": "{years} años en cabina. {shows} noches. {cities} ciudades. Un set de {longest} sin parar."
+      "listen.open": "Abrir en SoundCloud",
+      "footer.made": "Hecho en Mendoza, Argentina",
+      "nav.close": "Cerrar"
     },
     "pt": {
       "nav.bio": "Bio",
@@ -553,7 +556,9 @@
       "contact.formTitle": "Formulário",
       "contact.placeholderEmail": "voce@email.com",
       "nav.menu": "Menu",
-      "live.manifesto": "{years} anos na cabine. {shows} noites. {cities} cidades. Um set de {longest} sem parar."
+      "listen.open": "Abrir no SoundCloud",
+      "footer.made": "Feito em Mendoza, Argentina",
+      "nav.close": "Fechar"
     }
   }
 }

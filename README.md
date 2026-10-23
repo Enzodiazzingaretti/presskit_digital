@@ -7,17 +7,16 @@
 
 ---
 
-## v2 front-end
+## v2 front-end: KEXXY ZINE N°01
 
-KEXXY's own kit now runs a custom front-end built on the same content model and admin panel:
+KEXXY's own kit runs a custom front-end on the same content model and admin panel. It reads like a punk/skate fanzine printed in black and red ink:
 
-- **Editorial layout:** full-bleed photos, oversized type and no boxed cards. A fixed header with a red progress line, a full-screen menu on phones and a chrome scroll fader on desktop.
-- **Liquid-chrome sigil in real time** (Three.js, extruded from the vectorised sigil) closes the page. Three.js only downloads when a visitor gets near the end; a static render shows until it is ready, and it stops rendering off screen.
-- **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it flies into the hero. Skippable, and never shown with reduced motion.
-- **Everything pulses at 150 BPM** with CSS animations on the compositor; the WebGL clock is synced to them.
-- **SoundCloud sets** with a waveform and a chrome play button. Title and text come from the video in the same position in the panel; YouTube videos are a separate list, switched off by default. The SoundCloud player only loads when someone presses play, and two sets never play at once.
-- **Live numbers as a sentence** ("6+ years in the booth. 40+ nights…"), built from the panel's stats and the `live.manifesto` text in each language.
-- **Rider → PDF:** "Technical rider" prints only the rider section, so a promoter can save it as a PDF.
+- **Cover like a magazine:** the portrait printed in dotwork, the t-shirt dissolving into ink cells, the chrome logo as a die-cut sticker, cover lines from the live stats.
+- **Living ink:** a WebGL layer of organic ink cells (sourdough / acrylic-pour texture) that moves on its own, breathes with the 150 BPM kick and opens around the cursor. Static renders when WebGL is missing or motion is reduced.
+- **Sets straight from SoundCloud:** `/api/sc` reads each track's public page and returns the real title, artwork, genre, duration, date and waveform (cached 12 h on the CDN, oEmbed as fallback). The official widget plays it; clicking the waveform seeks.
+- **Zine pieces:** ransom-note section titles, dates as wheat-pasted posters, promoters as stickers, the rider as a clipped spec sheet, booking as a tear-off flyer. The chrome sigil (Three.js) closes the page, surrounded by living cells.
+- **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it sticks onto the cover. Skippable, and never shown with reduced motion.
+- **Rider → PDF:** "Technical rider" prints only the spec sheet.
 - Text still comes from `content.json` (ES/EN/PT) and dates from `dates.json`; the panel edits both exactly as before.
 
 | Path | What |
@@ -25,8 +24,10 @@ KEXXY's own kit now runs a custom front-end built on the same content model and 
 | `index.html` | Markup with the Spanish copy as the no-JS fallback |
 | `assets/css/ritual.css` | All styles |
 | `assets/js/ritual.js` | Content, i18n, sets, dates, intro, form, navigation |
+| `assets/js/cells-gl.js` | Living ink cells (WebGL 1, no dependencies) |
+| `api/sc.js` | Real SoundCloud data for each set |
 | `assets/js/sigil-gl.js` | WebGL sigil bundle (built from `tools/gl/`) |
-| `assets/brand/`, `assets/img/`, `assets/video/`, `assets/gl/` | Logo renders, photos, logo animations, sigil normal map |
+| `assets/brand/`, `assets/zine/`, `assets/video/`, `assets/gl/` | Logo renders, printed photos and ink textures, logo animations, sigil normal map |
 
 Rebuilding the WebGL bundle: `cd tools/gl && npm install && npm run build`. CSS/JS and the bundle are referenced with `?v=`; bump it (and `CACHE_NAME` in `sw.js`) when they change.
 
@@ -104,17 +105,16 @@ To clone this for another artist, follow **[`docs/CLONAR-ARTISTA.md`](docs/CLONA
 
 <br>
 
-## Front v2
+## Front v2: KEXXY ZINE N°01
 
-El kit de KEXXY ahora usa un front propio, con el mismo modelo de contenido y el mismo panel:
+El kit de KEXXY usa un front propio, con el mismo modelo de contenido y el mismo panel. Se lee como un fanzine punk/skate impreso en tinta negra y roja:
 
-- **Diseño editorial:** fotos a sangre, tipografía grande y nada de tarjetas. Barra fija con una línea roja de progreso, menú a pantalla completa en el celu y un fader de cromo para el scroll en desktop.
-- **Sigilo de cromo líquido en tiempo real** (Three.js, extruido del sigilo vectorizado) como cierre de la página. Three.js se baja recién cuando el visitante se acerca al final; mientras tanto se ve un render estático, y deja de dibujar fuera de pantalla.
-- **Intro, solo la primera visita de cada sesión:** el logo rojo animado se deforma, el bombo lo vuelve cromo y vuela al hero. Se puede saltar y nunca aparece con movimiento reducido.
-- **Todo late a 150 BPM** con animaciones CSS en el compositor; el reloj del WebGL va sincronizado.
-- **Sets de SoundCloud** con forma de onda y botón de play en cromo. El título y el texto salen del video en la misma posición del panel; los videos de YouTube son una lista aparte, apagada por defecto. El reproductor carga recién cuando alguien aprieta play, y nunca suenan dos sets a la vez.
-- **Los números en vivo como frase** ("6+ años en cabina. 40+ noches…"), armada con las estadísticas del panel y el texto `live.manifesto` de cada idioma.
-- **Rider → PDF:** "Rider técnico" imprime solo la sección del rider, para guardarla como PDF.
+- **Tapa de revista:** el retrato impreso en dotwork, la remera deshaciéndose en celdas de tinta, el logo de cromo como sticker troquelado y los números del vivo como titulares.
+- **Tinta viva:** una capa WebGL de celdas orgánicas (textura de masa madre / pintura vertida) que se mueve sola, respira con el bombo a 150 BPM y se abre alrededor del cursor. Sin WebGL o con movimiento reducido queda quieta.
+- **Sets directo de SoundCloud:** `/api/sc` lee la página pública de cada track y devuelve título, portada, género, duración, fecha y la forma de onda reales (12 h de caché en el CDN, oEmbed como respaldo). Suena con el widget oficial; clic en la onda para adelantar.
+- **Piezas de fanzine:** títulos tipo nota de rescate, fechas como afiches pegados, productoras como stickers, el rider como ficha técnica con clip y el booking como volante con tiras para arrancar. Cierra el sigilo de cromo (Three.js) rodeado de celdas vivas.
+- **Intro, solo la primera visita de cada sesión:** el logo rojo animado se deforma, el bombo lo vuelve cromo y se pega en la tapa. Se puede saltar y nunca aparece con movimiento reducido.
+- **Rider → PDF:** "Rider técnico" imprime solo la ficha.
 - Los textos siguen en `content.json` (ES/EN/PT) y las fechas en `dates.json`; el panel los edita igual que antes.
 
 Para reconstruir el bundle del WebGL: `cd tools/gl && npm install && npm run build`. CSS/JS y el bundle van con `?v=`; subilo (y `CACHE_NAME` en `sw.js`) cuando cambien.
