@@ -42,6 +42,8 @@
       try {
         if (!sessionStorage.getItem('kx-intro') && !matchMedia('(prefers-reduced-motion: reduce)').matches) c.add('intro-on');
       } catch (e) {}
+      // red de seguridad: si el JS no llega a cargar, la página se muestra igual
+      setTimeout(function () { if (!c.contains('hero-in')) { c.add('hero-in'); c.remove('intro-on'); } }, 7000);
     })();
   </script>
 
