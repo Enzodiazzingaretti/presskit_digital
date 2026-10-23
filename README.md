@@ -38,7 +38,7 @@ So: no framework on the front, and a panel the artist actually uses.
 
 ## The interesting part: the repository *is* the database
 
-There's no database and no CMS. The admin panel writes `content.json` and `dates.json` **back into this repository through the GitHub API**, which triggers a Vercel redeploy. The site updates in about a minute.
+There's no database and no CMS. The admin panel writes `content.json` and `dates.json` **back into this repository through the GitHub API**. The site reads them back live through `/api/public` (server-side token, cached 60 s at the edge), so a change shows up in about a minute without waiting for a redeploy; the copies inside the deployment are the fallback. Images uploaded from the panel are served the same way until a deployment includes them.
 
 What that buys:
 
@@ -127,7 +127,7 @@ Entonces: sin framework en el front, y un panel que el artista realmente usa.
 
 ## Lo interesante: el repositorio **es** la base de datos
 
-No hay base de datos ni CMS. El panel escribe `content.json` y `dates.json` **de vuelta en este repositorio a través de la API de GitHub**, lo que dispara un redeploy de Vercel. El sitio se actualiza en aproximadamente un minuto.
+No hay base de datos ni CMS. El panel escribe `content.json` y `dates.json` **de vuelta en este repositorio a través de la API de GitHub**. El sitio los vuelve a leer en vivo por `/api/public` (token del lado del servidor, cache de 60 s en el CDN), así un cambio se ve en aproximadamente un minuto sin esperar un redeploy; las copias del deploy quedan como respaldo. Las imágenes que se suben desde el panel se sirven igual hasta que un deploy las incluye.
 
 Lo que eso te da:
 

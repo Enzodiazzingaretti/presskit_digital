@@ -16,6 +16,7 @@
   const BEAT = 0.4;
   const TZ = 'America/Argentina/Mendoza';
   const SCRIPT_URL = (D.currentScript && D.currentScript.src) || location.href;
+  const LIVE = '/api/public?file=';
 
   // H.264 donde se pueda (Safari, Chrome, Edge); VP9 si el navegador no trae ese códec
   const CAN_MP4 = (() => {
@@ -220,19 +221,21 @@
   }
 
   const HERO_DEFAULT = 'assets/img/hero.webp';
+  // las fotos que sube el panel (img/…) se leen en vivo del repo: así aparecen sin esperar un deploy
+  const asset = (p) => (/^img\/[a-z0-9-]+\.webp$/i.test(String(p)) ? LIVE + encodeURIComponent(p) : String(p));
   function applyImages() {
     const im = (content && content.images) || {};
     const hero = $('#hero');
     if (im.hero) {
-      $('#heroBg').src = im.hero;
+      $('#heroBg').src = asset(im.hero);
       // el recorte de la figura solo calza con la foto original
       if (hero) hero.classList.toggle('no-cut', im.hero !== HERO_DEFAULT);
     }
-    if (im.bio) $('#bioImg').src = im.bio;
-    if (im.live) $('#liveImg').src = im.live;
-    if (im.riderDiagram) $('#riderDiagram').src = im.riderDiagram;
+    if (im.bio) $('#bioImg').src = asset(im.bio);
+    if (im.live) $('#liveImg').src = asset(im.live);
+    if (im.riderDiagram) $('#riderDiagram').src = asset(im.riderDiagram);
     const rb = $('#riderBg');
-    if (rb && im.riderBg) rb.style.backgroundImage = 'url("' + String(im.riderBg).replace(/["\\]/g, '') + '")';
+    if (rb && im.riderBg) rb.style.backgroundImage = 'url("' + asset(im.riderBg).replace(/["\\]/g, '') + '")';
   }
 
   const handle = (url) => {
@@ -677,9 +680,19 @@
   }
 
   const getJSON = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : Promise.reject(new Error(url))));
+  /* Primero lo último que guardó el panel (leído del repo por /api/public, cacheado 1 min en el CDN);
+     si la API no responde a tiempo o no está configurada, la copia estática del deploy. */
+  function getLive(name) {
+    const ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    const timer = ctrl ? setTimeout(() => ctrl.abort(), 3500) : 0;
+    return fetch(LIVE + encodeURIComponent(name), ctrl ? { signal: ctrl.signal } : {})
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(name))))
+      .then((j) => { clearTimeout(timer); return j; })
+      .catch(() => { clearTimeout(timer); return getJSON(name); });
+  }
 
   function boot() {
-    getJSON('content.json').then((c) => {
+    getLive('content.json').then((c) => {
       content = c;
       window.__kexxyContent = c; // el formulario y el panel lo leen
       applyIntegrations();
@@ -700,7 +713,7 @@
       fitTexts();
     });
 
-    getJSON('dates.json').then((d) => {
+    getLive('dates.json').then((d) => {
       dates = Array.isArray(d) ? d : (d && Array.isArray(d.dates) ? d.dates : []);
       renderDates();
       observeStagger();

@@ -1134,7 +1134,9 @@
           '</div>';
 
         const thumb = el.querySelector('.slot__thumb');
-        if (current) thumb.style.backgroundImage = 'url("/' + current + '")';
+        // las subidas del panel (img/…) se leen en vivo del repo hasta que entren en un deploy
+        const src = /^img\/[a-z0-9-]+\.webp$/i.test(current) ? '/api/public?file=' + encodeURIComponent(current) : '/' + current;
+        if (current) thumb.style.backgroundImage = 'url("' + src + '")';
         el.querySelector('.slot__name').textContent = s.name;
         el.querySelector('.slot__desc').textContent = s.desc;
         const fileLabel = el.querySelector('.slot__file');
