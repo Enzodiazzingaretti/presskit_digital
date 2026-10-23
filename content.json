@@ -37,10 +37,10 @@
     "about": true
   },
   "images": {
-    "hero": "assets/zine/cover-ink.webp",
-    "bio": "assets/zine/bio-cells.webp",
-    "live": "assets/zine/live-cells.webp",
-    "riderDiagram": "assets/zine/rider-ink.webp"
+    "hero": "assets/ink/cover-ink.webp",
+    "bio": "assets/ink/bio-cells.webp",
+    "live": "assets/ink/live-cells.webp",
+    "riderDiagram": "assets/ink/rider-ink.webp"
   },
   "videos": [
     {

@@ -34,3 +34,7 @@ pids/
 # Temporary folders
 tmp/
 temp/
+
+# Modelos que baja tools/ink (no van al repo)
+tools/ink/.cache/
+__pycache__/

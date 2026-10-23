@@ -1,5 +1,5 @@
 /* =====================================================================
-   KEXXY — ZINE N°01 · lógica del presskit
+   KEXXY — PRESSKIT 2026 · lógica del presskit
    - Textos y datos salen de content.json y dates.json (los edita el panel /admin.html).
    - ES vive en el HTML; EN/PT llegan desde content.json.
    - Los sets muestran solo lo que dice SoundCloud (vía /api/sc).
@@ -788,7 +788,7 @@
   function setupReveal() {
     $$('[data-ransom]').forEach(ransom);
     if (!('IntersectionObserver' in window) || reduced()) {
-      $$('[data-reveal], .sec__head, .stagger, .scribble').forEach((n) => n.classList.add('is-in'));
+      $$('[data-reveal], .sec__head, .stagger, .scribble, .orn, .flyer').forEach((n) => n.classList.add('is-in'));
       return;
     }
     revealObs = new IntersectionObserver((entries) => {
@@ -799,7 +799,7 @@
       });
     }, { rootMargin: '0px 0px -10% 0px', threshold: 0.06 });
     $$('[data-reveal]').forEach((n) => { if (!n.closest('.cover')) revealObs.observe(n); });
-    $$('.sec__head, .checks .scribble, .flyer, .slip').forEach((n) => revealObs.observe(n));
+    $$('.sec__head, .checks .scribble, .flyer, .slip, .orn').forEach((n) => revealObs.observe(n));
   }
   function observeStagger() {
     ['#hotcues', '#datesBody'].forEach((s) => {
@@ -815,7 +815,7 @@
 
   /* =====================================================================
      NAVEGACIÓN: barra fija que se esconde mientras leés, progreso en rojo,
-     número de página tipo fanzine y menú a pantalla completa en el celu.
+     número de página como en una revista y menú a pantalla completa en el celu.
      ===================================================================== */
   const SECTION_IDS = ['sets', 'dates', 'bio', 'live', 'rider', 'booking'];
   let navRefresh = null;

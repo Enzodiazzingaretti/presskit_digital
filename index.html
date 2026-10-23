@@ -30,9 +30,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="image" href="assets/zine/cover-ink.webp" fetchpriority="high" />
+  <link rel="preload" as="image" href="assets/ink/cover-ink.webp" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Pirata+One&family=Rock+Salt&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/ritual.css?v=3" />
+  <link rel="stylesheet" href="assets/css/ritual.css?v=4" />
 
   <!-- La intro (logo rojo → cromo) corre solo la primera vez por sesión y nunca con movimiento reducido -->
   <script>
@@ -81,7 +81,7 @@
     </div>
     <div class="intro__flash"></div>
     <div class="intro__hud">
-      <span class="rec"><i></i>KEXXY · ZINE N°01</span>
+      <span class="rec"><i></i>KEXXY · PRESSKIT 2026</span>
       <span class="beatbars"><i></i><i></i><i></i><i></i></span>
     </div>
     <button class="intro__skip" type="button" id="introSkip" tabindex="-1"><span data-i18n="intro.skip">Saltar</span> ↵</button>
@@ -104,7 +104,7 @@
     <a class="top__mark" href="#hero" aria-label="KEXXY — inicio">
       <img src="assets/brand/kexxy-sigil.svg" alt="" width="34" height="42" />
     </a>
-    <span class="top__zine">KEXXY ZINE <b>N°01</b></span>
+    <span class="top__tag">PRESSKIT <b>2026</b></span>
     <nav class="top__nav" aria-label="Secciones">
       <a href="#sets" data-nav="sets" data-i18n="nav.sets">Sets</a>
       <a href="#dates" data-nav="dates" data-i18n="nav.dates">Fechas</a>
@@ -124,7 +124,7 @@
 
   <!-- ============ MENÚ (celu) ============ -->
   <div class="menu" id="menu" hidden>
-    <img class="menu__lace" src="assets/zine/band-0.webp" alt="" aria-hidden="true" />
+    <img class="menu__lace" src="assets/ink/band-0.webp" alt="" aria-hidden="true" />
     <nav class="menu__nav" aria-label="Secciones">
       <a href="#sets" data-nav="sets"><small>I</small><span data-i18n="nav.sets">Sets</span></a>
       <a href="#dates" data-nav="dates"><small>II</small><span data-i18n="nav.dates">Fechas</span></a>
@@ -143,7 +143,7 @@
     </div>
   </div>
 
-  <!-- número de página (como en un fanzine) -->
+  <!-- número de página, como en una revista -->
   <div class="pager" id="pager" aria-hidden="true"><span class="pager__n" id="pagerN">00</span><span class="pager__t" id="pagerT">KEXXY</span></div>
 
   <main id="main">
@@ -151,21 +151,21 @@
     <!-- ============ TAPA ============ -->
     <section class="cover" id="hero" aria-label="KEXXY">
       <canvas class="cover__cells" id="coverCells" aria-hidden="true"></canvas>
-      <img class="cover__lace" src="assets/zine/band-1.webp" alt="" aria-hidden="true" decoding="async" />
-      <img class="splat splat--cover" src="assets/zine/splat-0.webp" alt="" aria-hidden="true" decoding="async" />
+      <img class="cover__lace" src="assets/ink/band-1.webp" alt="" aria-hidden="true" decoding="async" />
+      <img class="splat splat--cover" src="assets/ink/splat-0.webp" alt="" aria-hidden="true" decoding="async" />
 
       <figure class="cover__print" id="coverPrint" aria-hidden="true">
-        <img class="cover__red" src="assets/zine/cover-red.webp" alt="" width="1456" height="1586" decoding="async" />
-        <img class="cover__ink" id="heroBg" src="assets/zine/cover-ink.webp" alt="" width="1456" height="1586" fetchpriority="high" decoding="async" />
+        <img class="cover__red" src="assets/ink/cover-red.webp" alt="" width="1456" height="1586" decoding="async" />
+        <img class="cover__ink" id="heroBg" src="assets/ink/cover-ink.webp" alt="" width="1456" height="1586" fetchpriority="high" decoding="async" />
         <span class="cover__scan"></span>
       </figure>
 
-      <p class="cover__issue" aria-hidden="true"><b>N°01</b><span>PRESSKIT</span><span>MMXXVI</span></p>
+      <p class="cover__issue" aria-hidden="true"><b>N°01</b><span>MMXXVI</span></p>
 
       <h1 class="cover__mast hero__logo" id="heroLogo">
         <span class="sr-only">KEXXY</span>
         <span class="logo" id="logo" aria-hidden="true">
-          <img class="logo__die" src="assets/zine/logo-sticker-1400.webp" srcset="assets/zine/logo-sticker-800.webp 800w, assets/zine/logo-sticker-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
+          <img class="logo__die" src="assets/ink/logo-sticker-1400.webp" srcset="assets/ink/logo-sticker-800.webp 800w, assets/ink/logo-sticker-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
           <img class="logo__chrome" src="assets/brand/logo-chrome-1400-v2.webp" srcset="assets/brand/logo-chrome-800-v2.webp 800w, assets/brand/logo-chrome-1400-v2.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
           <img class="logo__glint" src="assets/brand/logo-glint-1400.webp" srcset="assets/brand/logo-glint-800.webp 800w, assets/brand/logo-glint-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
           <span class="logo__sweep"></span>
@@ -204,8 +204,8 @@
     <!-- ============ I · SETS ============ -->
     <section class="sec sec--dark" id="sets" data-section="listen">
       <span class="alias" id="listen"></span>
-      <img class="bgfig bgfig--mask" src="assets/zine/mask-dots.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
-      <img class="band band--sets" src="assets/zine/band-0.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="bgfig bgfig--mask" src="assets/ink/mask-dots.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="band band--sets" src="assets/ink/band-0.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="wrap">
         <header class="sec__head">
           <p class="kick"><span class="kick__n">I</span><span data-i18n="nav.sets">Sets</span><span class="kick__sep">—</span>SoundCloud</p>
@@ -232,7 +232,7 @@
 
     <!-- ============ II · FECHAS ============ -->
     <section class="sec sec--paper" id="dates" data-section="dates">
-      <img class="band band--dates" src="assets/zine/band-0.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="band band--dates" src="assets/ink/band-0.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="wrap">
         <header class="sec__head sec__head--r">
           <p class="kick"><span class="kick__n">II</span><span data-i18n="nav.dates">Fechas</span></p>
@@ -262,9 +262,17 @@
       </div>
     </section>
 
+    <!-- ornamento: una mancha de tinta doblada al medio, como un Rorschach -->
+    <div class="orn orn--a" aria-hidden="true">
+      <div class="orn__in">
+        <img class="orn__red" src="assets/ink/ornament-a-red.webp" alt="" width="1500" height="460" loading="lazy" decoding="async" />
+        <img class="orn__ink" src="assets/ink/ornament-a.webp" alt="" width="1500" height="460" loading="lazy" decoding="async" />
+      </div>
+    </div>
+
     <!-- ============ III · BIO ============ -->
     <section class="sec sec--paper sec--bio" id="bio" data-section="bio">
-      <img class="band band--bio" src="assets/zine/band-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="band band--bio" src="assets/ink/band-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="wrap">
         <header class="sec__head">
           <p class="kick"><span class="kick__n">III</span><span data-i18n="bio.label">Biografía</span></p>
@@ -274,7 +282,7 @@
         <div class="bio">
           <figure class="bio__fig" data-reveal>
             <span class="tape tape--a" aria-hidden="true"></span><span class="tape tape--b" aria-hidden="true"></span>
-            <img class="bio__img" id="bioImg" src="assets/zine/bio-cells.webp" alt="KEXXY con máscara, sentado entre cadenas" width="1672" height="941" loading="lazy" decoding="async" />
+            <img class="bio__img" id="bioImg" src="assets/ink/bio-cells.webp" alt="KEXXY con máscara, sentado entre cadenas" width="1672" height="941" loading="lazy" decoding="async" />
             <figcaption class="hand"><span data-i18n="hero.tag">Mendoza · Argentina</span> — <span data-i18n="bio.since">Desde 2020</span></figcaption>
           </figure>
 
@@ -324,7 +332,7 @@
       </div>
 
       <div class="stage">
-        <img class="stage__img" id="liveImg" src="assets/zine/live-cells.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
+        <img class="stage__img" id="liveImg" src="assets/ink/live-cells.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
         <p class="stamp stamp--live"><span data-i18n="live.status">Disponible para contratación</span></p>
         <p class="stage__cities hand" id="liveCities">Mendoza · Buenos Aires</p>
         <dl class="stats">
@@ -361,7 +369,8 @@
 
     <!-- ============ V · RIDER ============ -->
     <section class="sec sec--paper" id="rider" data-section="rider">
-      <img class="splat splat--rider" src="assets/zine/splat-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="splat splat--rider" src="assets/ink/splat-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <div class="orn orn--b" aria-hidden="true"><div class="orn__in"><img class="orn__ink" src="assets/ink/ornament-b.webp" alt="" width="700" height="900" loading="lazy" decoding="async" /></div></div>
       <div class="wrap">
         <header class="sec__head">
           <p class="kick"><span class="kick__n">V</span><span data-i18n="nav.rider">Rider</span></p>
@@ -373,7 +382,7 @@
           <span class="sheet__clip" aria-hidden="true"></span>
           <header class="sheet__head"><span data-i18n="rider.label">Rider Técnico y Perfil</span><span>KEXXY — 2026</span></header>
           <figure class="sheet__plot">
-            <img id="riderDiagram" src="assets/zine/rider-ink.webp" alt="Diagrama del setup técnico: cuatro CDJ y mixer" width="1770" height="627" loading="lazy" decoding="async" />
+            <img id="riderDiagram" src="assets/ink/rider-ink.webp" alt="Diagrama del setup técnico: cuatro CDJ y mixer" width="1770" height="627" loading="lazy" decoding="async" />
             <figcaption><span data-i18n="rider.diagramCaption">Setup Técnico</span> — <span data-i18n="rider.diagramNote">4 CDJ + Mixer</span></figcaption>
           </figure>
 
@@ -426,7 +435,7 @@
     <!-- ============ VI · BOOKING ============ -->
     <section class="sec sec--dark sec--booking" id="booking">
       <span class="alias" id="contact"></span>
-      <img class="band band--booking" src="assets/zine/band-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img class="band band--booking" src="assets/ink/band-1.webp" alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div class="wrap">
         <div class="booking">
           <article class="flyer flyer--tear">
@@ -507,7 +516,7 @@
 
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
-  <script src="assets/js/ritual.js?v=3" defer></script>
+  <script src="assets/js/ritual.js?v=4" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });

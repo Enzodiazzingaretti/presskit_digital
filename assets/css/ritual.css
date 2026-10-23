@@ -1,6 +1,6 @@
 /* =====================================================================
-   KEXXY — ZINE N°01
-   Fanzine punk/skate impreso en tinta: papel, xerox, cinta, stickers,
+   KEXXY — PRESSKIT 2026
+   Revista punk/skate impresa en tinta: papel, xerox, cinta, stickers,
    recortes, y tinta orgánica que crece sola (celdas tipo masa madre, dotwork).
    Tintas: negro + rojo sangre (riso). El pulso sigue a 150 BPM.
    ===================================================================== */
@@ -28,8 +28,8 @@
   --bar: 1.6s;
   --kick: cubic-bezier(.08, .72, .24, 1);
   --ease: cubic-bezier(.7, 0, .2, 1);
-  --paper-tex: url(../zine/paper.webp);
-  --xerox-tex: url(../zine/xerox.webp);
+  --paper-tex: url(../ink/paper.webp);
+  --xerox-tex: url(../ink/xerox.webp);
   --tear-top: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'><path d='M0 40 L0 20 L32 19 L55 19 L80 10 L96 26 L122 30 L155 22 L167 20 L176 13 L185 18 L215 22 L236 18 L251 38 L281 15 L295 10 L323 27 L341 33 L349 28 L369 16 L379 25 L394 15 L427 11 L442 9 L470 20 L490 24 L501 11 L520 14 L554 13 L585 17 L615 10 L649 14 L677 15 L687 21 L701 16 L721 19 L744 9 L756 31 L770 24 L803 29 L833 17 L844 29 L858 14 L888 14 L900 10 L914 27 L938 28 L952 14 L971 12 L989 11 L1006 37 L1031 21 L1043 8 L1075 29 L1083 19 L1110 30 L1120 24 L1151 23 L1180 15 L1200 28 L1200 40 Z'/></svg>");
   --tear-bottom: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 40' preserveAspectRatio='none'><path d='M0 0 L0 17 L29 23 L53 21 L77 22 L110 28 L129 21 L148 5 L176 21 L196 23 L217 28 L232 15 L257 12 L289 18 L320 23 L333 26 L365 16 L388 11 L409 33 L435 12 L448 14 L461 22 L482 26 L516 10 L525 3 L551 15 L580 11 L599 26 L614 9 L638 22 L663 37 L689 18 L701 18 L728 14 L745 19 L769 17 L798 5 L830 11 L850 28 L867 27 L896 19 L921 24 L950 24 L964 37 L997 25 L1014 33 L1031 18 L1053 19 L1062 4 L1091 15 L1119 11 L1140 26 L1166 20 L1199 13 L1200 14 L1200 0 Z'/></svg>");
 }
@@ -93,7 +93,7 @@ main { overflow-x: clip; }
 /* sello de goma: tinta roja gastada */
 .stamp { display: inline-block; margin: 0; padding: 6px 12px 4px; border: 4px solid currentColor; border-radius: 6px; color: var(--blood);
   font: 900 22px/1 var(--f-head); font-stretch: 75%; letter-spacing: .04em; text-transform: uppercase; mix-blend-mode: multiply;
-  -webkit-mask: url(../zine/grunge.webp) 0 0 / 260px 260px; mask: url(../zine/grunge.webp) 0 0 / 260px 260px; }
+  -webkit-mask: url(../ink/grunge.webp) 0 0 / 260px 260px; mask: url(../ink/grunge.webp) 0 0 / 260px 260px; }
 .sec--dark .stamp { mix-blend-mode: normal; }
 
 /* botones: impresos, con sombra dura */
@@ -161,8 +161,8 @@ html.intro-on .intro {
 .top__mark { flex: none; display: block; width: 30px; transition: transform .5s var(--kick); }
 .top__mark:hover { transform: rotate(-10deg) scale(1.08); }
 .top__mark img { width: 30px; height: auto; }
-.top__zine { display: inline-flex; align-items: baseline; gap: 8px; font: 400 15px/1 var(--f-type); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
-.top__zine b { font: 400 22px/1 var(--f-goth); letter-spacing: 0; color: var(--blood); }
+.top__tag { display: inline-flex; align-items: baseline; gap: 8px; font: 400 15px/1 var(--f-type); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.top__tag b { font: 400 22px/1 var(--f-goth); letter-spacing: 0; color: var(--blood); }
 .top__nav { display: none; gap: 26px; margin-left: auto; }
 .top__nav a { position: relative; z-index: 0; padding: 6px 0; font: 800 17px/1 var(--f-head); font-stretch: 78%; letter-spacing: .02em; text-transform: uppercase; text-decoration: none; }
 .top__nav a::after { content: ""; position: absolute; left: -4px; right: -4px; bottom: 2px; height: 7px; background: var(--blood); transform: scaleX(0) rotate(-2deg); transform-origin: left; transition: transform .35s var(--kick); z-index: -1; }
@@ -311,8 +311,12 @@ html.cells-cover .cover__lace { opacity: 0; }
 
 .sec__head { position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; margin-bottom: 8px; }
 .sec__head--r { align-items: flex-end; text-align: right; }
-.kick { display: inline-flex; align-items: baseline; gap: 12px; margin: 0; font: 400 16px/1.2 var(--f-type); letter-spacing: .12em; text-transform: uppercase; }
-.kick__n { font: 400 30px/1 var(--f-goth); letter-spacing: 0; color: var(--blood); }
+.kick { display: inline-flex; align-items: center; gap: 12px; margin: 0; font: 400 16px/1.2 var(--f-type); letter-spacing: .12em; text-transform: uppercase; }
+/* el numeral de cada capítulo va sobre un sello de tinta roja (orgánico, simétrico) */
+.kick__n {
+  flex: none; display: inline-grid; place-items: center; width: 64px; height: 64px; margin: -14px -2px -14px -12px; padding-top: 3px;
+  background: url(../ink/seal.webp) center / contain no-repeat; color: var(--paper-hi); font: 400 23px/1 var(--f-goth); letter-spacing: 0;
+}
 .kick__sep { color: var(--blood); }
 
 /* títulos tipo nota de rescate: cada letra recortada de otra revista */
@@ -345,6 +349,27 @@ html.cells-cover .cover__lace { opacity: 0; }
 .band--bio { display: none; }
 @media (min-width: 900px) { .band--bio { display: block; left: -48%; width: 90%; top: 22%; opacity: .9; mix-blend-mode: multiply; transform: rotate(74deg); } }
 
+/* ---------- ornamentos: manchas de tinta dobladas al medio (Rorschach) ---------- */
+.orn { position: relative; z-index: 1; pointer-events: none; }
+.orn__in { position: relative; width: 100%; height: 100%; transform-origin: 50% 50%; }
+.orn img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; mix-blend-mode: multiply; }
+.orn__red { translate: 5px 3px; }
+.orn--a { width: min(1240px, 124vw); aspect-ratio: 1500 / 460; margin: -64px 0 -56px 50%; translate: -50% 0; }
+.orn--b { position: absolute; z-index: 0; display: none; }
+@media (min-width: 900px) {
+  .orn--b { display: block; right: -8vw; top: 12%; width: min(42vw, 620px); aspect-ratio: 700 / 900; }
+  .splat--rider { display: none; }
+  .kick__n { width: 74px; height: 74px; margin: -16px -2px -16px -14px; font-size: 26px; }
+}
+/* se abren desde el eje, como cuando se despliega el papel, y después respiran */
+html.js .orn .orn__in { clip-path: inset(0 50% 0 50%); transition: clip-path 1.8s var(--ease); }
+html.js .orn.is-in .orn__in { clip-path: inset(-3%); }
+html.is-live .orn.is-in .orn__in { animation: breathe calc(var(--bar) * 4) ease-in-out infinite; }
+@keyframes breathe { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.03) rotate(.4deg); } }
+/* el sello del numeral se estampa cuando entra el título */
+html.js .sec__head .kick__n, html.js .flyer .kick__n { opacity: 0; transform: scale(1.9) rotate(-28deg); }
+html.js .sec__head.is-in .kick__n, html.js .flyer.is-in .kick__n { opacity: 1; transform: none; transition: opacity .2s ease .05s, transform .45s var(--kick) .05s; }
+
 /* =====================================================================
    I · SETS — lo que dice SoundCloud, impreso
    ===================================================================== */
@@ -353,7 +378,7 @@ html.cells-cover .cover__lace { opacity: 0; }
 .tape-set__sleeve { position: relative; width: min(74vw, 420px); }
 .tape-set__vinyl {
   position: absolute; top: 5%; left: 38%; width: 90%; aspect-ratio: 1; border-radius: 50%; z-index: 0;
-  background: radial-gradient(circle, var(--blood) 0 15%, #0b0b0b 15.5% 16.5%, transparent 17%),
+  background: url(../ink/seal.webp) center / 42% no-repeat, radial-gradient(circle, #0b0b0b 0 21%, transparent 21.5%),
     repeating-radial-gradient(circle, #151515 0 1.5px, #1e1e1e 1.5px 3px);
   box-shadow: 0 10px 30px rgba(0, 0, 0, .6), inset 0 0 0 2px rgba(255, 255, 255, .1), inset 0 0 0 9px rgba(0, 0, 0, .5), inset 0 0 0 10px rgba(255, 255, 255, .06); transition: left .8s var(--kick);
 }
@@ -459,7 +484,7 @@ html.cells-cover .cover__lace { opacity: 0; }
 .dropcap::first-letter { float: left; margin: .02em .12em 0 0; font: 400 4.6em/.78 var(--f-goth); color: var(--blood); }
 .stamps { display: flex; flex-wrap: wrap; gap: 12px 12px; margin: 0; }
 .stamps .chip { padding: 6px 12px 4px; border: 3px solid var(--blood); border-radius: 4px; color: var(--blood); font: 900 18px/1 var(--f-head); font-stretch: 70%; letter-spacing: .04em; text-transform: uppercase;
-  -webkit-mask: url(../zine/grunge.webp) 0 0 / 220px 220px; mask: url(../zine/grunge.webp) 0 0 / 220px 220px; }
+  -webkit-mask: url(../ink/grunge.webp) 0 0 / 220px 220px; mask: url(../ink/grunge.webp) 0 0 / 220px 220px; }
 .stamps .chip:nth-child(odd) { transform: rotate(-3deg); }
 .stamps .chip:nth-child(even) { transform: rotate(2.5deg); border-color: var(--ink); color: var(--ink); }
 .about { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; margin-top: 64px; }
@@ -484,7 +509,7 @@ html.cells-cover .cover__lace { opacity: 0; }
    ===================================================================== */
 .stage { position: relative; z-index: 2; margin-top: 26px; }
 .stage__img { width: 170vw; max-width: none; height: auto; margin-left: -35vw; }
-.stamp--live { position: absolute; left: var(--pad); top: 2%; color: var(--blood); background: rgba(18, 17, 18, .55); transform: rotate(-7deg); font-size: 18px; }
+.stamp--live { position: absolute; left: var(--pad); top: 2%; color: var(--blood); background: var(--xerox); transform: rotate(-7deg); font-size: 18px; }
 .stage__cities { position: absolute; right: var(--pad); top: 13%; margin: 0; font-size: 15px; color: var(--bone); transform: rotate(4deg); text-shadow: 0 2px 8px #000; }
 .stats { position: relative; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px 16px; margin: 6px var(--pad) 0; }
 .stat { position: relative; display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 8px; min-width: 0; }
@@ -799,12 +824,12 @@ html.is-paused * { animation-play-state: paused !important; }
 
 @media (max-width: 380px) {
   .top { gap: 10px; }
-  .top__zine { font-size: 13px; letter-spacing: .06em; }
+  .top__tag { font-size: 13px; letter-spacing: .06em; }
   .cover__ctas .btn { font-size: 16px; }
   .tabs b { font-size: 14px; }
 }
 @media (max-width: 340px) {
-  .top__zine { display: none; }
+  .top__tag { display: none; }
 }
 
 /* =====================================================================
@@ -814,6 +839,8 @@ html.is-paused * { animation-play-state: paused !important; }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html.js [data-reveal], html.js .stagger > *, html.js .ransom .rl { opacity: 1 !important; }
+  html.js .orn .orn__in { clip-path: none !important; }
+  html.js .kick__n { opacity: 1 !important; transform: none !important; }
   html.js [data-reveal] { translate: none !important; }
   .scribble use { stroke-dashoffset: 0 !important; }
   html.js .cover__print { clip-path: none !important; }

@@ -7,14 +7,14 @@
 
 ---
 
-## v2 front-end: KEXXY ZINE N°01
+## v2 front-end: print & ink
 
-KEXXY's own kit runs a custom front-end on the same content model and admin panel. It reads like a punk/skate fanzine printed in black and red ink:
+KEXXY's own kit runs a custom front-end on the same content model and admin panel. It reads like a punk/skate magazine printed in black and red ink:
 
 - **Cover like a magazine:** the portrait printed in dotwork, the t-shirt dissolving into ink cells, the chrome logo as a die-cut sticker, cover lines from the live stats.
 - **Living ink:** a WebGL layer of organic ink cells (sourdough / acrylic-pour texture) that moves on its own, breathes with the 150 BPM kick and opens around the cursor. Static renders when WebGL is missing or motion is reduced.
 - **Sets straight from SoundCloud:** `/api/sc` reads each track's public page and returns the real title, artwork, genre, duration, date and waveform (cached 12 h on the CDN, oEmbed as fallback). The official widget plays it; clicking the waveform seeks.
-- **Zine pieces:** ransom-note section titles, dates as wheat-pasted posters, promoters as stickers, the rider as a clipped spec sheet, booking as a tear-off flyer. The chrome sigil (Three.js) closes the page, surrounded by living cells.
+- **Print pieces:** ransom-note section titles, dates as wheat-pasted posters, promoters as stickers, the rider as a clipped spec sheet, booking as a tear-off flyer. The chrome sigil (Three.js) closes the page, surrounded by living cells.
 - **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it sticks onto the cover. Skippable, and never shown with reduced motion.
 - **Rider → PDF:** "Technical rider" prints only the spec sheet.
 - Text still comes from `content.json` (ES/EN/PT) and dates from `dates.json`; the panel edits both exactly as before.
@@ -26,8 +26,9 @@ KEXXY's own kit runs a custom front-end on the same content model and admin pane
 | `assets/js/ritual.js` | Content, i18n, sets, dates, intro, form, navigation |
 | `assets/js/cells-gl.js` | Living ink cells (WebGL 1, no dependencies) |
 | `api/sc.js` | Real SoundCloud data for each set |
+| `tools/ink/` | Python generator for the printed photos, ink cells, Rorschach ornaments and paper textures (see its README) |
 | `assets/js/sigil-gl.js` | WebGL sigil bundle (built from `tools/gl/`) |
-| `assets/brand/`, `assets/zine/`, `assets/video/`, `assets/gl/` | Logo renders, printed photos and ink textures, logo animations, sigil normal map |
+| `assets/brand/`, `assets/ink/`, `assets/video/`, `assets/gl/` | Logo renders, printed photos and ink textures, logo animations, sigil normal map |
 
 Rebuilding the WebGL bundle: `cd tools/gl && npm install && npm run build`. CSS/JS and the bundle are referenced with `?v=`; bump it (and `CACHE_NAME` in `sw.js`) when they change.
 
@@ -105,14 +106,14 @@ To clone this for another artist, follow **[`docs/CLONAR-ARTISTA.md`](docs/CLONA
 
 <br>
 
-## Front v2: KEXXY ZINE N°01
+## Front v2: tinta impresa
 
-El kit de KEXXY usa un front propio, con el mismo modelo de contenido y el mismo panel. Se lee como un fanzine punk/skate impreso en tinta negra y roja:
+El kit de KEXXY usa un front propio, con el mismo modelo de contenido y el mismo panel. Se lee como una revista punk/skate impresa en tinta negra y roja:
 
 - **Tapa de revista:** el retrato impreso en dotwork, la remera deshaciéndose en celdas de tinta, el logo de cromo como sticker troquelado y los números del vivo como titulares.
 - **Tinta viva:** una capa WebGL de celdas orgánicas (textura de masa madre / pintura vertida) que se mueve sola, respira con el bombo a 150 BPM y se abre alrededor del cursor. Sin WebGL o con movimiento reducido queda quieta.
 - **Sets directo de SoundCloud:** `/api/sc` lee la página pública de cada track y devuelve título, portada, género, duración, fecha y la forma de onda reales (12 h de caché en el CDN, oEmbed como respaldo). Suena con el widget oficial; clic en la onda para adelantar.
-- **Piezas de fanzine:** títulos tipo nota de rescate, fechas como afiches pegados, productoras como stickers, el rider como ficha técnica con clip y el booking como volante con tiras para arrancar. Cierra el sigilo de cromo (Three.js) rodeado de celdas vivas.
+- **Piezas impresas:** títulos tipo nota de rescate, fechas como afiches pegados, productoras como stickers, el rider como ficha técnica con clip y el booking como volante con tiras para arrancar. Cierra el sigilo de cromo (Three.js) rodeado de celdas vivas.
 - **Intro, solo la primera visita de cada sesión:** el logo rojo animado se deforma, el bombo lo vuelve cromo y se pega en la tapa. Se puede saltar y nunca aparece con movimiento reducido.
 - **Rider → PDF:** "Rider técnico" imprime solo la ficha.
 - Los textos siguen en `content.json` (ES/EN/PT) y las fechas en `dates.json`; el panel los edita igual que antes.
