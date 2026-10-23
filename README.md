@@ -7,14 +7,16 @@
 
 ---
 
-## v2 front-end: "Ritual de cromo"
+## v2 front-end
 
 KEXXY's own kit now runs a custom front-end built on the same content model and admin panel:
 
-- **Liquid-chrome sigil in real time** (Three.js, extruded from the vectorised sigil). It loads after first paint; a static render shows until it is ready, and it stops rendering when the hero is off screen.
+- **Editorial layout:** full-bleed photos, oversized type and no boxed cards. A fixed header with a red progress line, a full-screen menu on phones and a chrome scroll fader on desktop.
+- **Liquid-chrome sigil in real time** (Three.js, extruded from the vectorised sigil) closes the page. Three.js only downloads when a visitor gets near the end; a static render shows until it is ready, and it stops rendering off screen.
 - **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it flies into the hero. Skippable, and never shown with reduced motion.
 - **Everything pulses at 150 BPM** with CSS animations on the compositor; the WebGL clock is synced to them.
-- **Sets as CDJ decks:** each SoundCloud set is paired with the YouTube video in the same position in the panel. The SoundCloud player only loads when someone presses play, and two decks never play at once.
+- **SoundCloud sets** with a waveform and a chrome play button. Title and text come from the video in the same position in the panel; YouTube videos are a separate list, switched off by default. The SoundCloud player only loads when someone presses play, and two sets never play at once.
+- **Live numbers as a sentence** ("6+ years in the booth. 40+ nights…"), built from the panel's stats and the `live.manifesto` text in each language.
 - **Rider → PDF:** "Technical rider" prints only the rider section, so a promoter can save it as a PDF.
 - Text still comes from `content.json` (ES/EN/PT) and dates from `dates.json`; the panel edits both exactly as before.
 
@@ -22,7 +24,7 @@ KEXXY's own kit now runs a custom front-end built on the same content model and 
 |---|---|
 | `index.html` | Markup with the Spanish copy as the no-JS fallback |
 | `assets/css/ritual.css` | All styles |
-| `assets/js/ritual.js` | Content, i18n, decks, dates, intro, form, cues |
+| `assets/js/ritual.js` | Content, i18n, sets, dates, intro, form, navigation |
 | `assets/js/sigil-gl.js` | WebGL sigil bundle (built from `tools/gl/`) |
 | `assets/brand/`, `assets/img/`, `assets/video/`, `assets/gl/` | Logo renders, photos, logo animations, sigil normal map |
 
@@ -102,14 +104,16 @@ To clone this for another artist, follow **[`docs/CLONAR-ARTISTA.md`](docs/CLONA
 
 <br>
 
-## Front v2: "Ritual de cromo"
+## Front v2
 
 El kit de KEXXY ahora usa un front propio, con el mismo modelo de contenido y el mismo panel:
 
-- **Sigilo de cromo líquido en tiempo real** (Three.js, extruido del sigilo vectorizado). Carga después del primer render; mientras tanto se ve un render estático, y deja de dibujar cuando el hero sale de pantalla.
+- **Diseño editorial:** fotos a sangre, tipografía grande y nada de tarjetas. Barra fija con una línea roja de progreso, menú a pantalla completa en el celu y un fader de cromo para el scroll en desktop.
+- **Sigilo de cromo líquido en tiempo real** (Three.js, extruido del sigilo vectorizado) como cierre de la página. Three.js se baja recién cuando el visitante se acerca al final; mientras tanto se ve un render estático, y deja de dibujar fuera de pantalla.
 - **Intro, solo la primera visita de cada sesión:** el logo rojo animado se deforma, el bombo lo vuelve cromo y vuela al hero. Se puede saltar y nunca aparece con movimiento reducido.
 - **Todo late a 150 BPM** con animaciones CSS en el compositor; el reloj del WebGL va sincronizado.
-- **Sets como decks de CDJ:** cada set de SoundCloud va con el video de YouTube que está en la misma posición en el panel. El reproductor de SoundCloud carga recién cuando alguien aprieta play, y nunca suenan dos decks a la vez.
+- **Sets de SoundCloud** con forma de onda y botón de play en cromo. El título y el texto salen del video en la misma posición del panel; los videos de YouTube son una lista aparte, apagada por defecto. El reproductor carga recién cuando alguien aprieta play, y nunca suenan dos sets a la vez.
+- **Los números en vivo como frase** ("6+ años en cabina. 40+ noches…"), armada con las estadísticas del panel y el texto `live.manifesto` de cada idioma.
 - **Rider → PDF:** "Rider técnico" imprime solo la sección del rider, para guardarla como PDF.
 - Los textos siguen en `content.json` (ES/EN/PT) y las fechas en `dates.json`; el panel los edita igual que antes.
 

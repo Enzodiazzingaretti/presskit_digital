@@ -30,9 +30,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="image" href="assets/img/hero.webp" fetchpriority="high" />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Pirata+One&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/ritual.css?v=1" />
+  <link rel="preload" as="image" href="assets/img/portrait.webp" fetchpriority="high" />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Pirata+One&family=Unbounded:wght@700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/ritual.css?v=2" />
 
   <!-- La intro (logo rojo → cromo) corre solo la primera vez por sesión y nunca con movimiento reducido -->
   <script>
@@ -77,7 +77,7 @@
   <div class="intro" id="intro" aria-hidden="true">
     <div class="intro__stage" id="introStage">
       <video class="intro__blood" id="introBlood" muted playsinline preload="none" disablepictureinpicture></video>
-      <img class="intro__chrome" id="introChrome" src="assets/brand/logo-chrome-1400.webp" alt="" decoding="async" />
+      <img class="intro__chrome" id="introChrome" src="assets/brand/logo-chrome-1400-v2.webp" alt="" decoding="async" />
     </div>
     <div class="intro__flash"></div>
     <div class="intro__hud">
@@ -87,84 +87,91 @@
     <button class="intro__skip" type="button" id="introSkip" tabindex="-1"><span data-i18n="intro.skip">Saltar</span> ↵</button>
   </div>
 
-  <!-- ============ BARRA SUPERIOR ============ -->
+  <!-- grano de película sobre todo el sitio -->
+  <div class="grain" aria-hidden="true"></div>
+
+  <!-- ============ BARRA SUPERIOR (fija; se oscurece al bajar) ============ -->
   <header class="top" id="top">
     <a class="top__mark" href="#hero" aria-label="KEXXY — inicio">
       <img src="assets/brand/kexxy-sigil.svg" alt="" width="36" height="45" />
     </a>
     <span class="rec top__rec"><i></i>PRESSKIT 2026</span>
     <nav class="top__nav" aria-label="Secciones">
-      <a href="#sets" data-i18n="nav.sets">Sets</a>
-      <a href="#dates" data-i18n="nav.dates">Fechas</a>
-      <a href="#bio" data-i18n="nav.bio">Bio</a>
-      <a href="#live" data-i18n="nav.live">En Vivo</a>
-      <a href="#rider" data-i18n="nav.rider">Rider</a>
-      <a href="#booking" data-i18n="nav.contact">Booking</a>
+      <a href="#sets" data-nav="sets" data-i18n="nav.sets">Sets</a>
+      <a href="#dates" data-nav="dates" data-i18n="nav.dates">Fechas</a>
+      <a href="#bio" data-nav="bio" data-i18n="nav.bio">Bio</a>
+      <a href="#live" data-nav="live" data-i18n="nav.live">En Vivo</a>
+      <a href="#rider" data-nav="rider" data-i18n="nav.rider">Rider</a>
+      <a href="#booking" data-nav="booking" data-i18n="nav.contact">Booking</a>
     </nav>
     <div class="lang" role="group" aria-label="Idioma / Language">
       <button class="lang__b" type="button" data-lang="es" aria-pressed="true">ES</button>
       <button class="lang__b" type="button" data-lang="en" aria-pressed="false">EN</button>
       <button class="lang__b" type="button" data-lang="pt" aria-pressed="false">PT</button>
     </div>
+    <button class="burger" type="button" id="menuBtn" aria-expanded="false" aria-controls="menu"><span class="sr-only" data-i18n="nav.menu">Menú</span><i></i><i></i></button>
+    <span class="top__prog" id="prog" aria-hidden="true"></span>
   </header>
 
-  <!-- ============ CUE POINTS (riel a la derecha en desktop, barra inferior en el celu) ============ -->
-  <nav class="cues" id="cues" aria-label="Cue points">
-    <a href="#sets" data-cue="sets"><b>A</b><span data-i18n="nav.sets">Sets</span></a>
-    <a href="#dates" data-cue="dates"><b>B</b><span data-i18n="nav.dates">Fechas</span></a>
-    <a href="#bio" data-cue="bio"><b>C</b><span data-i18n="nav.bio">Bio</span></a>
-    <a href="#live" data-cue="live"><b>D</b><span data-i18n="nav.live">En Vivo</span></a>
-    <a href="#rider" data-cue="rider"><b>E</b><span data-i18n="nav.rider">Rider</span></a>
-    <a href="#booking" data-cue="booking"><b>F</b><span data-i18n="nav.contact">Booking</span></a>
-  </nav>
+  <!-- ============ MENÚ (celu) ============ -->
+  <div class="menu" id="menu" hidden>
+    <nav class="menu__nav" aria-label="Secciones">
+      <a href="#sets" data-nav="sets"><small>I</small><span data-i18n="nav.sets">Sets</span></a>
+      <a href="#dates" data-nav="dates"><small>II</small><span data-i18n="nav.dates">Fechas</span></a>
+      <a href="#bio" data-nav="bio"><small>III</small><span data-i18n="nav.bio">Bio</span></a>
+      <a href="#live" data-nav="live"><small>IV</small><span data-i18n="nav.live">En Vivo</span></a>
+      <a href="#rider" data-nav="rider"><small>V</small><span data-i18n="nav.rider">Rider</span></a>
+      <a href="#booking" data-nav="booking"><small>VI</small><span data-i18n="nav.contact">Booking</span></a>
+    </nav>
+    <div class="menu__foot">
+      <div class="lang lang--menu" role="group" aria-label="Idioma / Language">
+        <button class="lang__b" type="button" data-lang="es" aria-pressed="true">ES</button>
+        <button class="lang__b" type="button" data-lang="en" aria-pressed="false">EN</button>
+        <button class="lang__b" type="button" data-lang="pt" aria-pressed="false">PT</button>
+      </div>
+      <a href="mailto:k3xxy.art@gmail.com" data-link="email" data-text="email">k3xxy.art@gmail.com</a>
+    </div>
+  </div>
+
+  <!-- fader de scroll (desktop): un cursor de cromo que baja con la página -->
+  <div class="fader" id="fader" aria-hidden="true">
+    <span class="fader__track"></span>
+    <span class="fader__cap" id="faderCap"></span>
+    <span class="fader__label" id="faderLabel"></span>
+  </div>
 
   <main id="main">
 
     <!-- ============ HERO ============ -->
     <section class="hero" id="hero" aria-label="KEXXY">
       <div class="hero__media" aria-hidden="true">
-        <img class="hero__bg" id="heroBg" src="assets/img/hero.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async" />
-        <div class="hero__glow"></div>
-        <div class="hero__sigil" id="heroSigil">
-          <img class="hero__sigil-img" src="assets/brand/sigil-crown.webp" alt="" width="900" height="1136" decoding="async" />
-          <canvas class="hero__sigil-gl" id="sigilGL"></canvas>
-        </div>
-        <img class="hero__fig" id="heroFig" src="assets/img/hero-cut.webp" alt="" width="1672" height="941" decoding="async" />
+        <img class="hero__bg" id="heroBg" src="assets/img/portrait.webp" alt="" width="1672" height="941" fetchpriority="high" decoding="async" />
         <div class="hero__shade"></div>
-        <div class="hero__scan"></div>
-        <div class="hero__grain"></div>
+        <div class="hero__light"></div>
       </div>
 
-      <div class="hero__bpm" aria-hidden="true">
-        <b id="bpm">150.00</b>
-        <small>BPM · MASTER</small>
-        <span class="beatbars"><i></i><i></i><i></i><i></i></span>
-      </div>
+      <p class="hero__side" aria-hidden="true"><span>KEXXY</span><i></i><span>PRESSKIT MMXXVI</span><i></i><span>32°53′S · 68°50′W</span></p>
 
       <div class="hero__copy">
-        <p class="hero__kicker" data-reveal><b class="rit" data-i18n="hero.ritual">Ritual</b><span>DJ — <span data-i18n="hero.tag">Mendoza · Argentina</span></span></p>
+        <p class="hero__kicker" data-reveal><span class="hero__rule"></span><span>DJ — <span data-i18n="hero.tag">Mendoza · Argentina</span></span></p>
         <h1 class="hero__logo" id="heroLogo">
           <span class="sr-only">KEXXY</span>
           <span class="logo" id="logo" aria-hidden="true">
-            <img class="logo__chrome" src="assets/brand/logo-chrome-1400.webp" srcset="assets/brand/logo-chrome-800.webp 800w, assets/brand/logo-chrome-1400.webp 1400w" sizes="(max-width: 720px) 94vw, 640px" alt="" width="1400" height="736" decoding="async" />
-            <img class="logo__glint" src="assets/brand/logo-glint-1400.webp" srcset="assets/brand/logo-glint-800.webp 800w, assets/brand/logo-glint-1400.webp 1400w" sizes="(max-width: 720px) 94vw, 640px" alt="" width="1400" height="736" decoding="async" />
+            <img class="logo__chrome" src="assets/brand/logo-chrome-1400-v2.webp" srcset="assets/brand/logo-chrome-800-v2.webp 800w, assets/brand/logo-chrome-1400-v2.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
+            <img class="logo__glint" src="assets/brand/logo-glint-1400.webp" srcset="assets/brand/logo-glint-800.webp 800w, assets/brand/logo-glint-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
             <span class="logo__sweep"></span>
           </span>
         </h1>
-        <p class="hero__genres" id="heroGenres" data-reveal>TECHNO <em>/</em> HARD&#8209;TECHNO <em>/</em> HARD&#8209;GROOVE <em>/</em> RAW <em>/</em> BOUNCE</p>
-        <p class="hero__desc" data-i18n="hero.desc" data-reveal>DJ de Argentina. Sonido pesado, mezclas rápidas</p>
-        <div class="hero__ctas" data-reveal>
-          <a class="btn btn--chrome" href="#sets"><svg viewBox="0 0 10 12" width="10" height="12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z" /></svg><span data-i18n="hero.cta1">Escuchar</span></a>
-          <a class="btn btn--ghost" href="#booking"><i class="dia" aria-hidden="true"></i><span data-i18n="hero.cta2">Booking</span></a>
+        <div class="hero__row" data-reveal>
+          <p class="hero__genres" id="heroGenres">TECHNO <em>/</em> HARD&#8209;TECHNO <em>/</em> HARD&#8209;GROOVE <em>/</em> RAW <em>/</em> BOUNCE</p>
+          <div class="hero__ctas">
+            <a class="btn btn--chrome" href="#sets"><svg viewBox="0 0 10 12" width="10" height="12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z" /></svg><span data-i18n="hero.cta1">Escuchar</span></a>
+            <a class="btn btn--ghost" href="#booking"><span data-i18n="hero.cta2">Booking</span><span aria-hidden="true">→</span></a>
+          </div>
         </div>
       </div>
 
-      <dl class="hero__stats" data-reveal>
-        <div><dt data-i18n="hero.stat1">Años de experiencia</dt><dd data-stat="heroYears">6+</dd></div>
-        <div><dt data-i18n="live.stat1">Shows en Vivo</dt><dd data-stat="liveShows">40+</dd></div>
-        <div><dt data-i18n="hero.stat2">Ciudades</dt><dd data-stat="heroCities">5+</dd></div>
-        <div><dt data-i18n="live.stat3">Set más largo</dt><dd class="blood" data-stat="liveLongestSet">11h</dd></div>
-      </dl>
+      <a class="hero__scroll" href="#sets" aria-hidden="true" tabindex="-1"><span>Scroll</span><i></i></a>
     </section>
 
     <!-- géneros en loop -->
@@ -181,40 +188,48 @@
         <header class="sec__head">
           <span class="sec__num" aria-hidden="true">I</span>
           <div class="sec__titles">
-            <span class="sec__kick">CUE A · <span data-i18n="nav.sets">Sets</span></span>
+            <span class="sec__kick"><span data-i18n="nav.sets">Sets</span> — SoundCloud</span>
             <h2 data-i18n="listen.label" data-scramble>Últimos Sets</h2>
           </div>
-          <span class="sec__bar" aria-hidden="true">BAR 001 — 004</span>
         </header>
 
         <div class="decks" id="decks">
           <article class="deck">
-            <div class="deck__top"><span>DECK 1 · SET 01</span><span class="deck__state">◆ CUE</span></div>
-            <h3 class="deck__title">KEXXY — Hard Techno Set</h3>
-            <p class="deck__desc">Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.</p>
-            <div class="deck__ctas"><a class="btn btn--chrome" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a><a class="btn btn--ghost" href="https://youtu.be/3r4pIKcuirs" target="_blank" rel="noopener">YouTube ↗</a></div>
+            <span class="deck__no" aria-hidden="true">01</span>
+            <div class="deck__body">
+              <h3 class="deck__title">Hard Techno Set</h3>
+              <p class="deck__desc">Un set de hard techno con mezclas rápidas y estructuras pesadas. 100% mezcla con CDJ grabado en un estudio privado.</p>
+              <a class="btn btn--chrome" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a>
+            </div>
           </article>
           <article class="deck">
-            <div class="deck__top"><span>DECK 2 · SET 02</span><span class="deck__state">◆ CUE</span></div>
-            <h3 class="deck__title">KEXXY — Hardgroove Set</h3>
-            <p class="deck__desc">Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.</p>
-            <div class="deck__ctas"><a class="btn btn--ghost" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a><a class="btn btn--ghost" href="https://youtu.be/eBhTdJpH7DQ" target="_blank" rel="noopener">YouTube ↗</a></div>
+            <span class="deck__no" aria-hidden="true">02</span>
+            <div class="deck__body">
+              <h3 class="deck__title">Hardgroove Set</h3>
+              <p class="deck__desc">Un set de hardgroove con mezclas rápidas y energía cruda. 100% mezcla con CDJ grabado en un estudio privado.</p>
+              <a class="btn btn--ghost" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener">SoundCloud ↗</a>
+            </div>
           </article>
         </div>
         <a class="linkline" href="https://soundcloud.com/enzo-diaz-zingaretti" target="_blank" rel="noopener" data-link="soundcloud" data-i18n="listen.link">Ver todos los sets en SoundCloud →</a>
+
+        <!-- videos de YouTube: bloque aparte, solo si están activados en el panel -->
+        <div class="reels" id="reels" hidden>
+          <h3 class="reels__t"><span data-i18n="video.title">En Acción</span> — YouTube</h3>
+          <ol class="reels__list" id="reelsList"></ol>
+        </div>
       </div>
     </section>
 
     <!-- ============ II · FECHAS ============ -->
     <section class="sec sec--alt" id="dates" data-section="dates">
       <div class="wrap">
-        <header class="sec__head">
+        <header class="sec__head sec__head--r">
           <span class="sec__num" aria-hidden="true">II</span>
           <div class="sec__titles">
-            <span class="sec__kick">CUE B · <span data-i18n="nav.dates">Fechas</span></span>
+            <span class="sec__kick" data-i18n="nav.dates">Fechas</span>
             <h2 data-i18n="dates.label" data-scramble>Próximas Fechas</h2>
           </div>
-          <span class="sec__bar" aria-hidden="true">BAR 005 — 008</span>
         </header>
 
         <div class="filters" role="group" aria-label="Filtrar fechas" id="dateFilters">
@@ -254,20 +269,19 @@
     </section>
 
     <!-- ============ III · BIO ============ -->
-    <section class="sec" id="bio" data-section="bio">
+    <section class="sec sec--bio" id="bio" data-section="bio">
       <div class="wrap">
         <header class="sec__head">
           <span class="sec__num" aria-hidden="true">III</span>
           <div class="sec__titles">
-            <span class="sec__kick">CUE C · <span data-i18n="bio.label">Biografía</span></span>
+            <span class="sec__kick" data-i18n="bio.label">Biografía</span>
             <h2 data-i18n="bio.title" data-scramble>Origen</h2>
           </div>
-          <span class="sec__bar" aria-hidden="true">BAR 009 — 012</span>
         </header>
 
         <div class="bio">
           <figure class="bio__fig" data-reveal>
-            <img class="bio__img" id="bioImg" src="assets/img/bio.webp" alt="KEXXY con máscara y cadenas" width="1672" height="941" loading="lazy" decoding="async" />
+            <img class="bio__img" id="bioImg" src="assets/img/hero.webp" alt="KEXXY con máscara y cadenas" width="1672" height="941" loading="lazy" decoding="async" />
             <figcaption><span data-i18n="hero.tag">Mendoza · Argentina</span><span data-i18n="bio.since">Desde 2020</span></figcaption>
           </figure>
 
@@ -276,13 +290,12 @@
             <p data-i18n="bio.p1">Soy un DJ y productor de Mendoza, Argentina; originado durante la pandemia en 2020. Este proyecto comenzó como una exploración personal de la música electrónica junto a mis amigos, en un espacio creativo que, rápidamente, se convirtió en un compromiso serio con la música.</p>
             <p data-i18n="bio.p2">Busco que mi sonido se defina por mezclas rápidas, layering denso y texturas pesadas — un impulso inspirado en el Techno, Industrial, Schranz, Hardgroove y Raw. Me obsesiona construir sets físicos e intensos que prioricen la energía y la precisión por encima de todo, reflejado en la lectura del público.</p>
             <p data-i18n="bio.p3">En más de 6 años de trayectoria, he tenido el gusto de presentar mis sets en diferentes partes de Mendoza y Buenos Aires. Además de compartir cabina con referentes de la escena argentina como Dist, Raptis, Shodnan Ref, Uma Scheffer y West Code.</p>
-            <div class="chips" id="genreChips">
-              <span class="chip chip--on">Techno</span><span class="chip">Industrial</span><span class="chip">Schranz</span><span class="chip">Hardgroove</span><span class="chip">Raw</span><span class="chip">Bounce</span>
-            </div>
+            <p class="chips" id="genreChips">
+              <span class="chip">Techno</span><span class="chip">Industrial</span><span class="chip">Schranz</span><span class="chip">Hardgroove</span><span class="chip">Raw</span><span class="chip">Bounce</span>
+            </p>
 
             <div class="about" data-section="about">
               <blockquote class="quote" data-reveal>
-                <span class="quote__mark" aria-hidden="true">“</span>
                 <p data-i18n="about.p3highlight">Creo que la autenticidad lo es todo — tanto en la vida como en el arte.</p>
               </blockquote>
               <details class="about__more">
@@ -304,51 +317,48 @@
     </section>
 
     <!-- ============ IV · EN VIVO ============ -->
-    <section class="sec" id="live" data-section="live">
+    <section class="sec sec--live" id="live" data-section="live">
       <div class="wrap">
-        <header class="sec__head">
+        <header class="sec__head sec__head--r">
           <span class="sec__num" aria-hidden="true">IV</span>
           <div class="sec__titles">
-            <span class="sec__kick">CUE D · <span data-i18n="live.label">En Vivo</span></span>
+            <span class="sec__kick" data-i18n="live.label">En Vivo</span>
             <h2 data-i18n="live.title" data-scramble>En la cabina</h2>
           </div>
-          <span class="sec__bar" aria-hidden="true">BAR 013 — 016</span>
         </header>
+      </div>
 
-        <div class="booth" data-reveal>
-          <img class="booth__img" id="liveImg" src="assets/img/live.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
-          <div class="booth__top">
-            <span class="status"><i></i><span data-i18n="live.status">Disponible para contratación</span></span>
-            <span class="booth__cities" id="liveCities">Mendoza · Buenos Aires</span>
-          </div>
-          <dl class="booth__stats">
-            <div><dd data-stat="heroYears">6+</dd><dt data-i18n="hero.stat1">Años de experiencia</dt></div>
-            <div><dd data-stat="liveShows">40+</dd><dt data-i18n="live.stat1">Shows en Vivo</dt></div>
-            <div><dd data-stat="liveCities">5+</dd><dt data-i18n="live.stat2">Ciudades</dt></div>
-            <div><dd class="blood" data-stat="liveLongestSet">11h</dd><dt data-i18n="live.stat3">Set más largo</dt></div>
-          </dl>
+      <!-- la foto de cabina a todo el ancho; los números se leen como una frase, no como una grilla -->
+      <div class="stage" data-reveal>
+        <div class="stage__pic">
+          <img class="stage__img" id="liveImg" src="assets/img/live.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
         </div>
-
-        <div class="hotcues">
-          <div class="hotcues__head">
-            <h3><span data-i18n="live.festTitle">Productoras</span> · Hot cues</h3>
-            <span id="hotcueCount">08 / 08</span>
-          </div>
-          <ol class="hotcues__grid" id="hotcues">
-            <li><b>A</b><span class="m">Mendoza</span><span class="n">Underberlin</span></li>
-            <li><b>B</b><span class="m">Mendoza</span><span class="n">Teiko Warehouse</span></li>
-            <li><b>C</b><span class="m">Mendoza</span><span class="n">Sicódromo</span></li>
-            <li><b>D</b><span class="m">Mendoza</span><span class="n">Secta Club</span></li>
-            <li><b>E</b><span class="m">Mendoza</span><span class="n">BoingClap</span></li>
-            <li><b>F</b><span class="m">Mendoza</span><span class="n">Fraternity</span></li>
-            <li><b>G</b><span class="m">Mendoza</span><span class="n">Vibra Producciones</span></li>
-            <li class="is-away"><b>H</b><span class="m">Buenos Aires</span><span class="n">Overkill</span></li>
-          </ol>
+        <div class="stage__notes" aria-hidden="true">
+          <span class="stage__note stage__note--a"><i></i><span data-i18n="live.status">Disponible para contratación</span></span>
+          <span class="stage__note stage__note--b" id="liveCities">Mendoza · Buenos Aires</span>
         </div>
+      </div>
+      <div class="wrap">
+        <p class="manifesto" id="manifesto" data-reveal><b data-stat="heroYears">6+</b> años en cabina. <b data-stat="liveShows">40+</b> noches. <b data-stat="liveCities">5+</b> ciudades. Un set de <b class="is-blood" data-stat="liveLongestSet">11h</b> sin parar.</p>
 
-        <div class="shared" data-reveal>
-          <span class="shared__t" data-i18n="live.sharedTitle">Compartí cabina con</span>
-          <p class="shared__names" id="sharedNames">Dist <em>/</em> Raptis <em>/</em> Shodnan Ref <em>/</em> Uma Scheffer <em>/</em> West Code</p>
+        <div class="credits">
+          <div class="credits__col" data-reveal>
+            <h3 class="credits__t"><span data-i18n="live.festTitle">Productoras</span><span class="credits__n" id="hotcueCount">08</span></h3>
+            <ul class="credits__list" id="hotcues">
+              <li><span class="n">Underberlin</span></li>
+              <li><span class="n">Teiko Warehouse</span></li>
+              <li><span class="n">Sicódromo</span></li>
+              <li><span class="n">Secta Club</span></li>
+              <li><span class="n">BoingClap</span></li>
+              <li><span class="n">Fraternity</span></li>
+              <li><span class="n">Vibra Producciones</span></li>
+              <li class="is-away"><span class="n">Overkill</span><sup class="m">Buenos Aires</sup></li>
+            </ul>
+          </div>
+          <div class="credits__col credits__col--shared" data-reveal>
+            <h3 class="credits__t" data-i18n="live.sharedTitle">Compartí cabina con</h3>
+            <p class="shared__names" id="sharedNames">Dist <em>/</em> Raptis <em>/</em> Shodnan Ref <em>/</em> Uma Scheffer <em>/</em> West Code</p>
+          </div>
         </div>
       </div>
     </section>
@@ -360,45 +370,48 @@
         <header class="sec__head">
           <span class="sec__num" aria-hidden="true">V</span>
           <div class="sec__titles">
-            <span class="sec__kick">CUE E · <span data-i18n="nav.rider">Rider</span></span>
+            <span class="sec__kick" data-i18n="rider.label">Rider Técnico y Perfil</span>
             <h2 data-i18n="rider.title" data-scramble>Especificaciones</h2>
           </div>
-          <span class="sec__bar" aria-hidden="true">BAR 017 — 020</span>
         </header>
+        <p class="rider__sub" data-i18n="rider.subtitle">Todo lo que un promotor o booker necesita saber.</p>
 
         <div class="rider">
-          <div class="rider__strip">
-            <span><i class="dot" aria-hidden="true"></i><span data-i18n="rider.label">Rider Técnico y Perfil</span></span>
-            <span data-i18n="rider.subtitle">Todo lo que un promotor o booker necesita saber.</span>
-          </div>
-          <div class="rider__body">
-            <figure class="rider__fig">
-              <div class="rider__plot"><img id="riderDiagram" src="assets/img/rider-diagram-dark.webp" alt="Diagrama del setup técnico: cuatro CDJ y mixer" width="1770" height="627" loading="lazy" decoding="async" /></div>
-              <figcaption><span data-i18n="rider.diagramCaption">Setup Técnico</span><span data-i18n="rider.diagramNote">4 CDJ + Mixer</span></figcaption>
-            </figure>
+          <figure class="rider__fig" data-reveal>
+            <div class="rider__plot">
+              <span class="crop crop--tl"></span><span class="crop crop--tr"></span><span class="crop crop--bl"></span><span class="crop crop--br"></span>
+              <img id="riderDiagram" src="assets/img/rider-diagram-dark.webp" alt="Diagrama del setup técnico: cuatro CDJ y mixer" width="1770" height="627" loading="lazy" decoding="async" />
+            </div>
+            <figcaption><span><i class="dia" aria-hidden="true"></i><span data-i18n="rider.diagramCaption">Setup Técnico</span></span><span data-i18n="rider.diagramNote">4 CDJ + Mixer</span></figcaption>
+          </figure>
 
-            <div class="rider__spec">
-              <dl class="rider__quick">
-                <div><dd data-i18n="rider.setDurationValue">2–5h</dd><dt data-i18n="rider.setDuration">Duración del Set</dt></div>
-                <div><dd class="blood" data-i18n="rider.bpmRangeValue">145–160</dd><dt data-i18n="rider.bpmRange">Rango BPM</dt></div>
-                <div><dd data-i18n="rider.formatValue">DJ Set</dd><dt data-i18n="rider.format">Formato</dt></div>
-                <div><dd data-i18n="rider.mediaValue">USB</dd><dt data-i18n="rider.media">Medio</dt></div>
-              </dl>
+          <dl class="rider__quick">
+            <div><dd data-i18n="rider.setDurationValue">2–5h</dd><dt data-i18n="rider.setDuration">Duración del Set</dt></div>
+            <div><dd class="blood" data-i18n="rider.bpmRangeValue">145–160</dd><dt data-i18n="rider.bpmRange">Rango BPM</dt></div>
+            <div><dd data-i18n="rider.formatValue">DJ Set</dd><dt data-i18n="rider.format">Formato</dt></div>
+            <div><dd data-i18n="rider.mediaValue">USB</dd><dt data-i18n="rider.media">Medio</dt></div>
+          </dl>
 
-              <h3 class="spec__h"><i aria-hidden="true"></i>01 · <span data-i18n="rider.card1Title">Equipamiento</span></h3>
+          <div class="rider__cols">
+            <div class="rider__col">
+              <h3 class="spec__h"><small>01</small><span data-i18n="rider.card1Title">Equipamiento</span></h3>
               <dl class="spec">
                 <div><dt data-i18n="rider.cdjSetup">Setup CDJ</dt><dd data-i18n="rider.cdjSetupValue">4× Pioneer CDJ-2000NXS2 / 3000</dd></div>
                 <div><dt data-i18n="rider.mixer">Mixer</dt><dd data-i18n="rider.mixerValue">Pioneer V10 · Allen &amp; Heath Xone 96/92</dd></div>
                 <div><dt data-i18n="rider.monitoring">Monitoreo</dt><dd data-i18n="rider.monitoringValue">Sound System Sub + 2 MIDI/Hi Speakers</dd></div>
               </dl>
-              <h3 class="spec__h"><i aria-hidden="true"></i>02 · <span data-i18n="rider.card2Title">Performance</span></h3>
+            </div>
+            <div class="rider__col">
+              <h3 class="spec__h"><small>02</small><span data-i18n="rider.card2Title">Performance</span></h3>
               <dl class="spec">
                 <div><dt data-i18n="rider.formatsAccepted">Formatos Aceptados</dt><dd data-i18n="rider.formatsAcceptedValue">WAV · AIFF · MP3 320kbps</dd></div>
                 <div><dt data-i18n="rider.stageSharing">Compartir Escenario</dt><dd data-i18n="rider.stageSharingValue">Sin B2B salvo acuerdo previo</dd></div>
                 <div><dt data-i18n="rider.soundcheck">Prueba de Sonido</dt><dd data-i18n="rider.soundcheckValue">Obligatorio · Mín 45 min antes</dd></div>
                 <div><dt data-i18n="rider.lighting">Iluminación</dt><dd data-i18n="rider.lightingValue">Escenario oscuro preferido</dd></div>
               </dl>
-              <h3 class="spec__h"><i aria-hidden="true"></i>03 · <span data-i18n="rider.card4Title">Hospitalidad</span></h3>
+            </div>
+            <div class="rider__col">
+              <h3 class="spec__h"><small>03</small><span data-i18n="rider.card4Title">Hospitalidad</span></h3>
               <dl class="spec">
                 <div><dt data-i18n="rider.hotel">Hotel</dt><dd data-i18n="rider.hotelValue">Habitación individual · Noche del show</dd></div>
                 <div><dt data-i18n="rider.travel">Viaje</dt><dd data-i18n="rider.travelValue">A coordinar con management</dd></div>
@@ -406,6 +419,7 @@
               </dl>
             </div>
           </div>
+
           <div class="rider__dl">
             <button class="btn btn--chrome" type="button" id="printRider" data-i18n-title="rider.printHint" title="Se abre para imprimir o guardar en PDF"><span data-i18n="rider.techRiderBtn">Rider Técnico</span> ↓</button>
             <a class="btn btn--ghost" href="https://drive.google.com/drive/folders/1yhFKDiO74RS4xSVHnlxHs6s2lfzXui1v?usp=sharing" target="_blank" rel="noopener" data-link="presskit"><span data-i18n="rider.pressKit">Press Kit Completo</span> ↗</a>
@@ -425,8 +439,7 @@
             <div class="booking__mark">
               <span class="sec__num" aria-hidden="true">VI</span>
               <div class="sec__titles">
-                <span class="sec__kick">CUE F · <span data-i18n="nav.contact">Booking</span></span>
-                <span class="sec__kick sec__kick--bone" data-i18n="contact.label">Contacto y Contratación</span>
+                <span class="sec__kick" data-i18n="contact.label">Contacto y Contratación</span>
               </div>
             </div>
             <h2 class="booking__title" data-i18n="contact.title">Conectemos<em>.</em></h2>
@@ -467,13 +480,18 @@
             <p class="form__note" data-i18n="contact.formNote">Respondemos en un máximo de 48 horas.</p>
           </form>
         </div>
+      </div>
 
-        <!-- cierre: el logo rojo vivo -->
-        <div class="closing" id="closing">
-          <video class="closing__blood" id="closingBlood" muted loop playsinline preload="none" poster="assets/video/blood-loop.jpg" disablepictureinpicture aria-hidden="true"></video>
-          <p class="closing__line" data-i18n="footer.signoff">Nos vemos en la cabina.</p>
+      <!-- cierre: el sigilo de cromo gira al pulso de 150 BPM -->
+      <div class="closing" id="closing" aria-hidden="true">
+        <div class="closing__glow"></div>
+        <div class="closing__sigil" id="heroSigil">
+          <img class="closing__sigil-img" src="assets/brand/sigil-crown.webp" alt="" width="900" height="1136" loading="lazy" decoding="async" />
+          <canvas class="closing__sigil-gl" id="sigilGL"></canvas>
         </div>
+      </div>
 
+      <div class="wrap">
         <footer class="foot">
           <div class="foot__id">
             <img src="assets/brand/kexxy-sigil.svg" alt="" width="29" height="36" />
@@ -498,7 +516,7 @@
 
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
-  <script src="assets/js/ritual.js?v=1" defer></script>
+  <script src="assets/js/ritual.js?v=2" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });

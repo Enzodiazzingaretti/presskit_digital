@@ -33,14 +33,14 @@
     "bio": true,
     "rider": true,
     "live": true,
-    "videos": true,
+    "videos": false,
     "about": true
   },
   "images": {
-    "hero": "assets/img/hero.webp",
-    "bio": "assets/img/bio.webp",
+    "hero": "assets/img/portrait.webp",
+    "bio": "assets/img/hero.webp",
     "live": "assets/img/live.webp",
-    "riderBg": "rider-bg.webp",
+    "riderBg": "assets/img/bio.webp",
     "riderDiagram": "assets/img/rider-diagram-dark.webp"
   },
   "videos": [
@@ -241,7 +241,6 @@
       "footer.epk": "EPK",
       "lightbox.download": "Download High-Res",
       "nav.sets": "Sets",
-      "hero.ritual": "Ritual",
       "intro.skip": "Skip",
       "a11y.skip": "Skip to content",
       "listen.playing": "Playing",
@@ -273,7 +272,8 @@
       "rider.printHint": "Opens to print or save as PDF",
       "contact.formTitle": "Form",
       "contact.placeholderEmail": "you@email.com",
-      "footer.signoff": "See you in the booth."
+      "nav.menu": "Menu",
+      "live.manifesto": "{years} years in the booth. {shows} nights. {cities} cities. One {longest} set, non-stop."
     },
     "es": {
       "nav.bio": "Bio",
@@ -381,7 +381,6 @@
       "footer.epk": "EPK",
       "lightbox.download": "Descargar Alta Res.",
       "nav.sets": "Sets",
-      "hero.ritual": "Ritual",
       "intro.skip": "Saltar",
       "a11y.skip": "Saltar al contenido",
       "listen.playing": "En play",
@@ -413,7 +412,8 @@
       "rider.printHint": "Se abre para imprimir o guardar en PDF",
       "contact.formTitle": "Formulario",
       "contact.placeholderEmail": "tu@email.com",
-      "footer.signoff": "Nos vemos en la cabina."
+      "nav.menu": "Menú",
+      "live.manifesto": "{years} años en cabina. {shows} noches. {cities} ciudades. Un set de {longest} sin parar."
     },
     "pt": {
       "nav.bio": "Bio",
@@ -521,7 +521,6 @@
       "footer.epk": "EPK",
       "lightbox.download": "Baixar Alta Res.",
       "nav.sets": "Sets",
-      "hero.ritual": "Ritual",
       "intro.skip": "Pular",
       "a11y.skip": "Pular para o conteúdo",
       "listen.playing": "Tocando",
@@ -553,7 +552,8 @@
       "rider.printHint": "Abre para imprimir ou salvar em PDF",
       "contact.formTitle": "Formulário",
       "contact.placeholderEmail": "voce@email.com",
-      "footer.signoff": "Nos vemos na cabine."
+      "nav.menu": "Menu",
+      "live.manifesto": "{years} anos na cabine. {shows} noites. {cities} cidades. Um set de {longest} sem parar."
     }
   }
 }

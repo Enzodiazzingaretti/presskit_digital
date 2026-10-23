@@ -1,19 +1,18 @@
-/* Service worker del presskit — Ritual de cromo.
+/* Service worker del presskit KEXXY.
    - HTML, content.json y dates.json: primero la red (siempre lo último que publicó el panel); la caché es el respaldo sin conexión.
    - Assets: primero la caché. Los CSS/JS llevan ?v= para invalidarse al cambiar.
    - Videos y pedidos con Range: no se tocan (Safari necesita las respuestas 206 tal cual). */
-const CACHE_NAME = 'kexxy-ritual-v1';
+const CACHE_NAME = 'kexxy-v2-2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/assets/css/ritual.css?v=1',
-  '/assets/js/ritual.js?v=1',
+  '/assets/css/ritual.css?v=2',
+  '/assets/js/ritual.js?v=2',
   '/assets/brand/kexxy-sigil.svg',
-  '/assets/brand/logo-chrome-800.webp',
+  '/assets/brand/logo-chrome-800-v2.webp',
   '/assets/brand/logo-glint-800.webp',
   '/assets/brand/sigil-crown.webp',
-  '/assets/img/hero.webp',
-  '/assets/img/hero-cut.webp'
+  '/assets/img/portrait.webp'
 ];
 
 self.addEventListener('install', (event) => {
