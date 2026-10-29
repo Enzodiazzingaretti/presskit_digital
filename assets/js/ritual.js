@@ -172,7 +172,7 @@
   function fitTexts() {
     $$('.ransom').forEach((h) => fitWords(h, 22, 10));
     $$('.booking__title').forEach((h) => fitLine(h, 30));
-    $$('.poster__venue, .tape-set__title, .lineup, .stickers li, .bio__lead, .cover__genres, .checks dd, .stat dd, .reels__list a').forEach((n) => fitWords(n, 12));
+    $$('.poster__venue, .tape-set__title, .lineup, .stickers li, .bio__lead, .cover__genres, .checks dd, .reels__list a').forEach((n) => fitWords(n, 12));
   }
   let fitTimer = 0;
   window.addEventListener('resize', () => { clearTimeout(fitTimer); fitTimer = setTimeout(fitTexts, 120); });
@@ -252,14 +252,6 @@
     if (s.youtube) $$('[data-text="youtube"]').forEach((n) => { n.textContent = handle(s.youtube) + ' ↗'; });
     const foot = $('.about__foot');
     if (foot) foot.hidden = !(a.portfolio && a.portfolio.trim());
-  }
-
-  function applyStats() {
-    const st = (content && content.stats) || {};
-    $$('[data-stat]').forEach((n) => {
-      const v = st[n.dataset.stat];
-      if (v) n.textContent = String(v);
-    });
   }
 
   function applyGenres() {
@@ -761,7 +753,6 @@
       applySections();
       applyImages();
       applyArtist();
-      applyStats();
       applyGenres();
       applyPromoters();
       buildDecks();

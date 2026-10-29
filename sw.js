@@ -2,16 +2,15 @@
    - HTML, content.json y dates.json: primero la red (siempre lo último que publicó el panel); la caché es el respaldo sin conexión.
    - Assets: primero la caché. Los CSS/JS llevan ?v= para invalidarse al cambiar.
    - Videos y pedidos con Range: no se tocan (Safari necesita las respuestas 206 tal cual). */
-const CACHE_NAME = 'kexxy-ink-2';
+const CACHE_NAME = 'kexxy-ink-3';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/assets/css/ritual.css?v=4',
-  '/assets/js/ritual.js?v=4',
+  '/assets/css/ritual.css?v=5',
+  '/assets/js/ritual.js?v=5',
   '/assets/brand/kexxy-sigil.svg',
-  '/assets/brand/logo-chrome-800-v2.webp',
-  '/assets/brand/logo-glint-800.webp',
   '/assets/ink/logo-sticker-800.webp',
+  '/assets/ink/logo-ink-800.webp',
   '/assets/ink/paper.webp',
   '/assets/ink/xerox.webp',
   '/assets/ink/cover-ink.webp',

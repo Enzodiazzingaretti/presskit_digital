@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preload" as="image" href="assets/ink/cover-ink.webp" fetchpriority="high" />
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Pirata+One&family=Rock+Salt&family=Special+Elite&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="assets/css/ritual.css?v=4" />
+  <link rel="stylesheet" href="assets/css/ritual.css?v=5" />
 
   <!-- La intro (logo rojo → cromo) corre solo la primera vez por sesión y nunca con movimiento reducido -->
   <script>
@@ -73,11 +73,14 @@
 <body>
   <a class="skip" href="#sets" data-i18n="a11y.skip">Saltar al contenido</a>
 
-  <!-- ============ INTRO: el logo rojo se deforma y en el bombo se vuelve cromo ============ -->
+  <!-- ============ INTRO: el logo rojo se deforma y en el bombo queda impreso en negro ============ -->
   <div class="intro" id="intro" aria-hidden="true">
     <div class="intro__stage" id="introStage">
       <video class="intro__blood" id="introBlood" muted playsinline preload="none" disablepictureinpicture></video>
-      <img class="intro__chrome" id="introChrome" src="assets/brand/logo-chrome-1400-v2.webp" alt="" decoding="async" />
+      <span class="intro__chrome" id="introChrome" aria-hidden="true">
+        <img src="assets/ink/logo-sticker-1400.webp" alt="" width="1400" height="736" decoding="async" />
+        <img src="assets/ink/logo-ink-1400.webp" alt="" width="1400" height="736" decoding="async" />
+      </span>
     </div>
     <div class="intro__flash"></div>
     <div class="intro__hud">
@@ -166,16 +169,9 @@
         <span class="sr-only">KEXXY</span>
         <span class="logo" id="logo" aria-hidden="true">
           <img class="logo__die" src="assets/ink/logo-sticker-1400.webp" srcset="assets/ink/logo-sticker-800.webp 800w, assets/ink/logo-sticker-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
-          <img class="logo__chrome" src="assets/brand/logo-chrome-1400-v2.webp" srcset="assets/brand/logo-chrome-800-v2.webp 800w, assets/brand/logo-chrome-1400-v2.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
-          <img class="logo__glint" src="assets/brand/logo-glint-1400.webp" srcset="assets/brand/logo-glint-800.webp 800w, assets/brand/logo-glint-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
-          <span class="logo__sweep"></span>
+          <img class="logo__ink" src="assets/ink/logo-ink-1400.webp" srcset="assets/ink/logo-ink-800.webp 800w, assets/ink/logo-ink-1400.webp 1400w" sizes="(max-width: 720px) 96vw, 760px" alt="" width="1400" height="736" decoding="async" />
         </span>
       </h1>
-
-      <div class="cover__lines" aria-hidden="true">
-        <p class="sticker sticker--round"><b data-stat="liveShows">40+</b><span data-i18n="live.stat1">Shows en Vivo</span></p>
-        <p class="sticker sticker--tag"><span data-i18n="live.stat3">Set más largo</span><b><span data-stat="liveLongestSet">11h</span><svg class="scribble scribble--circle boil" viewBox="0 0 220 124"><use href="#sc-circle-1" /><use href="#sc-circle-2" /><use href="#sc-circle-3" /></svg></b></p>
-      </div>
 
       <div class="cover__note">
         <span class="tape tape--note" aria-hidden="true"></span>
@@ -335,12 +331,6 @@
         <img class="stage__img" id="liveImg" src="assets/ink/live-cells.webp" alt="KEXXY tocando en vivo" width="1669" height="942" loading="lazy" decoding="async" />
         <p class="stamp stamp--live"><span data-i18n="live.status">Disponible para contratación</span></p>
         <p class="stage__cities hand" id="liveCities">Mendoza · Buenos Aires</p>
-        <dl class="stats">
-          <div class="stat stat--a" data-reveal><dt data-i18n="hero.stat1">Años de experiencia</dt><dd data-stat="heroYears">6+</dd></div>
-          <div class="stat stat--b" data-reveal><dt data-i18n="live.stat1">Shows en Vivo</dt><dd data-stat="liveShows">40+</dd></div>
-          <div class="stat stat--c" data-reveal><dt data-i18n="live.stat2">Ciudades</dt><dd data-stat="liveCities">5+</dd></div>
-          <div class="stat stat--d" data-reveal><dt data-i18n="live.stat3">Set más largo</dt><dd><span data-stat="liveLongestSet">11h</span><svg class="scribble scribble--circle boil" viewBox="0 0 220 124" aria-hidden="true"><use href="#sc-circle-2" /><use href="#sc-circle-3" /><use href="#sc-circle-1" /></svg></dd></div>
-        </dl>
       </div>
 
       <div class="wrap">
@@ -516,7 +506,7 @@
 
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
-  <script src="assets/js/ritual.js?v=4" defer></script>
+  <script src="assets/js/ritual.js?v=5" defer></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
