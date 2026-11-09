@@ -235,7 +235,15 @@ def cmd_cover(a):
     al0 = np.asarray(cut)[..., 3]
     ys, xs = np.where(al0 > 12)
     x0, x1, y0 = xs.min(), xs.max(), ys.min()
-    c = cut.crop((max(0, x0 - 60), max(0, y0 - 50), min(cut.width, x1 + 60), cut.height))
+    # margen alrededor de la persona: con un retrato cerrado (selfie) se agranda para alejarla en el cuadro
+    # y que el corte a celdas caiga en los hombros; el lienzo se extiende con transparente si hace falta
+    mx = a.margin
+    if x0 - mx < 0 or x1 + mx > cut.width:
+        pad = max(0, mx - x0, x1 + mx - cut.width + 1)
+        big = Image.new('RGBA', (cut.width + 2 * pad, cut.height), (0, 0, 0, 0))
+        big.paste(cut, (pad, 0))
+        cut, x0, x1 = big, x0 + pad, x1 + pad
+    c = cut.crop((max(0, x0 - mx), max(0, y0 - 50), min(cut.width, x1 + mx), cut.height))
     S = a.width / c.width
     c = c.resize((int(c.width * S), int(c.height * S)), Image.LANCZOS)
     ext = int(c.height * 0.22)  # lienzo más alto: abajo la remera se deshace en celdas
@@ -471,7 +479,7 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest='cmd', required=True)
     s = sub.add_parser('segment'); s.add_argument('src'); s.add_argument('out'); s.add_argument('--point')
-    s = sub.add_parser('cover'); s.add_argument('src'); s.add_argument('out'); s.add_argument('--width', type=int, default=1456); s.add_argument('--seed', type=int, default=21)
+    s = sub.add_parser('cover'); s.add_argument('src'); s.add_argument('out'); s.add_argument('--width', type=int, default=1456); s.add_argument('--seed', type=int, default=21); s.add_argument('--margin', type=int, default=60, help='margen lateral (px de la foto) alrededor de la persona')
     s = sub.add_parser('erode'); s.add_argument('src'); s.add_argument('out'); s.add_argument('--grade', choices=sorted(GRADES), default='bio')
     s.add_argument('--seed', type=int, default=62); s.add_argument('--cell', type=int, default=20); s.add_argument('--depth', type=float, default=0.22); s.add_argument('--quality', type=int, default=74)
     s = sub.add_parser('dots'); s.add_argument('src'); s.add_argument('out')
