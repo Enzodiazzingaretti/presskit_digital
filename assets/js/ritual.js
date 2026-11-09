@@ -216,7 +216,8 @@
     if (im.hero) {
       $('#heroBg').src = asset(im.hero);
       // la tapa en dotwork es la impresión propia; una foto subida desde el panel se imprime en xerox
-      $('#hero').classList.toggle('is-photo', !/cover-ink\.webp$/i.test(im.hero));
+      // (el nombre puede llevar sufijo de versión: cover-ink-mask.webp)
+      $('#hero').classList.toggle('is-photo', !/cover-ink(-[\w-]+)?\.webp$/i.test(im.hero));
     }
     if (im.bio) $('#bioImg').src = asset(im.bio);
     if (im.live) $('#liveImg').src = asset(im.live);

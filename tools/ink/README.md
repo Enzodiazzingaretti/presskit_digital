@@ -24,6 +24,14 @@ python3 tools/ink/ink.py -h                     # todos los comandos
 
 Funciona mejor con un retrato de tres cuartos, con la cara bien iluminada y fondo liso.
 
+Si el retrato es cerrado (la persona llena el cuadro), `--margin N` agranda el margen lateral (px de la foto)
+para alejarla: así la tapa mantiene la proporción 1456×1586 y el corte a celdas cae en los hombros. Conviene
+llevar la foto antes a blanco y negro con buen contraste (la tapa espera ropa oscura: la ropa clara no se
+deshace en celdas). La tapa actual (`cover-ink-mask.webp`) salió con `--margin 164`.
+
+Como las `.webp` se cachean un año, una tapa nueva va con **otro nombre** (`cover-ink-<algo>.webp`): hay que
+cambiarlo en `index.html`, `sw.js` (y subir `CACHE_NAME`) y en `content.json` → `images.hero`.
+
 ## Otras fotos
 
 ```bash

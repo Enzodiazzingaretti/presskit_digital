@@ -37,7 +37,7 @@
     "about": true
   },
   "images": {
-    "hero": "assets/ink/cover-ink.webp",
+    "hero": "assets/ink/cover-ink-mask.webp",
     "bio": "assets/ink/bio-cells.webp",
     "live": "assets/ink/live-cells.webp",
     "riderDiagram": "assets/ink/rider-ink.webp"
