@@ -534,6 +534,19 @@ html.js .sec__head.is-in .kick__n, html.js .flyer.is-in .kick__n { opacity: 1; t
 .sheet__head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 14px; margin-left: 14px; padding: 0 0 12px; border-bottom: 3px solid var(--ink); font: 400 15px/1.3 var(--f-type); letter-spacing: .1em; text-transform: uppercase; }
 .sheet__plot { margin: 26px 0 0 14px; }
 .sheet__plot img { width: 100%; height: auto; mix-blend-mode: multiply; }
+/* rider 3D: el diagrama en tinta queda como respaldo (sin WebGL, ahorro de datos, impresión) */
+.rig { position: relative; }
+.rig.is-3d { display: grid; place-items: center; aspect-ratio: 4 / 3; }
+.rig.is-3d img { transition: opacity .5s var(--ease); }
+/* el canvas desborda la figura para que la cabina salga de la hoja (un canvas no se estira con inset: van ancho y alto explícitos) */
+.rig__gl { position: absolute; z-index: 4; left: -24%; top: -20%; width: 148%; max-width: none; height: 134%; display: block; opacity: 0; pointer-events: none; transition: opacity .6s var(--ease); }
+.rig.gl-on .rig__gl { opacity: 1; }
+.rig.gl-on img { opacity: 0; }
+.rig.is-real { cursor: grab; touch-action: pan-y; -webkit-user-select: none; user-select: none; }
+.rig.is-dragging { cursor: grabbing; }
+.rig__hint { display: inline-block; margin-left: 10px; color: var(--blood); opacity: 0; transition: opacity .5s var(--ease); }
+.rig__hint::before { content: "↔ "; }
+.rig.is-real + figcaption .rig__hint { opacity: 1; }
 .sheet__plot figcaption { margin-top: 12px; font: 400 15px/1.3 var(--f-type); letter-spacing: .08em; text-transform: uppercase; color: var(--mute); }
 .checks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; margin: 34px 0 0 14px; }
 .checks > div { position: relative; display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border: 2px solid var(--ink); min-width: 0; }
@@ -733,6 +746,8 @@ html.is-paused * { animation-play-state: paused !important; }
   .sheet::before { left: 18px; }
   .sheet__head, .sheet__plot, .checks, .sheet__cols { margin-left: 0; }
   .sheet__plot { margin-top: 34px; }
+  .rig.is-3d { aspect-ratio: 12 / 5; }
+  .rig__gl { left: -18%; top: -34%; width: 136%; height: 154%; }
   .sheet__cols { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); }
   .stamp--sheet { right: 46px; bottom: 40px; font-size: 24px; }
 
@@ -817,6 +832,10 @@ html.is-paused * { animation-play-state: paused !important; }
   body.print-rider .sheet__cols { grid-template-columns: repeat(3, 1fr); }
   body.print-rider .checks { grid-template-columns: repeat(4, 1fr); }
   body.print-rider .sheet__plot img { max-height: 200px; width: auto; }
+  body.print-rider .rig__gl { display: none !important; }
+  body.print-rider .rig__hint { display: none !important; }
+  body.print-rider .rig { aspect-ratio: auto !important; display: block; }
+  body.print-rider .rig img { opacity: 1 !important; }
   body.print-rider .wrap::after { content: attr(data-print-foot); display: block; margin-top: 16px; font: 12px/1.4 var(--f-type); }
   .top, .menu, .intro, .toasts, .pager { display: none !important; }
 }

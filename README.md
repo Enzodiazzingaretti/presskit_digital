@@ -16,6 +16,7 @@ KEXXY's own kit runs a custom front-end on the same content model and admin pane
 - **Sets straight from SoundCloud:** `/api/sc` reads each track's public page and returns the real title, artwork, genre, duration, date and waveform (cached 12 h on the CDN, oEmbed as fallback). The official widget plays it; clicking the waveform seeks.
 - **Print pieces:** ransom-note section titles, dates as wheat-pasted posters, promoters as stickers, the rider as a clipped spec sheet, booking as a tear-off flyer. The chrome sigil (Three.js) closes the page, surrounded by living cells.
 - **Intro, first visit per session only:** the red logo animation morphs, the kick flashes it into chrome and it sticks onto the cover. Skippable, and never shown with reduced motion.
+- **Rider in 3D:** the booth (4 players + 6-channel mixer, an original KEXXY design built to real-world dimensions in millimetres) starts as an ink plan drawing seen from above. As you scroll, the camera drops to a 3/4 view and the ink gives way to the real equipment along a front of red ink and halftone: anodized aluminium, screens with scrolling waveforms, jogs turning, LEDs and meters pumping at 150 BPM. The mouse tilts the view. Once revealed it stays real (remembered for the session): scrolling back up brings the camera down for a close look, and the gear breaks out past the edges of the sheet. Studio lighting (softbox environment, soft shadow map), brushed anodized aluminium and baked contact shadows under every control; low-power devices get lighter materials and no shadow pass, and the resolution drops on its own if frames run slow. Three.js loads only when you get close; the ink diagram stays as the fallback (no WebGL, Save-Data, print), and with reduced motion it renders a single still frame.
 - **Rider → PDF:** "Technical rider" prints only the spec sheet.
 - Text still comes from `content.json` (ES/EN/PT) and dates from `dates.json`; the panel edits both exactly as before.
 
@@ -28,9 +29,11 @@ KEXXY's own kit runs a custom front-end on the same content model and admin pane
 | `api/sc.js` | Real SoundCloud data for each set |
 | `tools/ink/` | Python generator for the printed photos, ink cells, Rorschach ornaments and paper textures (see its README) |
 | `assets/js/sigil-gl.js` | WebGL sigil bundle (built from `tools/gl/`) |
+| `assets/js/rider3d.js` | 3D rider bundle (built from `tools/gl/rider3d.src.js` + `tools/gl/rider/`) |
+| `assets/js/gl/chunk-*.js` | Three.js, shared by both WebGL bundles |
 | `assets/brand/`, `assets/ink/`, `assets/video/`, `assets/gl/` | Logo renders, printed photos and ink textures, logo animations, sigil normal map |
 
-Rebuilding the WebGL bundle: `cd tools/gl && npm install && npm run build`. CSS/JS and the bundle are referenced with `?v=`; bump it (and `CACHE_NAME` in `sw.js`) when they change.
+Rebuilding the WebGL bundles: `cd tools/gl && npm install && npm run build` (produces `sigil-gl.js`, `rider3d.js` and the shared Three.js chunk; delete the old chunk from `assets/js/gl/` when its hash changes). CSS/JS and the bundle are referenced with `?v=`; bump it (and `CACHE_NAME` in `sw.js`) when they change.
 
 > The cloning flow below (`docs/CLONAR-ARTISTA.md`, `scripts/setup-artist.js`) was written for the v1 front-end, which stays in the git history. The v2 front-end is specific to KEXXY's identity.
 

@@ -1,9 +1,9 @@
 {
   "name": "kexxy-sigil-gl",
   "private": true,
-  "description": "Construye assets/js/sigil-gl.js (sigilo de cromo en WebGL) a partir de sigil-gl.src.js",
+  "description": "Construye los bundles WebGL (sigilo de cromo y rider 3D) en assets/js; three.js queda en un chunk compartido",
   "scripts": {
-    "build": "esbuild sigil-gl.src.js --bundle --format=esm --minify --target=es2019 --legal-comments=none --outfile=../../assets/js/sigil-gl.js"
+    "build": "esbuild sigil-gl=sigil-gl.src.js rider3d=rider3d.src.js --bundle --splitting --format=esm --minify --target=es2019 --legal-comments=none --outdir=../../assets/js --chunk-names=gl/[name]-[hash]"
   },
   "devDependencies": {
     "esbuild": "0.24.0",
