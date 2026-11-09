@@ -1048,7 +1048,7 @@
     };
     const kick = () => { if (!raf && gl && visible && !D.hidden) raf = requestAnimationFrame(loop); };
     canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); failed = true; box.classList.remove('gl-on'); });
-    import(new URL('sigil-gl.js?v=2', SCRIPT_URL).href).then((m) => m.mountSigil({
+    import(new URL('sigil-gl.js?v=3', SCRIPT_URL).href).then((m) => m.mountSigil({
       canvas,
       svgUrl: 'assets/brand/kexxy-sigil.svg',
       normalUrl: 'assets/gl/sigil-normal.webp',
@@ -1064,6 +1064,121 @@
       D.addEventListener('visibilitychange', kick);
       kick();
     }).catch((e) => { console.warn('sigilo WebGL:', e); });
+  }
+
+  // rider en 3D: la cabina arranca como plano en tinta y con el scroll se revela en equipos reales
+  function setupRider3D() {
+    const rig = $('#riderRig');
+    const canvas = $('#riderGL');
+    if (!rig || !canvas || !('IntersectionObserver' in window) || saveData() || !webglOK()) return;
+    rig.classList.add('is-3d');
+    const near = new IntersectionObserver((es) => {
+      if (!es[0].isIntersecting) return;
+      near.disconnect();
+      mountRider3D(rig, canvas);
+    }, { rootMargin: '900px 0px' });
+    near.observe(rig);
+  }
+  function mountRider3D(rig, canvas) {
+    const lp = lowPower();
+    let dpr = Math.min(window.devicePixelRatio || 1, lp ? 1.5 : 2);
+    const hover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let gl = null, visible = false, raf = 0, last = 0, failed = false;
+    let slow = 0, prev = 0;   // resolución adaptativa: si los cuadros tardan, baja la densidad de píxeles
+    // giro con el dedo o el mouse una vez que los equipos son reales: horizontal gira la cabina,
+    // en mouse el vertical la inclina (en touch el vertical sigue siendo scroll: touch-action pan-y)
+    const orbit = { yaw: 0, tilt: 0, v: 0, drag: null };
+    const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+    const real = () => rig.classList.add('is-real');
+    rig.addEventListener('pointerdown', (e) => {
+      if (!gl || !rig.classList.contains('is-real') || e.button > 0) return;
+      orbit.drag = { id: e.pointerId, x: e.clientX, y: e.clientY, t: performance.now(), mouse: e.pointerType === 'mouse' };
+      orbit.v = 0;
+      try { rig.setPointerCapture(e.pointerId); } catch (err) { /* sin captura */ }
+      rig.classList.add('is-dragging');
+      kick();
+    });
+    // con cuadros lentos el navegador agrupa los pointermove: se aplica el delta desde la última posición
+    // también al soltar, para no perder el tramo final del arrastre
+    const move = (e) => {
+      const d = orbit.drag;
+      if (!d || d.id !== e.pointerId) return;
+      const now = performance.now();
+      const dy = (e.clientX - d.x) / Math.max(1, rig.offsetWidth) * 2.6;
+      orbit.yaw = clamp(orbit.yaw + dy, -0.72, 0.72);
+      if (d.mouse) orbit.tilt = clamp(orbit.tilt + (e.clientY - d.y) / Math.max(1, rig.offsetHeight) * 0.9, -0.28, 0.42);
+      orbit.v = dy / Math.max(8, now - d.t) * 16;
+      d.x = e.clientX; d.y = e.clientY; d.t = now;
+    };
+    rig.addEventListener('pointermove', move);
+    // el diagrama en tinta (oculto debajo) es una imagen: sin esto el navegador inicia su arrastre nativo y cancela el giro
+    rig.addEventListener('dragstart', (e) => e.preventDefault());
+    const release = (e) => {
+      if (!orbit.drag || orbit.drag.id !== e.pointerId) return;
+      const t = orbit.drag.t;
+      if (e.type === 'pointerup') { const v = orbit.v; move(e); orbit.v = v; }
+      if (performance.now() - t > 90) orbit.v = 0;   // si soltó quieto, no sigue de largo
+      orbit.drag = null;
+      rig.classList.remove('is-dragging');
+    };
+    rig.addEventListener('pointerup', release);
+    rig.addEventListener('pointercancel', release);
+    // el canvas es más grande que la figura (la cabina se sale de la hoja); offset* ignora la rotación de la hoja
+    const size = () => {
+      if (!gl) return;
+      const px = (v) => Math.round(v * dpr);
+      gl.setSize(px(canvas.offsetWidth), px(canvas.offsetHeight), dpr,
+        [px(-canvas.offsetLeft), px(-canvas.offsetTop), px(rig.offsetWidth), px(rig.offsetHeight)]);
+    };
+    const draw = (now) => {
+      if (reduced()) { gl.render(0, { scroll: 0.62, ink: 1, kick: 0 }); return; }
+      const r = rig.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const scroll = Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
+      let px = 0, py = 0;
+      if (hover && pointer.cx >= 0) {
+        px = Math.max(-1, Math.min(1, ((pointer.cx - r.left) / r.width) * 2 - 1));
+        py = Math.max(-1, Math.min(1, ((pointer.cy - r.top) / r.height) * 2 - 1));
+      }
+      if (!orbit.drag && Math.abs(orbit.v) > 0.0004) {   // inercia al soltar
+        orbit.yaw = clamp(orbit.yaw + orbit.v, -0.72, 0.72);
+        orbit.v *= 0.9;
+      }
+      gl.render((now - T0) / 1000, { scroll, pointer: orbit.drag ? [0, 0] : [px, py], kick: kickNow(now), orbit: [orbit.yaw, orbit.tilt] });
+    };
+    const loop = (now) => {
+      raf = 0;
+      if (!gl || !visible || D.hidden || failed) return;
+      if (!lp || now - last > 32) {
+        if (prev && now - prev < 200) {
+          slow = slow * 0.92 + (now - prev > 45 ? 1 : 0) * 0.08;
+          if (slow > 0.6 && dpr > 1) { dpr = Math.max(1, dpr * 0.75); slow = 0; size(); }
+        }
+        prev = now; last = now; draw(now);
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    const kick = () => { prev = 0; if (!raf && gl && visible && !D.hidden && !reduced()) raf = requestAnimationFrame(loop); };
+    canvas.addEventListener('webglcontextlost', (e) => { e.preventDefault(); failed = true; rig.classList.remove('gl-on'); });
+    import(new URL('rider3d.js?v=1', SCRIPT_URL).href).then((m) => m.mountRider({
+      canvas,
+      lowPower: lp,
+      sigilUrl: 'assets/brand/kexxy-sigil.svg',
+      // una vez revelados los equipos quedan reales aunque se vuelva a subir (y en la sesión se recuerda)
+      revealed: store.get('sessionStorage', 'kx-rider-real') === '1' && (real(), true),
+      onReveal: () => { store.set('sessionStorage', 'kx-rider-real', '1'); real(); }
+    })).then((g) => {
+      gl = g;
+      size();
+      draw(performance.now());
+      requestAnimationFrame(() => rig.classList.add('gl-on'));
+      const resized = () => { size(); if (reduced() && gl) draw(performance.now()); };
+      if ('ResizeObserver' in window) new ResizeObserver(resized).observe(rig);
+      else window.addEventListener('resize', resized);
+      new IntersectionObserver((es) => { visible = es[0].isIntersecting; kick(); }).observe(rig);
+      D.addEventListener('visibilitychange', kick);
+      kick();
+    }).catch((e) => { console.warn('rider 3D:', e); rig.classList.remove('is-3d'); });
   }
 
   /* =====================================================================
@@ -1283,6 +1398,7 @@
   setupPointer();
   setupCells();
   setupGL();
+  setupRider3D();
   setupForm();
   setupPrint();
   setupAdminShortcut();
