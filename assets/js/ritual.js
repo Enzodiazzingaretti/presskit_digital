@@ -1164,9 +1164,9 @@
       canvas,
       lowPower: lp,
       sigilUrl: 'assets/brand/kexxy-sigil.svg',
-      // una vez revelados los equipos quedan reales aunque se vuelva a subir (y en la sesión se recuerda)
-      revealed: store.get('sessionStorage', 'kx-rider-real') === '1' && (real(), true),
-      onReveal: () => { store.set('sessionStorage', 'kx-rider-real', '1'); real(); }
+      // una vez revelados los equipos quedan reales aunque se vuelva a subir; cada carga de la página
+      // arranca otra vez desde el plano en tinta (no se guarda nada entre cargas)
+      onReveal: real
     })).then((g) => {
       gl = g;
       size();
